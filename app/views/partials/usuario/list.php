@@ -28,7 +28,7 @@ $show_pagination = $this->show_pagination;
                 <div class="col-sm-3 ">
                     <a  class="btn btn btn-primary my-1" href="<?php print_link("usuario/add") ?>">
                         <i class="fa fa-plus"></i>                              
-                        <?php print_lang('add_new_usuario'); ?> 
+                        <?php print_lang('crear_usuario'); ?> 
                     </a>
                 </div>
                 <div class="col-sm-4 ">
@@ -114,13 +114,27 @@ $show_pagination = $this->show_pagination;
                                                     </label>
                                                 </th>
                                                 <th class="td-sno">#</th>
-                                                <th  class="td-id_usuario"> <?php print_lang('id_usuario'); ?></th>
-                                                <th  class="td-user_usuario"> <?php print_lang('user_usuario'); ?></th>
-                                                <th  class="td-nombre"> <?php print_lang('nombre'); ?></th>
-                                                <th  class="td-apellido"> <?php print_lang('apellido'); ?></th>
-                                                <th  class="td-correo"> <?php print_lang('correo'); ?></th>
-                                                <th  class="td-fecha_creacion_usuario"> <?php print_lang('fecha_creacion_usuario'); ?></th>
-                                                <th  class="td-numero_empleado"> <?php print_lang('numero_empleado'); ?></th>
+                                                <th  <?php echo (get_value('orderby')=='id_usuario' ? 'class="sortedby td-id_usuario"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('id_usuario', get_lang('id_usuario')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='user_usuario' ? 'class="sortedby td-user_usuario"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('user_usuario', get_lang('usuario')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='nombre' ? 'class="sortedby td-nombre"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('nombre', get_lang('nombre')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='apellido' ? 'class="sortedby td-apellido"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('apellido', get_lang('apellido')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='correo' ? 'class="sortedby td-correo"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('correo', get_lang('correo')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='fecha_creacion_usuario' ? 'class="sortedby td-fecha_creacion_usuario"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('fecha_creacion_usuario', get_lang('fecha_creacion_usuario')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='numero_empleado' ? 'class="sortedby td-numero_empleado"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('numero_empleado', get_lang('numero_empleado')); ?>
+                                                </th>
                                                 <th class="td-btn"></th>
                                             </tr>
                                         </thead>

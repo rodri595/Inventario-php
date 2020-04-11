@@ -21,7 +21,7 @@ $show_export_btn = $this->show_export_btn;
         <div class="container">
             <div class="row ">
                 <div class="col ">
-                    <h4 class="record-title"><?php print_lang('view_producto'); ?></h4>
+                    <h4 class="record-title"><?php print_lang('reporte_de_producto'); ?></h4>
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-pk="<?php echo $data['id_producto'] ?>" 
                                                 data-url="<?php print_link("producto/editfield/" . urlencode($data['id_producto'])); ?>" 
                                                 data-name="nombre_producto" 
-                                                data-title="Producto" 
+                                                data-title="Nombre" 
                                                 data-placement="left" 
                                                 data-toggle="click" 
                                                 data-type="text" 
@@ -70,14 +70,13 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-desc_producto">
                                         <th class="title"> <?php print_lang('desc_producto'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['desc_producto']; ?>" 
-                                                data-pk="<?php echo $data['id_producto'] ?>" 
+                                            <span  data-pk="<?php echo $data['id_producto'] ?>" 
                                                 data-url="<?php print_link("producto/editfield/" . urlencode($data['id_producto'])); ?>" 
                                                 data-name="desc_producto" 
-                                                data-title="Descripción" 
+                                                data-title="Detalles" 
                                                 data-placement="left" 
                                                 data-toggle="click" 
-                                                data-type="text" 
+                                                data-type="textarea" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
                                                 class="is-editable" >
@@ -88,14 +87,16 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-cantidad_producto">
                                         <th class="title"> <?php print_lang('cantidad_producto'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['cantidad_producto']; ?>" 
+                                            <span  data-min="0" 
+                                                data-step="0.1" 
+                                                data-value="<?php echo $data['cantidad_producto']; ?>" 
                                                 data-pk="<?php echo $data['id_producto'] ?>" 
                                                 data-url="<?php print_link("producto/editfield/" . urlencode($data['id_producto'])); ?>" 
                                                 data-name="cantidad_producto" 
-                                                data-title="Cantidad Producto" 
+                                                data-title="Cantidad" 
                                                 data-placement="left" 
                                                 data-toggle="click" 
-                                                data-type="text" 
+                                                data-type="number" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
                                                 class="is-editable" >
@@ -110,7 +111,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-pk="<?php echo $data['id_producto'] ?>" 
                                                 data-url="<?php print_link("producto/editfield/" . urlencode($data['id_producto'])); ?>" 
                                                 data-name="peso_producto" 
-                                                data-title="Peso" 
+                                                data-title="Peso en Kilogramos (sino especificar en Descripción)" 
                                                 data-placement="left" 
                                                 data-toggle="click" 
                                                 data-type="text" 
@@ -142,8 +143,8 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-fk_proveedor">
                                         <th class="title"> <?php print_lang('fk_proveedor'); ?>: </th>
                                         <td class="value">
-                                            <a size="sm" class="btn btn-secondary page-modal" href="<?php print_link("proveedor/view/" . urlencode($data['fk_proveedor'])) ?>">
-                                                <i class="fa fa-plane "></i> <?php echo $data['proveedor_nombre_proveedor'] ?>
+                                            <a size="sm" class="btn btn-sm btn-primary page-modal" href="<?php print_link("proveedor/view/" . urlencode($data['fk_proveedor'])) ?>">
+                                                <i class="fa fa-eye"></i> <?php echo $data['proveedor_nombre_proveedor'] ?>
                                             </a>
                                         </td>
                                     </tr>
@@ -151,35 +152,28 @@ $show_export_btn = $this->show_export_btn;
                                         <th class="title"> <?php print_lang('fk_categoria'); ?>: </th>
                                         <td class="value">
                                             <a size="sm" class="btn btn-sm btn-primary page-modal" href="<?php print_link("categoria/view/" . urlencode($data['fk_categoria'])) ?>">
-                                                <i class="fa fa-certificate "></i> <?php echo $data['categoria_desc_categoria'] ?>
+                                                <i class="fa fa-eye"></i> <?php echo $data['categoria_desc_categoria'] ?>
                                             </a>
                                         </td>
                                     </tr>
                                     <tr  class="td-fecha_creacion">
                                         <th class="title"> <?php print_lang('fecha_creacion'); ?>: </th>
-                                        <td class="value"> <?php echo $data['fecha_creacion']; ?></td>
-                                    </tr>
-                                    <tr  class="td-fecha_ultima_update">
-                                        <th class="title"> <?php print_lang('fecha_ultima_update'); ?>: </th>
-                                        <td class="value"> <?php echo $data['fecha_ultima_update']; ?></td>
-                                    </tr>
-                                    <tr  class="td-fecha_delete">
-                                        <th class="title"> <?php print_lang('fecha_delete'); ?>: </th>
-                                        <td class="value"> <?php echo $data['fecha_delete']; ?></td>
-                                    </tr>
-                                    <tr  class="td-isdeleted">
-                                        <th class="title"> <?php print_lang('isdeleted'); ?>: </th>
-                                        <td class="value"> <?php echo $data['isdeleted']; ?></td>
+                                        <td class="value">
+                                            <span title="<?php echo human_datetime($data['fecha_creacion']); ?>" class="has-tooltip">
+                                                <?php echo relative_date($data['fecha_creacion']); ?>
+                                            </span>
+                                        </td>
                                     </tr>
                                     <tr  class="td-precio_producto">
                                         <th class="title"> <?php print_lang('precio_producto'); ?>: </th>
                                         <td class="value">
-                                            <span  data-step="0.1" 
+                                            <span  data-min="0" 
+                                                data-step="0.1" 
                                                 data-value="<?php echo $data['precio_producto']; ?>" 
                                                 data-pk="<?php echo $data['id_producto'] ?>" 
                                                 data-url="<?php print_link("producto/editfield/" . urlencode($data['id_producto'])); ?>" 
                                                 data-name="precio_producto" 
-                                                data-title="Enter Precio Producto" 
+                                                data-title="Precio" 
                                                 data-placement="left" 
                                                 data-toggle="click" 
                                                 data-type="number" 
@@ -188,14 +182,6 @@ $show_export_btn = $this->show_export_btn;
                                                 class="is-editable" >
                                                 <?php echo $data['precio_producto']; ?> 
                                             </span>
-                                        </td>
-                                    </tr>
-                                    <tr  class="td-creadopor_producto">
-                                        <th class="title"> <?php print_lang('creadopor_producto'); ?>: </th>
-                                        <td class="value">
-                                            <a size="sm" class="btn btn-sm btn-primary page-modal" href="<?php print_link("usuario/view/" . urlencode($data['creadopor_producto'])) ?>">
-                                                <i class="fa fa-eye"></i> <?php echo $data['usuario_user_usuario'] ?>
-                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>

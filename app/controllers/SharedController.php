@@ -7,54 +7,6 @@
 class SharedController extends BaseController{
 	
 	/**
-     * detalle_registro_fk_registro_option_list Model Action
-     * @return array
-     */
-	function detalle_registro_fk_registro_option_list(){
-		$db = $this->GetModel();
-		$sqltext = "SELECT DISTINCT id_registro AS value , id_registro AS label FROM registro ORDER BY label ASC";
-		$queryparams = null;
-		$arr = $db->rawQuery($sqltext, $queryparams);
-		return $arr;
-	}
-
-	/**
-     * detalle_registro_fk_producto_option_list Model Action
-     * @return array
-     */
-	function detalle_registro_fk_producto_option_list(){
-		$db = $this->GetModel();
-		$sqltext = "SELECT DISTINCT id_producto AS value , id_producto AS label FROM producto ORDER BY label ASC";
-		$queryparams = null;
-		$arr = $db->rawQuery($sqltext, $queryparams);
-		return $arr;
-	}
-
-	/**
-     * registro_fk_detalle_registro_option_list Model Action
-     * @return array
-     */
-	function registro_fk_detalle_registro_option_list(){
-		$db = $this->GetModel();
-		$sqltext = "SELECT DISTINCT id_detalle_registro AS value , id_detalle_registro AS label FROM detalle_registro ORDER BY label ASC";
-		$queryparams = null;
-		$arr = $db->rawQuery($sqltext, $queryparams);
-		return $arr;
-	}
-
-	/**
-     * registro_fk_proveedor_option_list Model Action
-     * @return array
-     */
-	function registro_fk_proveedor_option_list(){
-		$db = $this->GetModel();
-		$sqltext = "SELECT DISTINCT id_proveedor AS value , id_proveedor AS label FROM proveedor ORDER BY label ASC";
-		$queryparams = null;
-		$arr = $db->rawQuery($sqltext, $queryparams);
-		return $arr;
-	}
-
-	/**
      * usuario_user_usuario_value_exist Model Action
      * @return array
      */
@@ -77,12 +29,74 @@ class SharedController extends BaseController{
 	}
 
 	/**
+     * usuario_numero_empleado_value_exist Model Action
+     * @return array
+     */
+	function usuario_numero_empleado_value_exist($val){
+		$db = $this->GetModel();
+		$db->where("numero_empleado", $val);
+		$exist = $db->has("usuario");
+		return $exist;
+	}
+
+	/**
+     * detalle_registro_fk_registro_option_list Model Action
+     * @return array
+     */
+	function detalle_registro_fk_registro_option_list(){
+		$db = $this->GetModel();
+		$sqltext = "SELECT DISTINCT id AS value , id AS label FROM ficha ORDER BY label ASC";
+		$queryparams = null;
+		$arr = $db->rawQuery($sqltext, $queryparams);
+		return $arr;
+	}
+
+	/**
+     * detalle_registro_fk_registro_default_value Model Action
+     * @return Value
+     */
+	function detalle_registro_fk_registro_default_value(){
+		$db = $this->GetModel();
+		$sqltext = "SELECT (COUNT(*)+1) FROM ficha";
+		$queryparams = null;
+		$val = $db->rawQueryValue($sqltext, $queryparams);
+		
+		if(is_array($val)){
+			return $val[0];
+		}
+		return $val;
+	}
+
+	/**
+     * detalle_registro_fk_producto_option_list Model Action
+     * @return array
+     */
+	function detalle_registro_fk_producto_option_list(){
+		$db = $this->GetModel();
+		$sqltext = "SELECT DISTINCT id_producto AS value , id_producto AS label FROM producto ORDER BY label ASC";
+		$queryparams = null;
+		$arr = $db->rawQuery($sqltext, $queryparams);
+		return $arr;
+	}
+
+	/**
+     * producto_nombre_producto_value_exist Model Action
+     * @return array
+     */
+	function producto_nombre_producto_value_exist($val){
+		$db = $this->GetModel();
+		$db->where("nombre_producto", $val);
+		$exist = $db->has("producto");
+		return $exist;
+	}
+
+	/**
      * producto_fk_proveedor_option_list Model Action
      * @return array
      */
 	function producto_fk_proveedor_option_list(){
 		$db = $this->GetModel();
-		$sqltext = "SELECT DISTINCT id_proveedor AS value , id_proveedor AS label FROM proveedor ORDER BY label ASC";
+		$sqltext = "SELECT  DISTINCT id_proveedor AS value,nombre_proveedor AS label FROM proveedor";
 		$queryparams = null;
 		$arr = $db->rawQuery($sqltext, $queryparams);
 		return $arr;
@@ -94,22 +108,106 @@ class SharedController extends BaseController{
      */
 	function producto_fk_categoria_option_list(){
 		$db = $this->GetModel();
-		$sqltext = "SELECT DISTINCT id_categoria AS value , id_categoria AS label FROM categoria ORDER BY label ASC";
+		$sqltext = "SELECT  DISTINCT id_categoria AS value,desc_categoria AS label FROM categoria";
 		$queryparams = null;
 		$arr = $db->rawQuery($sqltext, $queryparams);
 		return $arr;
 	}
 
 	/**
-     * producto_creadopor_producto_option_list Model Action
+     * enviado_lugar_salida_option_list Model Action
      * @return array
      */
-	function producto_creadopor_producto_option_list(){
+	function enviado_lugar_salida_option_list(){
 		$db = $this->GetModel();
-		$sqltext = "SELECT DISTINCT id_usuario AS value , id_usuario AS label FROM usuario ORDER BY label ASC";
+		$sqltext = "SELECT  DISTINCT id_centro AS value,Nombre_centro AS label FROM centro";
 		$queryparams = null;
 		$arr = $db->rawQuery($sqltext, $queryparams);
 		return $arr;
+	}
+
+	/**
+     * recibido_lugar_recibido_option_list Model Action
+     * @return array
+     */
+	function recibido_lugar_recibido_option_list(){
+		$db = $this->GetModel();
+		$sqltext = "SELECT  DISTINCT id_centro AS value,Nombre_centro AS label FROM centro";
+		$queryparams = null;
+		$arr = $db->rawQuery($sqltext, $queryparams);
+		return $arr;
+	}
+
+	/**
+     * ficha_fk_emisor_option_list Model Action
+     * @return array
+     */
+	function ficha_fk_emisor_option_list(){
+		$db = $this->GetModel();
+		$sqltext = "SELECT DISTINCT id_enviado AS value , id_enviado AS label FROM enviado ORDER BY label Desc limit 10";
+		$queryparams = null;
+		$arr = $db->rawQuery($sqltext, $queryparams);
+		return $arr;
+	}
+
+	/**
+     * ficha_fk_receptor_option_list Model Action
+     * @return array
+     */
+	function ficha_fk_receptor_option_list(){
+		$db = $this->GetModel();
+		$sqltext = "SELECT DISTINCT id_recibido AS value , id_recibido AS label FROM recibido ORDER BY label Desc limit 10";
+		$queryparams = null;
+		$arr = $db->rawQuery($sqltext, $queryparams);
+		return $arr;
+	}
+
+	/**
+     * getcount_registrostotales Model Action
+     * @return Value
+     */
+	function getcount_registrostotales(){
+		$db = $this->GetModel();
+		$sqltext = "SELECT COUNT(*) AS num FROM ficha";
+		$queryparams = null;
+		$val = $db->rawQueryValue($sqltext, $queryparams);
+		
+		if(is_array($val)){
+			return $val[0];
+		}
+		return $val;
+	}
+
+	/**
+     * getcount_ultimoregistro Model Action
+     * @return Value
+     */
+	function getcount_ultimoregistro(){
+		$db = $this->GetModel();
+		$sqltext = "SELECT COUNT(*) AS num FROM ficha";
+		$queryparams = null;
+		$val = $db->rawQueryValue($sqltext, $queryparams);
+		
+		if(is_array($val)){
+			return $val[0];
+		}
+		return $val;
+	}
+
+	/**
+     * getcount_fichaacrear Model Action
+     * @return Value
+     */
+	function getcount_fichaacrear(){
+		$db = $this->GetModel();
+		$sqltext = "SELECT COUNT(*)+1 AS num FROM ficha";
+		$queryparams = null;
+		$val = $db->rawQueryValue($sqltext, $queryparams);
+		
+		if(is_array($val)){
+			return $val[0];
+		}
+		return $val;
 	}
 
 	/**
@@ -179,31 +277,6 @@ from producto;";
 		$dataset1 = $db->rawQuery($sqltext, $queryparams);
 		$dataset_data =  array_column($dataset1, 'id_producto');
 		$dataset_labels =  array_column($dataset1, 'nombre_producto');
-		$chart_data["labels"] = array_unique(array_merge($chart_data["labels"], $dataset_labels));
-		$chart_data["datasets"][] = $dataset_data;
-
-		return $chart_data;
-	}
-
-	/**
-	* radarchart_newchart5 Model Action
-	* @return array
-	*/
-	function radarchart_newchart5(){
-		
-		$db = $this->GetModel();
-		$chart_data = array(
-			"labels"=> array(),
-			"datasets"=> array(),
-		);
-		
-		//set query result for dataset 1
-		$sqltext = "select *
-from registro;";
-		$queryparams = null;
-		$dataset1 = $db->rawQuery($sqltext, $queryparams);
-		$dataset_data =  array_column($dataset1, 'id_registro');
-		$dataset_labels =  array_column($dataset1, 'fk_detalle_registro');
 		$chart_data["labels"] = array_unique(array_merge($chart_data["labels"], $dataset_labels));
 		$chart_data["datasets"][] = $dataset_data;
 

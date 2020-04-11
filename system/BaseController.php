@@ -159,6 +159,28 @@ class BaseController{
 			"uploadDir" => "uploads/files/"
 		);
 		
+		$this->file_upload_settings['png'] = array(
+			"title" => "{{random}}",
+			"extensions" => "",
+			"limit" => "1",
+			"filesize" => "3",
+			"returnfullpath" => true,
+			"filenameprefix" => "",
+			"uploadDir" => "uploads/files/"
+		);
+	
+
+		$this->file_upload_settings['png'] = array(
+			"title" => "{{random}}",
+			"extensions" => "",
+			"limit" => "3",
+			"filesize" => "3",
+			"returnfullpath" => true,
+			"filenameprefix" => "",
+			"uploadDir" => "uploads/files/"
+		);
+	
+
 		$this->status = AUTHORIZED;
 	}
 

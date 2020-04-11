@@ -1,4 +1,38 @@
+Dropzone.autoDiscover = false;
 function initFormPlugins(){
+	$('select.selectize').selectize({
+		create: true
+	});
+	$('.selectize-ajax').each(function() {
+		var endpoint = $(this).data("endpoint");
+		var select = $(this).selectize({
+			valueField: 'value',
+			labelField: 'label',
+			searchField: ['label'],
+			options: [],
+			create: true,
+			render: {
+				option: function(item, escape) {
+					return '<div>' + escape(item.label) + '</div>';
+				}
+			},
+			load: function(query, callback) {
+				if (!query.length) return callback();
+				$.ajax({
+					url: endpoint + '/' + query,
+					type: 'GET',
+					dataType: 'json',
+					error: function() {
+						callback();
+					},
+					success: function(res) {
+						callback(res);
+					}
+				});
+			}
+		});
+		return select;
+	});
 	$('.datepicker').flatpickr({
 		altInput: true, 
 		allowInput:true,
@@ -13,7 +47,114 @@ function initFormPlugins(){
 			}
 		}
 	});
-	$(".ion-range").ionRangeSlider({input_values_separator:'-'});
+	Dropzone.autoDiscover = false;
+	$('.dropzone').each(function(){
+		let dropzoneControl = $(this)[0].dropzone;
+		if (dropzoneControl) {
+			dropzoneControl.destroy();
+		}
+		var uploadUrl = $(this).attr('path') || setPathLink('filehelper/uploadfile/');
+		var multiple = $(this).data('multiple') || false;
+		var limit = $(this).attr('maximum') || 1;
+		var size = $(this).attr('filesize') || 10;
+		var extensions = $(this).attr('extensions') || "";
+		var resizewidth = $(this).attr('resizewidth') || null;
+		var resizeheight = $(this).attr('resizeheight') || null;
+		var resizequality = $(this).attr('resizequality') || null;
+		var resizemethod = $(this).attr('resizemethod') || null;
+		var resizemimetype = $(this).attr('resizemimetype') || null;
+		var dropmsg = $(this).attr('dropmsg') || 'Choose files or drag and drop files to upload';
+		var autoSubmit = $(this).attr('autosubmit') || true;
+		var btntext = $(this).attr('btntext') || 'Choose file';
+		var fieldname = $(this).attr('fieldname') || "";
+		var input = $(this).attr('input');
+		$(this).dropzone({
+			url: uploadUrl ,
+			maxFilesize:size,
+			uploadMultiple: multiple,
+			parallelUploads:1,
+			paramName:'file',
+			maxFiles:limit,
+			resizeWidth: resizewidth,
+			resizeHeight: resizeheight,
+			resizeQuality: resizequality,
+			resizeMethod: resizemethod,
+			resizeMimeType: resizemimetype,
+			acceptedFiles: extensions,
+			addRemoveLinks:true,
+			params:{
+				csrf_token : csrfToken,
+				fieldname : fieldname,
+			},
+			init: function() {
+				this.on('addedfile', function(file) {
+					//if allow multiple file upload is allowed, then validate maximum number of files
+					var inputFiles = $(input).val();
+					var inputFilesLen = 0;
+					if(inputFiles){
+						inputFilesLen = inputFiles.split(',').length;
+					}
+					var totalFiles = this.files.length + inputFilesLen;
+					if ( totalFiles  > limit) {
+						if(multiple){
+							$(file.previewElement).closest('.dropzone').find('.dz-file-limit').text('Maximum upload limit reached');
+							this.removeFile(file);
+						}
+						else if(limit == 1){
+							if(!inputFiles){
+								this.removeFile(this.files[0]);
+							}
+						}
+					}
+				});
+				this.on("success", function(file, responseText) {
+					if(responseText){
+						if(limit == 1){
+							$(input).val(responseText);
+						}
+						else{
+							var files = $(input).val();
+							files = files + ',' + responseText;
+							files = files.trim().trimLeft(',')
+							$(input).val(files);
+						}
+					}
+				});
+				this.on("removedfile", function(file) {
+					if(file.xhr){
+						var filename = file.xhr.responseText;
+						var files = $(input).val();
+						var arrFiles = files.split(',');
+						while (arrFiles.indexOf(filename) !== -1) {
+							arrFiles.splice(arrFiles.indexOf(filename), 1);
+						}
+						$(input).val(arrFiles.toString());
+						var remUrl = setPathLink('filehelper/removefile/')
+						$.ajax({
+							type:'POST',
+							url: remUrl,
+							data : {filepath: filename, csrf_token: csrfToken},
+							success : function (data) {
+								console.log(data);
+							}
+						});
+					}
+					var inputFiles = $(input).val();
+					if(inputFiles){
+						var inputFilesLen = inputFiles.split(',').length;
+						if (  limit > inputFilesLen){
+							$(input).closest('.dropzone').find('.dz-file-limit').text('');
+						}
+					}
+				});
+				this.on("complete", function (file) {
+					//do something all files uploaded
+				});
+			},
+			dictDefaultMessage: dropmsg,
+			/* dictRemoveFile:'' */
+		});
+	});
 }
 function loadPageData(ajaxPage, url){
 	let pageType = ajaxPage.data('page-type');

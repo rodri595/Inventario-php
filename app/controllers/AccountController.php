@@ -17,16 +17,13 @@ class AccountController extends SecureController{
 		$rec_id = $this->rec_id = USER_ID; //get current user id from session
 		$db->where ("id_usuario", $rec_id);
 		$tablename = $this->tablename;
-		$fields = array("usuario.id_usuario", 
-			"usuario.user_usuario", 
-			"usuario.nombre", 
-			"usuario.apellido", 
-			"usuario.correo", 
-			"usuario.fecha_creacion_usuario", 
-			"usuario.numero_empleado", 
-			"usuario.fk_rol", 
-			"rol.nombre_rol AS rol_nombre_rol");
-		$db->join("rol", "usuario.fk_rol = rol.id_rol", "INNER");
+		$fields = array("id_usuario", 
+			"user_usuario", 
+			"nombre", 
+			"apellido", 
+			"correo", 
+			"fecha_creacion_usuario", 
+			"numero_empleado");
 		$user = $db->getOne($tablename , $fields);
 		if(!empty($user)){
 			$page_title = $this->view->page_title = get_lang('my_account');
@@ -54,8 +51,7 @@ class AccountController extends SecureController{
 			$this->rules_array = array(
 				'user_usuario' => 'required',
 				'nombre' => 'required',
-				'apellido' => 'required',
-				'numero_empleado' => 'required|numeric',
+				'numero_empleado' => 'numeric',
 			);
 			$this->sanitize_array = array(
 				'user_usuario' => 'sanitize_string',
@@ -69,6 +65,13 @@ class AccountController extends SecureController{
 				$db->where("user_usuario", $modeldata['user_usuario'])->where("id_usuario", $rec_id, "!=");
 				if($db->has($tablename)){
 					$this->view->page_error[] = $modeldata['user_usuario'].get_lang('_already_exist_');
+				}
+			}
+			//Check if Duplicate Record Already Exit In The Database
+			if(isset($modeldata['numero_empleado'])){
+				$db->where("numero_empleado", $modeldata['numero_empleado'])->where("id_usuario", $rec_id, "!=");
+				if($db->has($tablename)){
+					$this->view->page_error[] = $modeldata['numero_empleado'].get_lang('_already_exist_');
 				}
 			} 
 			if($this->validated()){

@@ -132,7 +132,7 @@ class CategoriaController extends SecureController{
 				$rec_id = $this->rec_id = $db->insert($tablename, $modeldata);
 				if($rec_id){
 					$this->set_flash_msg(get_lang('record_added_successfully'), "success");
-					return	$this->redirect("categoria");
+					return	$this->redirect("producto/add");
 				}
 				else{
 					$this->set_page_error();

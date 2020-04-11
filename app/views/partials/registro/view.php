@@ -49,25 +49,45 @@ $show_export_btn = $this->show_export_btn;
                                         <th class="title"> <?php print_lang('id_registro'); ?>: </th>
                                         <td class="value"> <?php echo $data['id_registro']; ?></td>
                                     </tr>
-                                    <tr  class="td-fk_detalle_registro">
-                                        <th class="title"> <?php print_lang('fk_detalle_registro'); ?>: </th>
-                                        <td class="value">
-                                            <a size="sm" class="btn btn-info page-modal" href="<?php print_link("detalle_registro/view/" . urlencode($data['fk_detalle_registro'])) ?>">
-                                                <i class="fa fa-eye"></i> <?php echo $data['detalle_registro_id_detalle_registro'] ?>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr  class="td-fk_proveedor">
-                                        <th class="title"> <?php print_lang('fk_proveedor'); ?>: </th>
-                                        <td class="value">
-                                            <a size="sm" class="btn btn-secondary page-modal" href="<?php print_link("proveedor/view/" . urlencode($data['fk_proveedor'])) ?>">
-                                                <i class="fa fa-eye"></i> <?php echo $data['proveedor_nombre_proveedor'] ?>
-                                            </a>
-                                        </td>
-                                    </tr>
                                     <tr  class="td-fecha_creacion">
                                         <th class="title"> <?php print_lang('fecha_creacion'); ?>: </th>
                                         <td class="value"> <?php echo $data['fecha_creacion']; ?></td>
+                                    </tr>
+                                    <tr  class="td-emisor">
+                                        <th class="title"> <?php print_lang('emisor'); ?>: </th>
+                                        <td class="value">
+                                            <span  data-value="<?php echo $data['emisor']; ?>" 
+                                                data-pk="<?php echo $data['id_registro'] ?>" 
+                                                data-url="<?php print_link("registro/editfield/" . urlencode($data['id_registro'])); ?>" 
+                                                data-name="emisor" 
+                                                data-title="Enter Emisor" 
+                                                data-placement="left" 
+                                                data-toggle="click" 
+                                                data-type="number" 
+                                                data-mode="popover" 
+                                                data-showbuttons="left" 
+                                                class="is-editable" >
+                                                <?php echo $data['emisor']; ?> 
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr  class="td-recepetr">
+                                        <th class="title"> <?php print_lang('recepetr'); ?>: </th>
+                                        <td class="value">
+                                            <span  data-value="<?php echo $data['recepetr']; ?>" 
+                                                data-pk="<?php echo $data['id_registro'] ?>" 
+                                                data-url="<?php print_link("registro/editfield/" . urlencode($data['id_registro'])); ?>" 
+                                                data-name="recepetr" 
+                                                data-title="Enter Recepetr" 
+                                                data-placement="left" 
+                                                data-toggle="click" 
+                                                data-type="number" 
+                                                data-mode="popover" 
+                                                data-showbuttons="left" 
+                                                class="is-editable" >
+                                                <?php echo $data['recepetr']; ?> 
+                                            </span>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <!-- Table Body End -->

@@ -28,7 +28,7 @@ $show_pagination = $this->show_pagination;
                 <div class="col-sm-3 ">
                     <a  class="btn btn btn-primary my-1" href="<?php print_link("categoria/add") ?>">
                         <i class="fa fa-plus"></i>                              
-                        <?php print_lang('add_new_categoria'); ?> 
+                        <?php print_lang('agregar_categoria'); ?> 
                     </a>
                 </div>
                 <div class="col-sm-4 ">
@@ -114,8 +114,12 @@ $show_pagination = $this->show_pagination;
                                                     </label>
                                                 </th>
                                                 <th class="td-sno">#</th>
-                                                <th  class="td-id_categoria"> <?php print_lang('id_categoria'); ?></th>
-                                                <th  class="td-desc_categoria"> <?php print_lang('desc_categoria'); ?></th>
+                                                <th  <?php echo (get_value('orderby')=='id_categoria' ? 'class="sortedby td-id_categoria"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('id_categoria', get_lang('id_categoria')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='desc_categoria' ? 'class="sortedby td-desc_categoria"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('desc_categoria', get_lang('desc_categoria')); ?>
+                                                </th>
                                                 <th class="td-btn"></th>
                                             </tr>
                                         </thead>

@@ -130,68 +130,6 @@ $current_page = $this->set_current_page_link();
                         </script>
                     </div>
                 </div>
-                <div class="col-md-4 comp-grid">
-                    <div class="card card-body">
-                        <?php 
-                        $chartdata = $comp_model->radarchart_newchart5();
-                        ?>
-                        <div>
-                            <h4>New Chart 5</h4>
-                            <small class="text-muted"></small>
-                        </div>
-                        <hr />
-                        <canvas id="radarchart_newchart5"></canvas>
-                        <script>
-                            $(function (){
-                            var chartData = {
-                            labels : <?php echo json_encode($chartdata['labels']); ?>,
-                            datasets : [
-                            {
-                            label: 'Dataset 1',
-                            fill:true,
-                            backgroundColor:'<?php echo random_color(0.9); ?>',
-                            borderWidth:3,
-                            pointStyle:'circle',
-                            pointRadius:5,
-                            lineTension:0.1,
-                            type:'',
-                            steppedLine:false,
-                            data : <?php echo json_encode($chartdata['datasets'][0]); ?>,
-                            }
-                            ]
-                            }
-                            var ctx = document.getElementById('radarchart_newchart5');
-                            var chart = new Chart(ctx, {
-                            type:'radar',
-                            data: chartData,
-                            options: {
-                            responsive: true,
-                            scales: {
-                            yAxes: [{
-                            ticks:{display: false},
-                            gridLines:{display: false},
-                            scaleLabel: {
-                            display: true,
-                            labelString: ""
-                            }
-                            }],
-                            xAxes: [{
-                            ticks:{display: false},
-                            gridLines:{display: false},
-                            scaleLabel: {
-                            display: true,
-                            labelString: ""
-                            }
-                            }],
-                            },
-                            }
-                            ,
-                            })});
-                        </script>
-                    </div>
-                </div>
-                <div class="col-sm-3 comp-grid">
-                </div>
             </div>
         </div>
     </div>

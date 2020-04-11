@@ -140,19 +140,12 @@ class ProveedorController extends SecureController{
 			$tablename = $this->tablename;
 			$request = $this->request;
 			//fillable fields
-			$fields = $this->fields = array("id_proveedor","nombre_proveedor","desc_proveedor","asignado_proveedor","tel_proveedor","direccion_proveedor","rtn_proveedor");
+			$fields = $this->fields = array("nombre_proveedor","desc_proveedor","asignado_proveedor","tel_proveedor","direccion_proveedor","rtn_proveedor");
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
-				'id_proveedor' => 'required|numeric',
 				'nombre_proveedor' => 'required',
-				'desc_proveedor' => 'required',
-				'asignado_proveedor' => 'required',
-				'tel_proveedor' => 'required',
-				'direccion_proveedor' => 'required',
-				'rtn_proveedor' => 'required',
 			);
 			$this->sanitize_array = array(
-				'id_proveedor' => 'sanitize_string',
 				'nombre_proveedor' => 'sanitize_string',
 				'desc_proveedor' => 'sanitize_string',
 				'asignado_proveedor' => 'sanitize_string',
@@ -193,11 +186,6 @@ class ProveedorController extends SecureController{
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
 				'nombre_proveedor' => 'required',
-				'desc_proveedor' => 'required',
-				'asignado_proveedor' => 'required',
-				'tel_proveedor' => 'required',
-				'direccion_proveedor' => 'required',
-				'rtn_proveedor' => 'required',
 			);
 			$this->sanitize_array = array(
 				'nombre_proveedor' => 'sanitize_string',
@@ -259,11 +247,6 @@ class ProveedorController extends SecureController{
 			$postdata = $this->format_request_data($postdata);
 			$this->rules_array = array(
 				'nombre_proveedor' => 'required',
-				'desc_proveedor' => 'required',
-				'asignado_proveedor' => 'required',
-				'tel_proveedor' => 'required',
-				'direccion_proveedor' => 'required',
-				'rtn_proveedor' => 'required',
 			);
 			$this->sanitize_array = array(
 				'nombre_proveedor' => 'sanitize_string',

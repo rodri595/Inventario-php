@@ -70,14 +70,13 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-desc_producto">
                                         <th class="title"> <?php print_lang('desc_producto'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['desc_producto']; ?>" 
-                                                data-pk="<?php echo $data['id_producto'] ?>" 
+                                            <span  data-pk="<?php echo $data['id_producto'] ?>" 
                                                 data-url="<?php print_link("producto2/editfield/" . urlencode($data['id_producto'])); ?>" 
                                                 data-name="desc_producto" 
                                                 data-title="Enter Desc Producto" 
                                                 data-placement="left" 
                                                 data-toggle="click" 
-                                                data-type="text" 
+                                                data-type="textarea" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
                                                 class="is-editable" >
@@ -88,14 +87,15 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-cantidad_producto">
                                         <th class="title"> <?php print_lang('cantidad_producto'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['cantidad_producto']; ?>" 
+                                            <span  data-step="0.1" 
+                                                data-value="<?php echo $data['cantidad_producto']; ?>" 
                                                 data-pk="<?php echo $data['id_producto'] ?>" 
                                                 data-url="<?php print_link("producto2/editfield/" . urlencode($data['id_producto'])); ?>" 
                                                 data-name="cantidad_producto" 
                                                 data-title="Enter Cantidad Producto" 
                                                 data-placement="left" 
                                                 data-toggle="click" 
-                                                data-type="text" 
+                                                data-type="number" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
                                                 class="is-editable" >
@@ -194,59 +194,22 @@ $show_export_btn = $this->show_export_btn;
                                             </span>
                                         </td>
                                     </tr>
-                                    <tr  class="td-fecha_ultima_update">
-                                        <th class="title"> <?php print_lang('fecha_ultima_update'); ?>: </th>
+                                    <tr  class="td-precio_producto">
+                                        <th class="title"> <?php print_lang('precio_producto'); ?>: </th>
                                         <td class="value">
-                                            <span  data-flatpickr="{ minDate: '', maxDate: ''}" 
-                                                data-value="<?php echo $data['fecha_ultima_update']; ?>" 
+                                            <span  data-step="0.1" 
+                                                data-value="<?php echo $data['precio_producto']; ?>" 
                                                 data-pk="<?php echo $data['id_producto'] ?>" 
                                                 data-url="<?php print_link("producto2/editfield/" . urlencode($data['id_producto'])); ?>" 
-                                                data-name="fecha_ultima_update" 
-                                                data-title="Enter Fecha Ultima Update" 
+                                                data-name="precio_producto" 
+                                                data-title="Enter Precio Producto" 
                                                 data-placement="left" 
                                                 data-toggle="click" 
-                                                data-type="flatdatetimepicker" 
+                                                data-type="number" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
                                                 class="is-editable" >
-                                                <?php echo $data['fecha_ultima_update']; ?> 
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr  class="td-fecha_delete">
-                                        <th class="title"> <?php print_lang('fecha_delete'); ?>: </th>
-                                        <td class="value">
-                                            <span  data-flatpickr="{ minDate: '', maxDate: ''}" 
-                                                data-value="<?php echo $data['fecha_delete']; ?>" 
-                                                data-pk="<?php echo $data['id_producto'] ?>" 
-                                                data-url="<?php print_link("producto2/editfield/" . urlencode($data['id_producto'])); ?>" 
-                                                data-name="fecha_delete" 
-                                                data-title="Enter Fecha Delete" 
-                                                data-placement="left" 
-                                                data-toggle="click" 
-                                                data-type="flatdatetimepicker" 
-                                                data-mode="popover" 
-                                                data-showbuttons="left" 
-                                                class="is-editable" >
-                                                <?php echo $data['fecha_delete']; ?> 
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr  class="td-isdeleted">
-                                        <th class="title"> <?php print_lang('isdeleted'); ?>: </th>
-                                        <td class="value">
-                                            <span  data-value="<?php echo $data['isdeleted']; ?>" 
-                                                data-pk="<?php echo $data['id_producto'] ?>" 
-                                                data-url="<?php print_link("producto2/editfield/" . urlencode($data['id_producto'])); ?>" 
-                                                data-name="isdeleted" 
-                                                data-title="Enter Isdeleted" 
-                                                data-placement="left" 
-                                                data-toggle="click" 
-                                                data-type="text" 
-                                                data-mode="popover" 
-                                                data-showbuttons="left" 
-                                                class="is-editable" >
-                                                <?php echo $data['isdeleted']; ?> 
+                                                <?php echo $data['precio_producto']; ?> 
                                             </span>
                                         </td>
                                     </tr>

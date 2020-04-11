@@ -21,7 +21,7 @@ $show_export_btn = $this->show_export_btn;
         <div class="container">
             <div class="row ">
                 <div class="col ">
-                    <h4 class="record-title"><?php print_lang('view_usuario'); ?></h4>
+                    <h4 class="record-title"><?php print_lang('reporte_usuario'); ?></h4>
                 </div>
             </div>
         </div>
@@ -128,10 +128,6 @@ $show_export_btn = $this->show_export_btn;
                                                 <?php echo $data['numero_empleado']; ?> 
                                             </span>
                                         </td>
-                                    </tr>
-                                    <tr  class="td-fk_rol">
-                                        <th class="title"> <?php print_lang('fk_rol'); ?>: </th>
-                                        <td class="value"> <?php echo $data['fk_rol']; ?></td>
                                     </tr>
                                 </tbody>
                                 <!-- Table Body End -->

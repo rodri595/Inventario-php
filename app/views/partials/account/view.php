@@ -21,7 +21,7 @@ $show_export_btn = $this->show_export_btn;
         <div class="container">
             <div class="row ">
                 <div class="col ">
-                    <h4 class="record-title"><?php print_lang('my_account'); ?></h4>
+                    <h4 class="record-title"><?php print_lang('mi_cuenta'); ?></h4>
                 </div>
             </div>
         </div>
@@ -163,14 +163,6 @@ $show_export_btn = $this->show_export_btn;
                                                                 class="is-editable" >
                                                                 <?php echo $data['numero_empleado']; ?> 
                                                             </span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr  class="td-fk_rol">
-                                                        <th class="title"> <?php print_lang('fk_rol'); ?>: </th>
-                                                        <td class="value">
-                                                            <a class="btn btn-sm btn-primary open-page-popover" href="<?php print_link("rol/view/" . urlencode($data['fk_rol'])); ?>">
-                                                                <i class="fa fa-black-tie "></i> <?php echo $data['rol_nombre_rol'] ?>
-                                                            </a>
                                                         </td>
                                                     </tr>
                                                 </tbody>    

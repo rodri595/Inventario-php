@@ -27,8 +27,8 @@ $show_pagination = $this->show_pagination;
                 </div>
                 <div class="col-sm-3 ">
                     <a  class="btn btn btn-primary my-1" href="<?php print_link("proveedor/add") ?>">
-                        <i class="fa fa-plus"></i>                              
-                        <?php print_lang('add_new_proveedor'); ?> 
+                        <i class="fa fa-plane "></i>                                
+                        <?php print_lang('nuevo_proveedor'); ?> 
                     </a>
                 </div>
                 <div class="col-sm-4 ">
@@ -115,13 +115,27 @@ $show_pagination = $this->show_pagination;
                                                 </th>
                                                 <th class="td-sno">#</th>
                                                 <th  class="td-id_proveedor"> <?php print_lang('id_de_proveedor'); ?></th>
-                                                <th  class="td-nombre_proveedor"> <?php print_lang('nombre'); ?></th>
-                                                <th  class="td-desc_proveedor"> <?php print_lang('descripci_n'); ?></th>
-                                                <th  class="td-asignado_proveedor"> <?php print_lang('asignado_o_responsable'); ?></th>
-                                                <th  class="td-tel_proveedor"> <?php print_lang('telefono'); ?></th>
-                                                <th  class="td-direccion_proveedor"> <?php print_lang('direcci_n'); ?></th>
-                                                <th  class="td-rtn_proveedor"> <?php print_lang('rtn_'); ?></th>
-                                                <th  class="td-fecha_creacion"> <?php print_lang('fecha_creacion'); ?></th>
+                                                <th  <?php echo (get_value('orderby')=='nombre_proveedor' ? 'class="sortedby td-nombre_proveedor"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('nombre_proveedor', get_lang('nombre')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='desc_proveedor' ? 'class="sortedby td-desc_proveedor"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('desc_proveedor', get_lang('descripci_n')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='asignado_proveedor' ? 'class="sortedby td-asignado_proveedor"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('asignado_proveedor', get_lang('asignado_o_responsable')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='tel_proveedor' ? 'class="sortedby td-tel_proveedor"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('tel_proveedor', get_lang('telefono')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='direccion_proveedor' ? 'class="sortedby td-direccion_proveedor"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('direccion_proveedor', get_lang('direcci_n')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='rtn_proveedor' ? 'class="sortedby td-rtn_proveedor"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('rtn_proveedor', get_lang('rtn_')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='fecha_creacion' ? 'class="sortedby td-fecha_creacion"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('fecha_creacion', get_lang('fecha_creacion')); ?>
+                                                </th>
                                                 <th class="td-btn"></th>
                                             </tr>
                                         </thead>
@@ -235,7 +249,11 @@ $show_pagination = $this->show_pagination;
                                                             <?php echo $data['rtn_proveedor']; ?> 
                                                         </span>
                                                     </td>
-                                                    <td class="td-fecha_creacion"> <?php echo $data['fecha_creacion']; ?></td>
+                                                    <td class="td-fecha_creacion">
+                                                        <span title="<?php echo human_datetime($data['fecha_creacion']); ?>" class="has-tooltip">
+                                                            <?php echo relative_date($data['fecha_creacion']); ?>
+                                                        </span>
+                                                    </td>
                                                     <th class="td-btn">
                                                         <a class="btn btn-sm btn-success has-tooltip" title="<?php print_lang('view_record'); ?>" href="<?php print_link("proveedor/view/$rec_id"); ?>">
                                                             <i class="fa fa-eye"></i> <?php print_lang('view'); ?>

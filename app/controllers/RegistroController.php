@@ -18,21 +18,19 @@ class RegistroController extends SecureController{
 		$request = $this->request;
 		$db = $this->GetModel();
 		$tablename = $this->tablename;
-		$fields = array("registro.id_registro", 
-			"registro.fk_detalle_registro", 
-			"detalle_registro.id_detalle_registro AS detalle_registro_id_detalle_registro", 
-			"registro.fk_proveedor", 
-			"proveedor.nombre_proveedor AS proveedor_nombre_proveedor", 
-			"registro.fecha_creacion");
+		$fields = array("id_registro", 
+			"fecha_creacion", 
+			"emisor", 
+			"recepetr");
 		$pagination = $this->get_pagination(MAX_RECORD_COUNT); // get current pagination e.g array(page_number, page_limit)
 		//search table record
 		if(!empty($request->search)){
 			$text = trim($request->search); 
 			$search_condition = "(
 				registro.id_registro LIKE ? OR 
-				registro.fk_detalle_registro LIKE ? OR 
-				registro.fk_proveedor LIKE ? OR 
-				registro.fecha_creacion LIKE ?
+				registro.fecha_creacion LIKE ? OR 
+				registro.emisor LIKE ? OR 
+				registro.recepetr LIKE ?
 			)";
 			$search_params = array(
 				"%$text%","%$text%","%$text%","%$text%"
@@ -42,8 +40,6 @@ class RegistroController extends SecureController{
 			 //template to use when ajax search
 			$this->view->search_template = "registro/search.php";
 		}
-		$db->join("detalle_registro", "registro.fk_detalle_registro = detalle_registro.id_detalle_registro", "INNER");
-		$db->join("proveedor", "registro.fk_proveedor = proveedor.id_proveedor", "INNER");
 		if(!empty($request->orderby)){
 			$orderby = $request->orderby;
 			$ordertype = (!empty($request->ordertype) ? $request->ordertype : ORDER_TYPE);
@@ -88,20 +84,16 @@ class RegistroController extends SecureController{
 		$db = $this->GetModel();
 		$rec_id = $this->rec_id = urldecode($rec_id);
 		$tablename = $this->tablename;
-		$fields = array("registro.id_registro", 
-			"registro.fk_detalle_registro", 
-			"detalle_registro.id_detalle_registro AS detalle_registro_id_detalle_registro", 
-			"registro.fk_proveedor", 
-			"proveedor.nombre_proveedor AS proveedor_nombre_proveedor", 
-			"registro.fecha_creacion");
+		$fields = array("id_registro", 
+			"fecha_creacion", 
+			"emisor", 
+			"recepetr");
 		if($value){
 			$db->where($rec_id, urldecode($value)); //select record based on field name
 		}
 		else{
 			$db->where("registro.id_registro", $rec_id);; //select record based on primary key
 		}
-		$db->join("detalle_registro", "registro.fk_detalle_registro = detalle_registro.id_detalle_registro", "INNER");
-		$db->join("proveedor", "registro.fk_proveedor = proveedor.id_proveedor", "INNER");  
 		$record = $db->getOne($tablename, $fields );
 		if($record){
 			$page_title = $this->view->page_title = get_lang('view_registro');
@@ -132,25 +124,24 @@ class RegistroController extends SecureController{
 			$tablename = $this->tablename;
 			$request = $this->request;
 			//fillable fields
-			$fields = $this->fields = array("id_registro","fk_detalle_registro","fk_proveedor","fecha_creacion");
+			$fields = $this->fields = array("fecha_creacion","emisor","recepetr");
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
-				'id_registro' => 'required|numeric',
-				'fk_detalle_registro' => 'required',
-				'fk_proveedor' => 'required',
+				'fecha_creacion' => 'required',
+				'emisor' => 'required|numeric',
+				'recepetr' => 'required|numeric',
 			);
 			$this->sanitize_array = array(
-				'id_registro' => 'sanitize_string',
-				'fk_detalle_registro' => 'sanitize_string',
-				'fk_proveedor' => 'sanitize_string',
+				'fecha_creacion' => 'sanitize_string',
+				'emisor' => 'sanitize_string',
+				'recepetr' => 'sanitize_string',
 			);
 			$this->filter_vals = true; //set whether to remove empty fields
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
-			$modeldata['fecha_creacion'] = datetime_now();
 			if($this->validated()){
 				$rec_id = $this->rec_id = $db->insert($tablename, $modeldata);
 				if($rec_id){
-					$this->set_flash_msg(get_lang('record_added_successfully'), "success");
+					$this->set_flash_msg(get_lang('reegistro_se_agrego'), "success");
 					return	$this->redirect("registro");
 				}
 				else{
@@ -158,7 +149,7 @@ class RegistroController extends SecureController{
 				}
 			}
 		}
-		$page_title = $this->view->page_title = get_lang('add_new_registro');
+		$page_title = $this->view->page_title = get_lang('crear_nuevo_registro');
 		$this->render_view("registro/add.php");
 	}
 	/**
@@ -173,16 +164,16 @@ class RegistroController extends SecureController{
 		$this->rec_id = $rec_id;
 		$tablename = $this->tablename;
 		 //editable fields
-		$fields = $this->fields = array("id_registro","fk_detalle_registro","fk_proveedor");
+		$fields = $this->fields = array("id_registro","emisor","recepetr");
 		if($formdata){
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
-				'fk_detalle_registro' => 'required',
-				'fk_proveedor' => 'required',
+				'emisor' => 'required|numeric',
+				'recepetr' => 'required|numeric',
 			);
 			$this->sanitize_array = array(
-				'fk_detalle_registro' => 'sanitize_string',
-				'fk_proveedor' => 'sanitize_string',
+				'emisor' => 'sanitize_string',
+				'recepetr' => 'sanitize_string',
 			);
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
 			if($this->validated()){
@@ -226,7 +217,7 @@ class RegistroController extends SecureController{
 		$this->rec_id = $rec_id;
 		$tablename = $this->tablename;
 		//editable fields
-		$fields = $this->fields = array("id_registro","fk_detalle_registro","fk_proveedor");
+		$fields = $this->fields = array("id_registro","emisor","recepetr");
 		$page_error = null;
 		if($formdata){
 			$postdata = array();
@@ -235,12 +226,12 @@ class RegistroController extends SecureController{
 			$postdata[$fieldname] = $fieldvalue;
 			$postdata = $this->format_request_data($postdata);
 			$this->rules_array = array(
-				'fk_detalle_registro' => 'required',
-				'fk_proveedor' => 'required',
+				'emisor' => 'required|numeric',
+				'recepetr' => 'required|numeric',
 			);
 			$this->sanitize_array = array(
-				'fk_detalle_registro' => 'sanitize_string',
-				'fk_proveedor' => 'sanitize_string',
+				'emisor' => 'sanitize_string',
+				'recepetr' => 'sanitize_string',
 			);
 			$this->filter_rules = true; //filter validation rules by excluding fields not in the formdata
 			$modeldata = $this->modeldata = $this->validate_form($postdata);

@@ -102,7 +102,7 @@ class IndexController extends BaseController{
 			$request = $this->request;
 			$db = $this->GetModel();
 			$tablename = $this->tablename;
-			$fields = $this->fields = array("user_usuario","nombre","apellido","correo","fecha_creacion_usuario","password","numero_empleado","fk_rol"); //registration fields
+			$fields = $this->fields = array("user_usuario","nombre","apellido","correo","fecha_creacion_usuario","password","numero_empleado"); //registration fields
 			$postdata = $this->format_request_data($formdata);
 			$cpassword = $postdata['confirm_password'];
 			$password = $postdata['password'];
@@ -114,25 +114,22 @@ class IndexController extends BaseController{
 				'nombre' => 'required',
 				'apellido' => 'required',
 				'correo' => 'required|valid_email',
-				'fecha_creacion_usuario' => 'required',
 				'password' => 'required',
 				'numero_empleado' => 'required|numeric',
-				'fk_rol' => 'required',
 			);
 			$this->sanitize_array = array(
 				'user_usuario' => 'sanitize_string',
 				'nombre' => 'sanitize_string',
 				'apellido' => 'sanitize_string',
 				'correo' => 'sanitize_string',
-				'fecha_creacion_usuario' => 'sanitize_string',
 				'numero_empleado' => 'sanitize_string',
-				'fk_rol' => 'sanitize_string',
 			);
 			$this->filter_vals = true; //set whether to remove empty fields
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
 			$password_text = $modeldata['password'];
 			//update modeldata with the password hash
 			$modeldata['password'] = $this->modeldata['password'] = password_hash($password_text , PASSWORD_DEFAULT);
+			$modeldata['fecha_creacion_usuario'] = datetime_now();
 			//Check if Duplicate Record Already Exit In The Database
 			$db->where("user_usuario", $modeldata['user_usuario']);
 			if($db->has($tablename)){

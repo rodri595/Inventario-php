@@ -21,17 +21,15 @@ class ProductoController extends SecureController{
 		$fields = array("producto.id_producto", 
 			"producto.nombre_producto", 
 			"producto.desc_producto", 
-			"producto.precio_producto", 
 			"producto.cantidad_producto", 
 			"producto.peso_producto", 
 			"producto.dimension_producto", 
+			"producto.precio_producto", 
 			"producto.fk_proveedor", 
 			"proveedor.nombre_proveedor AS proveedor_nombre_proveedor", 
 			"producto.fk_categoria", 
 			"categoria.desc_categoria AS categoria_desc_categoria", 
-			"producto.fecha_creacion", 
-			"producto.creadopor_producto", 
-			"usuario.user_usuario AS usuario_user_usuario");
+			"producto.fecha_creacion");
 		$pagination = $this->get_pagination(MAX_RECORD_COUNT); // get current pagination e.g array(page_number, page_limit)
 		//search table record
 		if(!empty($request->search)){
@@ -40,20 +38,16 @@ class ProductoController extends SecureController{
 				producto.id_producto LIKE ? OR 
 				producto.nombre_producto LIKE ? OR 
 				producto.desc_producto LIKE ? OR 
-				producto.precio_producto LIKE ? OR 
 				producto.cantidad_producto LIKE ? OR 
 				producto.peso_producto LIKE ? OR 
 				producto.dimension_producto LIKE ? OR 
+				producto.precio_producto LIKE ? OR 
 				producto.fk_proveedor LIKE ? OR 
 				producto.fk_categoria LIKE ? OR 
-				producto.fecha_creacion LIKE ? OR 
-				producto.fecha_ultima_update LIKE ? OR 
-				producto.fecha_delete LIKE ? OR 
-				producto.isdeleted LIKE ? OR 
-				producto.creadopor_producto LIKE ?
+				producto.fecha_creacion LIKE ?
 			)";
 			$search_params = array(
-				"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
+				"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
 			);
 			//setting search conditions
 			$db->where($search_condition, $search_params);
@@ -62,7 +56,6 @@ class ProductoController extends SecureController{
 		}
 		$db->join("proveedor", "producto.fk_proveedor = proveedor.id_proveedor", "INNER");
 		$db->join("categoria", "producto.fk_categoria = categoria.id_categoria", "INNER");
-		$db->join("usuario", "producto.creadopor_producto = usuario.id_usuario", "INNER");
 		if(!empty($request->orderby)){
 			$orderby = $request->orderby;
 			$ordertype = (!empty($request->ordertype) ? $request->ordertype : ORDER_TYPE);
@@ -73,24 +66,6 @@ class ProductoController extends SecureController{
 		}
 		if($fieldname){
 			$db->where($fieldname , $fieldvalue); //filter by a single field name
-		}
-		if(!empty($request->producto_fecha_creacion)){
-			$val = $request->producto_fecha_creacion;
-			$db->where("DATE(producto.fecha_creacion)", $val , "=");
-		}
-		if(!empty($request->producto_fk_proveedor)){
-			$val = $request->producto_fk_proveedor;
-			$db->where("producto.fk_proveedor", $val , "=");
-		}
-		if(!empty($request->producto_nombre_producto)){
-			$vals = $request->producto_nombre_producto;
-			$db->where("producto.nombre_producto", $vals, "IN");
-		}
-		if(!empty($request->producto_peso_producto)){
-			$vals = explode("-", str_replace(" ", "", $request->producto_peso_producto));
-			$from = $vals[0];
-			$to = $vals[1];
-			$db->where("producto.peso_producto BETWEEN $from AND $to");
 		}
 		$tc = $db->withTotalCount();
 		$records = $db->get($tablename, $pagination, $fields);
@@ -136,12 +111,7 @@ class ProductoController extends SecureController{
 			"producto.fk_categoria", 
 			"categoria.desc_categoria AS categoria_desc_categoria", 
 			"producto.fecha_creacion", 
-			"producto.fecha_ultima_update", 
-			"producto.fecha_delete", 
-			"producto.isdeleted", 
-			"producto.precio_producto", 
-			"producto.creadopor_producto", 
-			"usuario.user_usuario AS usuario_user_usuario");
+			"producto.precio_producto");
 		if($value){
 			$db->where($rec_id, urldecode($value)); //select record based on field name
 		}
@@ -149,8 +119,7 @@ class ProductoController extends SecureController{
 			$db->where("producto.id_producto", $rec_id);; //select record based on primary key
 		}
 		$db->join("proveedor", "producto.fk_proveedor = proveedor.id_proveedor", "INNER");
-		$db->join("categoria", "producto.fk_categoria = categoria.id_categoria", "INNER");
-		$db->join("usuario", "producto.creadopor_producto = usuario.id_usuario", "INNER");  
+		$db->join("categoria", "producto.fk_categoria = categoria.id_categoria", "INNER");  
 		$record = $db->getOne($tablename, $fields );
 		if($record){
 			$page_title = $this->view->page_title = get_lang('view_producto');
@@ -181,36 +150,36 @@ class ProductoController extends SecureController{
 			$tablename = $this->tablename;
 			$request = $this->request;
 			//fillable fields
-			$fields = $this->fields = array("nombre_producto","precio_producto","desc_producto","cantidad_producto","peso_producto","dimension_producto","fk_proveedor","fk_categoria","creadopor_producto");
+			$fields = $this->fields = array("nombre_producto","desc_producto","cantidad_producto","peso_producto","dimension_producto","fk_proveedor","fk_categoria","precio_producto","fecha_creacion");
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
 				'nombre_producto' => 'required',
-				'precio_producto' => 'required|numeric',
-				'desc_producto' => 'required',
-				'cantidad_producto' => 'required',
-				'peso_producto' => 'required',
-				'dimension_producto' => 'required',
-				'fk_proveedor' => 'required',
-				'fk_categoria' => 'required',
-				'creadopor_producto' => 'required|numeric',
+				'cantidad_producto' => 'required|numeric|min_numeric,0',
+				'peso_producto' => 'min_len,0',
+				'precio_producto' => 'numeric|min_numeric,0',
 			);
 			$this->sanitize_array = array(
 				'nombre_producto' => 'sanitize_string',
-				'precio_producto' => 'sanitize_string',
 				'desc_producto' => 'sanitize_string',
 				'cantidad_producto' => 'sanitize_string',
 				'peso_producto' => 'sanitize_string',
 				'dimension_producto' => 'sanitize_string',
 				'fk_proveedor' => 'sanitize_string',
 				'fk_categoria' => 'sanitize_string',
-				'creadopor_producto' => 'sanitize_string',
+				'precio_producto' => 'sanitize_string',
 			);
 			$this->filter_vals = true; //set whether to remove empty fields
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
+			$modeldata['fecha_creacion'] = datetime_now();
+			//Check if Duplicate Record Already Exit In The Database
+			$db->where("nombre_producto", $modeldata['nombre_producto']);
+			if($db->has($tablename)){
+				$this->view->page_error[] = $modeldata['nombre_producto'].get_lang('_already_exist_');
+			} 
 			if($this->validated()){
 				$rec_id = $this->rec_id = $db->insert($tablename, $modeldata);
 				if($rec_id){
-					$this->set_flash_msg(get_lang('record_added_successfully'), "success");
+					$this->set_flash_msg(get_lang('dato_agregado'), "success");
 					return	$this->redirect("producto");
 				}
 				else{
@@ -233,32 +202,33 @@ class ProductoController extends SecureController{
 		$this->rec_id = $rec_id;
 		$tablename = $this->tablename;
 		 //editable fields
-		$fields = $this->fields = array("id_producto","nombre_producto","precio_producto","desc_producto","cantidad_producto","peso_producto","dimension_producto","fk_proveedor","fk_categoria","creadopor_producto");
+		$fields = $this->fields = array("id_producto","nombre_producto","desc_producto","cantidad_producto","peso_producto","dimension_producto","fk_proveedor","fk_categoria","precio_producto");
 		if($formdata){
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
 				'nombre_producto' => 'required',
-				'precio_producto' => 'required|numeric',
-				'desc_producto' => 'required',
-				'cantidad_producto' => 'required',
-				'peso_producto' => 'required',
-				'dimension_producto' => 'required',
-				'fk_proveedor' => 'required',
-				'fk_categoria' => 'required',
-				'creadopor_producto' => 'required|numeric',
+				'cantidad_producto' => 'required|numeric|min_numeric,0',
+				'peso_producto' => 'min_len,0',
+				'precio_producto' => 'numeric|min_numeric,0',
 			);
 			$this->sanitize_array = array(
 				'nombre_producto' => 'sanitize_string',
-				'precio_producto' => 'sanitize_string',
 				'desc_producto' => 'sanitize_string',
 				'cantidad_producto' => 'sanitize_string',
 				'peso_producto' => 'sanitize_string',
 				'dimension_producto' => 'sanitize_string',
 				'fk_proveedor' => 'sanitize_string',
 				'fk_categoria' => 'sanitize_string',
-				'creadopor_producto' => 'sanitize_string',
+				'precio_producto' => 'sanitize_string',
 			);
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
+			//Check if Duplicate Record Already Exit In The Database
+			if(isset($modeldata['nombre_producto'])){
+				$db->where("nombre_producto", $modeldata['nombre_producto'])->where("id_producto", $rec_id, "!=");
+				if($db->has($tablename)){
+					$this->view->page_error[] = $modeldata['nombre_producto'].get_lang('_already_exist_');
+				}
+			} 
 			if($this->validated()){
 				$db->where("producto.id_producto", $rec_id);;
 				$bool = $db->update($tablename, $modeldata);
@@ -300,7 +270,7 @@ class ProductoController extends SecureController{
 		$this->rec_id = $rec_id;
 		$tablename = $this->tablename;
 		//editable fields
-		$fields = $this->fields = array("id_producto","nombre_producto","precio_producto","desc_producto","cantidad_producto","peso_producto","dimension_producto","fk_proveedor","fk_categoria","creadopor_producto");
+		$fields = $this->fields = array("id_producto","nombre_producto","desc_producto","cantidad_producto","peso_producto","dimension_producto","fk_proveedor","fk_categoria","precio_producto");
 		$page_error = null;
 		if($formdata){
 			$postdata = array();
@@ -310,28 +280,29 @@ class ProductoController extends SecureController{
 			$postdata = $this->format_request_data($postdata);
 			$this->rules_array = array(
 				'nombre_producto' => 'required',
-				'precio_producto' => 'required|numeric',
-				'desc_producto' => 'required',
-				'cantidad_producto' => 'required',
-				'peso_producto' => 'required',
-				'dimension_producto' => 'required',
-				'fk_proveedor' => 'required',
-				'fk_categoria' => 'required',
-				'creadopor_producto' => 'required|numeric',
+				'cantidad_producto' => 'required|numeric|min_numeric,0',
+				'peso_producto' => 'min_len,0',
+				'precio_producto' => 'numeric|min_numeric,0',
 			);
 			$this->sanitize_array = array(
 				'nombre_producto' => 'sanitize_string',
-				'precio_producto' => 'sanitize_string',
 				'desc_producto' => 'sanitize_string',
 				'cantidad_producto' => 'sanitize_string',
 				'peso_producto' => 'sanitize_string',
 				'dimension_producto' => 'sanitize_string',
 				'fk_proveedor' => 'sanitize_string',
 				'fk_categoria' => 'sanitize_string',
-				'creadopor_producto' => 'sanitize_string',
+				'precio_producto' => 'sanitize_string',
 			);
 			$this->filter_rules = true; //filter validation rules by excluding fields not in the formdata
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
+			//Check if Duplicate Record Already Exit In The Database
+			if(isset($modeldata['nombre_producto'])){
+				$db->where("nombre_producto", $modeldata['nombre_producto'])->where("id_producto", $rec_id, "!=");
+				if($db->has($tablename)){
+					$this->view->page_error[] = $modeldata['nombre_producto'].get_lang('_already_exist_');
+				}
+			} 
 			if($this->validated()){
 				$db->where("producto.id_producto", $rec_id);;
 				$bool = $db->update($tablename, $modeldata);

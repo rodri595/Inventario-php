@@ -52,26 +52,37 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-fk_registro">
                                         <th class="title"> <?php print_lang('fk_registro'); ?>: </th>
                                         <td class="value">
-                                            <a size="sm" class="btn btn-sm btn-primary page-modal" href="<?php print_link("registro/view/" . urlencode($data['fk_registro'])) ?>">
-                                                <i class="fa fa-eye"></i> <?php echo $data['registro_id_registro'] ?>
-                                            </a>
+                                            <span  data-min="0" 
+                                                data-value="<?php echo $data['fk_registro']; ?>" 
+                                                data-pk="<?php echo $data['id_detalle_registro'] ?>" 
+                                                data-url="<?php print_link("detalle_registro/editfield/" . urlencode($data['id_detalle_registro'])); ?>" 
+                                                data-name="fk_registro" 
+                                                data-title="Generando..." 
+                                                data-placement="left" 
+                                                data-toggle="click" 
+                                                data-type="number" 
+                                                data-mode="popover" 
+                                                data-showbuttons="left" 
+                                                class="is-editable" >
+                                                <?php echo $data['fk_registro']; ?> 
+                                            </span>
                                         </td>
                                     </tr>
                                     <tr  class="td-fk_producto">
                                         <th class="title"> <?php print_lang('fk_producto'); ?>: </th>
                                         <td class="value">
-                                            <a class="btn btn-info open-page-popover" href="<?php print_link("producto/view/" . urlencode($data['fk_producto'])); ?>">
-                                                <i class="fa fa-eye"></i> <?php echo $data['producto_nombre_producto'] ?>
+                                            <a size="sm" class="btn btn-sm btn-primary page-modal" href="<?php print_link("producto/view/" . urlencode($data['fk_producto'])) ?>">
+                                                <i class="fa fa-check-circle-o "></i> <?php echo $data['producto_nombre_producto'] ?>
                                             </a>
                                         </td>
                                     </tr>
-                                    <tr  class="td-cantidad">
-                                        <th class="title"> <?php print_lang('cantidad'); ?>: </th>
+                                    <tr  class="td-fk_cantidad">
+                                        <th class="title"> <?php print_lang('fk_cantidad'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['cantidad']; ?>" 
+                                            <span  data-value="<?php echo $data['fk_cantidad']; ?>" 
                                                 data-pk="<?php echo $data['id_detalle_registro'] ?>" 
                                                 data-url="<?php print_link("detalle_registro/editfield/" . urlencode($data['id_detalle_registro'])); ?>" 
-                                                data-name="cantidad" 
+                                                data-name="fk_cantidad" 
                                                 data-title="Enter Cantidad" 
                                                 data-placement="left" 
                                                 data-toggle="click" 
@@ -79,9 +90,82 @@ $show_export_btn = $this->show_export_btn;
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
                                                 class="is-editable" >
-                                                <?php echo $data['cantidad']; ?> 
+                                                <?php echo $data['fk_cantidad']; ?> 
                                             </span>
                                         </td>
+                                    </tr>
+                                    <tr  class="td-desc_detalle">
+                                        <th class="title"> <?php print_lang('desc_detalle'); ?>: </th>
+                                        <td class="value">
+                                            <span  data-pk="<?php echo $data['id_detalle_registro'] ?>" 
+                                                data-url="<?php print_link("detalle_registro/editfield/" . urlencode($data['id_detalle_registro'])); ?>" 
+                                                data-name="desc_detalle" 
+                                                data-title="Detalles del producto" 
+                                                data-placement="left" 
+                                                data-toggle="click" 
+                                                data-type="textarea" 
+                                                data-mode="popover" 
+                                                data-showbuttons="left" 
+                                                class="is-editable" >
+                                                <?php echo $data['desc_detalle']; ?> 
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr  class="td-producto_id_producto">
+                                        <th class="title"> <?php print_lang('producto_id_producto'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_id_producto']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_nombre_producto">
+                                        <th class="title"> <?php print_lang('producto_nombre_producto'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_nombre_producto']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_desc_producto">
+                                        <th class="title"> <?php print_lang('producto_desc_producto'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_desc_producto']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_cantidad_producto">
+                                        <th class="title"> <?php print_lang('producto_cantidad_producto'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_cantidad_producto']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_peso_producto">
+                                        <th class="title"> <?php print_lang('producto_peso_producto'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_peso_producto']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_dimension_producto">
+                                        <th class="title"> <?php print_lang('producto_dimension_producto'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_dimension_producto']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_fk_proveedor">
+                                        <th class="title"> <?php print_lang('producto_fk_proveedor'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_fk_proveedor']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_fk_categoria">
+                                        <th class="title"> <?php print_lang('producto_fk_categoria'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_fk_categoria']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_fecha_creacion">
+                                        <th class="title"> <?php print_lang('producto_fecha_creacion'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_fecha_creacion']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_fecha_ultima_update">
+                                        <th class="title"> <?php print_lang('producto_fecha_ultima_update'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_fecha_ultima_update']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_fecha_delete">
+                                        <th class="title"> <?php print_lang('producto_fecha_delete'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_fecha_delete']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_isdeleted">
+                                        <th class="title"> <?php print_lang('producto_isdeleted'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_isdeleted']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_precio_producto">
+                                        <th class="title"><i class="fa fa-money "></i> <?php print_lang('producto_precio_producto'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_precio_producto']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_creadopor_producto">
+                                        <th class="title"> <?php print_lang('producto_creadopor_producto'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_creadopor_producto']; ?></td>
                                     </tr>
                                 </tbody>
                                 <!-- Table Body End -->

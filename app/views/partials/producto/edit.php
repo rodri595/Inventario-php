@@ -18,7 +18,7 @@ $redirect_to = $this->redirect_to;
         <div class="container">
             <div class="row ">
                 <div class="col ">
-                    <h4 class="record-title"><?php print_lang('edit_producto'); ?></h4>
+                    <h4 class="record-title"><?php print_lang('modicifcar_producto'); ?></h4>
                 </div>
             </div>
         </div>
@@ -41,7 +41,8 @@ $redirect_to = $this->redirect_to;
                                         </div>
                                         <div class="col-sm-8">
                                             <div class="">
-                                                <input id="ctrl-nombre_producto"  value="<?php  echo $data['nombre_producto']; ?>" type="text" placeholder="<?php print_lang('producto'); ?>"  required="" name="nombre_producto"  class="form-control " />
+                                                <input id="ctrl-nombre_producto"  value="<?php  echo $data['nombre_producto']; ?>" type="text" placeholder="<?php print_lang('nombre'); ?>"  required="" name="nombre_producto"  data-url="api/json/producto_nombre_producto_value_exist/" data-loading-msg="<?php print_lang('checking_availability_'); ?>" data-available-msg="<?php print_lang('available'); ?>" data-unavailable-msg="<?php print_lang('not_available'); ?>" class="form-control  ctrl-check-duplicate" />
+                                                    <div class="check-status"></div> 
                                                 </div>
                                             </div>
                                         </div>
@@ -49,11 +50,24 @@ $redirect_to = $this->redirect_to;
                                     <div class="form-group ">
                                         <div class="row">
                                             <div class="col-sm-4">
-                                                <label class="control-label" for="precio_producto"><?php print_lang('precio_producto'); ?> <span class="text-danger">*</span></label>
+                                                <label class="control-label" for="desc_producto"><?php print_lang('descripci_n'); ?> </label>
                                             </div>
                                             <div class="col-sm-8">
                                                 <div class="">
-                                                    <input id="ctrl-precio_producto"  value="<?php  echo $data['precio_producto']; ?>" type="number" placeholder="<?php print_lang('enter_precio_producto'); ?>" step="0.1"  required="" name="precio_producto"  class="form-control " />
+                                                    <textarea placeholder="<?php print_lang('detalles'); ?>" id="ctrl-desc_producto"  rows="5" name="desc_producto" class=" form-control"><?php  echo $data['desc_producto']; ?></textarea>
+                                                    <!--<div class="invalid-feedback animated bounceIn text-center"><?php print_lang('please_enter_text'); ?></div>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label class="control-label" for="cantidad_producto"><?php print_lang('cantidad'); ?> <span class="text-danger">*</span></label>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div class="">
+                                                    <input id="ctrl-cantidad_producto"  value="<?php  echo $data['cantidad_producto']; ?>" type="number" placeholder="<?php print_lang('cantidad'); ?>" min="0" step="0.1"  required="" name="cantidad_producto"  class="form-control " />
                                                     </div>
                                                 </div>
                                             </div>
@@ -61,11 +75,11 @@ $redirect_to = $this->redirect_to;
                                         <div class="form-group ">
                                             <div class="row">
                                                 <div class="col-sm-4">
-                                                    <label class="control-label" for="desc_producto"><?php print_lang('descripci_n'); ?> <span class="text-danger">*</span></label>
+                                                    <label class="control-label" for="peso_producto"><?php print_lang('peso'); ?> </label>
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div class="">
-                                                        <input id="ctrl-desc_producto"  value="<?php  echo $data['desc_producto']; ?>" type="text" placeholder="<?php print_lang('descripci_n'); ?>"  required="" name="desc_producto"  class="form-control " />
+                                                        <input id="ctrl-peso_producto"  value="<?php  echo $data['peso_producto']; ?>" type="text" placeholder="<?php print_lang('peso_en_kilogramos_sino_especificar_en_descripci_n_'); ?>" minlength="0"  name="peso_producto"  class="form-control " />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -73,11 +87,11 @@ $redirect_to = $this->redirect_to;
                                             <div class="form-group ">
                                                 <div class="row">
                                                     <div class="col-sm-4">
-                                                        <label class="control-label" for="cantidad_producto"><?php print_lang('cantidad_producto'); ?> <span class="text-danger">*</span></label>
+                                                        <label class="control-label" for="dimension_producto"><?php print_lang('dimensiones'); ?> </label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <div class="">
-                                                            <input id="ctrl-cantidad_producto"  value="<?php  echo $data['cantidad_producto']; ?>" type="text" placeholder="<?php print_lang('cantidad_producto'); ?>"  required="" name="cantidad_producto"  class="form-control " />
+                                                            <input id="ctrl-dimension_producto"  value="<?php  echo $data['dimension_producto']; ?>" type="text" placeholder="<?php print_lang('dimensiones'); ?>"  name="dimension_producto"  class="form-control " />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -85,125 +99,87 @@ $redirect_to = $this->redirect_to;
                                                 <div class="form-group ">
                                                     <div class="row">
                                                         <div class="col-sm-4">
-                                                            <label class="control-label" for="peso_producto"><?php print_lang('peso_producto'); ?> <span class="text-danger">*</span></label>
+                                                            <label class="control-label" for="fk_proveedor"><?php print_lang('proveedor'); ?> </label>
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <div class="">
-                                                                <input id="ctrl-peso_producto"  value="<?php  echo $data['peso_producto']; ?>" type="text" placeholder="<?php print_lang('peso'); ?>"  required="" name="peso_producto"  class="form-control " />
+                                                                <select  id="ctrl-fk_proveedor" name="fk_proveedor"  placeholder="<?php print_lang('seleccione_proveedor_'); ?>"    class="selectize" >
+                                                                    <option value=""><?php print_lang('seleccione_proveedor_'); ?></option>
+                                                                    <?php
+                                                                    $rec = $data['fk_proveedor'];
+                                                                    $fk_proveedor_options = $comp_model -> producto_fk_proveedor_option_list();
+                                                                    if(!empty($fk_proveedor_options)){
+                                                                    foreach($fk_proveedor_options as $option){
+                                                                    $value = (!empty($option['value']) ? $option['value'] : null);
+                                                                    $label = (!empty($option['label']) ? $option['label'] : $value);
+                                                                    $selected = ( $value == $rec ? 'selected' : null );
+                                                                    ?>
+                                                                    <option 
+                                                                        <?php echo $selected; ?> value="<?php echo $value; ?>"><?php echo $label; ?>
+                                                                    </option>
+                                                                    <?php
+                                                                    }
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <label class="control-label" for="fk_categoria"><?php print_lang('categoria'); ?> </label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <div class="">
+                                                                <select  id="ctrl-fk_categoria" name="fk_categoria"  placeholder="<?php print_lang('seleccione_categoria_'); ?>"    class="selectize" >
+                                                                    <option value=""><?php print_lang('seleccione_categoria_'); ?></option>
+                                                                    <?php
+                                                                    $rec = $data['fk_categoria'];
+                                                                    $fk_categoria_options = $comp_model -> producto_fk_categoria_option_list();
+                                                                    if(!empty($fk_categoria_options)){
+                                                                    foreach($fk_categoria_options as $option){
+                                                                    $value = (!empty($option['value']) ? $option['value'] : null);
+                                                                    $label = (!empty($option['label']) ? $option['label'] : $value);
+                                                                    $selected = ( $value == $rec ? 'selected' : null );
+                                                                    ?>
+                                                                    <option 
+                                                                        <?php echo $selected; ?> value="<?php echo $value; ?>"><?php echo $label; ?>
+                                                                    </option>
+                                                                    <?php
+                                                                    }
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <label class="control-label" for="precio_producto"><?php print_lang('precio_si_tiene_'); ?> </label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <div class="">
+                                                                <input id="ctrl-precio_producto"  value="<?php  echo $data['precio_producto']; ?>" type="number" placeholder="<?php print_lang('precio'); ?>" min="0" step="0.1"  name="precio_producto"  class="form-control " />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group ">
-                                                        <div class="row">
-                                                            <div class="col-sm-4">
-                                                                <label class="control-label" for="dimension_producto"><?php print_lang('dimension_producto'); ?> <span class="text-danger">*</span></label>
-                                                            </div>
-                                                            <div class="col-sm-8">
-                                                                <div class="">
-                                                                    <input id="ctrl-dimension_producto"  value="<?php  echo $data['dimension_producto']; ?>" type="text" placeholder="<?php print_lang('dimensiones'); ?>"  required="" name="dimension_producto"  class="form-control " />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <div class="row">
-                                                                <div class="col-sm-4">
-                                                                    <label class="control-label" for="fk_proveedor"><?php print_lang('proveedor'); ?> <span class="text-danger">*</span></label>
-                                                                </div>
-                                                                <div class="col-sm-8">
-                                                                    <div class="">
-                                                                        <select required=""  id="ctrl-fk_proveedor" name="fk_proveedor"  placeholder="<?php print_lang('select_a_value_'); ?>"    class="custom-select" >
-                                                                            <option value=""><?php print_lang('select_a_value_'); ?></option>
-                                                                            <?php
-                                                                            $rec = $data['fk_proveedor'];
-                                                                            $fk_proveedor_options = $comp_model -> producto_fk_proveedor_option_list();
-                                                                            if(!empty($fk_proveedor_options)){
-                                                                            foreach($fk_proveedor_options as $option){
-                                                                            $value = (!empty($option['value']) ? $option['value'] : null);
-                                                                            $label = (!empty($option['label']) ? $option['label'] : $value);
-                                                                            $selected = ( $value == $rec ? 'selected' : null );
-                                                                            ?>
-                                                                            <option 
-                                                                                <?php echo $selected; ?> value="<?php echo $value; ?>"><?php echo $label; ?>
-                                                                            </option>
-                                                                            <?php
-                                                                            }
-                                                                            }
-                                                                            ?>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <div class="row">
-                                                                <div class="col-sm-4">
-                                                                    <label class="control-label" for="fk_categoria"><?php print_lang('categoria'); ?> <span class="text-danger">*</span></label>
-                                                                </div>
-                                                                <div class="col-sm-8">
-                                                                    <div class="">
-                                                                        <select required=""  id="ctrl-fk_categoria" name="fk_categoria"  placeholder="<?php print_lang('select_a_value_'); ?>"    class="custom-select" >
-                                                                            <option value=""><?php print_lang('select_a_value_'); ?></option>
-                                                                            <?php
-                                                                            $rec = $data['fk_categoria'];
-                                                                            $fk_categoria_options = $comp_model -> producto_fk_categoria_option_list();
-                                                                            if(!empty($fk_categoria_options)){
-                                                                            foreach($fk_categoria_options as $option){
-                                                                            $value = (!empty($option['value']) ? $option['value'] : null);
-                                                                            $label = (!empty($option['label']) ? $option['label'] : $value);
-                                                                            $selected = ( $value == $rec ? 'selected' : null );
-                                                                            ?>
-                                                                            <option 
-                                                                                <?php echo $selected; ?> value="<?php echo $value; ?>"><?php echo $label; ?>
-                                                                            </option>
-                                                                            <?php
-                                                                            }
-                                                                            }
-                                                                            ?>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <div class="row">
-                                                                <div class="col-sm-4">
-                                                                    <label class="control-label" for="creadopor_producto"><?php print_lang('creado_por_producto'); ?> <span class="text-danger">*</span></label>
-                                                                </div>
-                                                                <div class="col-sm-8">
-                                                                    <div class="">
-                                                                        <input id="ctrl-creadopor_producto"  value="<?php  echo $data['creadopor_producto']; ?>" type="number" placeholder="<?php print_lang('generando_'); ?>" step="1" list="creadopor_producto_list"  readonly required="" name="creadopor_producto"  class="form-control " />
-                                                                            <datalist id="creadopor_producto_list">
-                                                                                <?php 
-                                                                                $creadopor_producto_options = $comp_model -> producto_creadopor_producto_option_list();
-                                                                                if(!empty($creadopor_producto_options)){
-                                                                                foreach($creadopor_producto_options as $option){
-                                                                                $value = (!empty($option['value']) ? $option['value'] : null);
-                                                                                $label = (!empty($option['label']) ? $option['label'] : $value);
-                                                                                ?>
-                                                                                <option value="<?php echo $value; ?>"><?php echo $label; ?></option>
-                                                                                <?php
-                                                                                }
-                                                                                }
-                                                                                ?>
-                                                                            </datalist>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-ajax-status"></div>
-                                                        <div class="form-group text-center">
-                                                            <button class="btn btn-primary" type="submit">
-                                                                <?php print_lang('update'); ?>
-                                                                <i class="fa fa-send"></i>
-                                                            </button>
-                                                        </div>
-                                                    </form>
                                                 </div>
-                                            </div>
+                                                <div class="form-ajax-status"></div>
+                                                <div class="form-group text-center">
+                                                    <button class="btn btn-primary" type="submit">
+                                                        <?php print_lang('update'); ?>
+                                                        <i class="fa fa-send"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
-                            </section>
+                            </div>
+                        </div>
+                    </section>

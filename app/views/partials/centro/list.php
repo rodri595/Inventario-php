@@ -23,12 +23,12 @@ $show_pagination = $this->show_pagination;
         <div class="container-fluid">
             <div class="row ">
                 <div class="col ">
-                    <h4 class="record-title"><?php print_lang('centros_medicos'); ?></h4>
+                    <h4 class="record-title"><?php print_lang('centros'); ?></h4>
                 </div>
                 <div class="col-sm-3 ">
                     <a  class="btn btn btn-primary my-1" href="<?php print_link("centro/add") ?>">
                         <i class="fa fa-plus"></i>                              
-                        <?php print_lang('add_new_centro'); ?> 
+                        <?php print_lang('agregar_centro'); ?> 
                     </a>
                 </div>
                 <div class="col-sm-4 ">
@@ -114,11 +114,24 @@ $show_pagination = $this->show_pagination;
                                                     </label>
                                                 </th>
                                                 <th class="td-sno">#</th>
-                                                <th  class="td-id_centro"> <?php print_lang('id_centro'); ?></th>
-                                                <th  class="td-numero_centro"> <?php print_lang('numero_centro'); ?></th>
-                                                <th  class="td-desc_centro"> <?php print_lang('descripci_n'); ?></th>
-                                                <th  class="td-direccion_centro"> <?php print_lang('direccion_centro'); ?></th>
-                                                <th  class="td-Tel_centro"> <?php print_lang('telefono'); ?></th>
+                                                <th  <?php echo (get_value('orderby')=='id_centro' ? 'class="sortedby td-id_centro"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('id_centro', get_lang('id_centro')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='Nombre_centro' ? 'class="sortedby td-Nombre_centro"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('Nombre_centro', get_lang('nombre_centro')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='direccion_centro' ? 'class="sortedby td-direccion_centro"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('direccion_centro', get_lang('direccion_centro')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='numero_centro' ? 'class="sortedby td-numero_centro"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('numero_centro', get_lang('numero_centro')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='Tel_centro' ? 'class="sortedby td-Tel_centro"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('Tel_centro', get_lang('telefono')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='fecha_creacion' ? 'class="sortedby td-fecha_creacion"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('fecha_creacion', get_lang('fecha_creacion')); ?>
+                                                </th>
                                                 <th class="td-btn"></th>
                                             </tr>
                                         </thead>
@@ -142,33 +155,19 @@ $show_pagination = $this->show_pagination;
                                                     </th>
                                                     <th class="td-sno"><?php echo $counter; ?></th>
                                                     <td class="td-id_centro"> <?php echo $data['id_centro']; ?></td>
-                                                    <td class="td-numero_centro">
-                                                        <span  data-value="<?php echo $data['numero_centro']; ?>" 
+                                                    <td class="td-Nombre_centro">
+                                                        <span  data-value="<?php echo $data['Nombre_centro']; ?>" 
                                                             data-pk="<?php echo $data['id_centro'] ?>" 
                                                             data-url="<?php print_link("centro/editfield/" . urlencode($data['id_bodega'])); ?>" 
-                                                            data-name="numero_centro" 
-                                                            data-title="Referencia" 
+                                                            data-name="Nombre_centro" 
+                                                            data-title="Ingrese Nombre" 
                                                             data-placement="left" 
                                                             data-toggle="click" 
                                                             data-type="text" 
                                                             data-mode="popover" 
                                                             data-showbuttons="left" 
                                                             class="is-editable" >
-                                                            <?php echo $data['numero_centro']; ?> 
-                                                        </span>
-                                                    </td>
-                                                    <td class="td-desc_centro">
-                                                        <span  data-pk="<?php echo $data['id_centro'] ?>" 
-                                                            data-url="<?php print_link("centro/editfield/" . urlencode($data['id_bodega'])); ?>" 
-                                                            data-name="desc_centro" 
-                                                            data-title="Descripción" 
-                                                            data-placement="left" 
-                                                            data-toggle="click" 
-                                                            data-type="textarea" 
-                                                            data-mode="popover" 
-                                                            data-showbuttons="left" 
-                                                            class="is-editable" >
-                                                            <?php echo $data['desc_centro']; ?> 
+                                                            <?php echo $data['Nombre_centro']; ?> 
                                                         </span>
                                                     </td>
                                                     <td class="td-direccion_centro">
@@ -186,6 +185,21 @@ $show_pagination = $this->show_pagination;
                                                             <?php echo $data['direccion_centro']; ?> 
                                                         </span>
                                                     </td>
+                                                    <td class="td-numero_centro">
+                                                        <span  data-value="<?php echo $data['numero_centro']; ?>" 
+                                                            data-pk="<?php echo $data['id_centro'] ?>" 
+                                                            data-url="<?php print_link("centro/editfield/" . urlencode($data['id_bodega'])); ?>" 
+                                                            data-name="numero_centro" 
+                                                            data-title="Referencia" 
+                                                            data-placement="left" 
+                                                            data-toggle="click" 
+                                                            data-type="text" 
+                                                            data-mode="popover" 
+                                                            data-showbuttons="left" 
+                                                            class="is-editable" >
+                                                            <?php echo $data['numero_centro']; ?> 
+                                                        </span>
+                                                    </td>
                                                     <td class="td-Tel_centro">
                                                         <span  data-value="<?php echo $data['Tel_centro']; ?>" 
                                                             data-pk="<?php echo $data['id_centro'] ?>" 
@@ -201,6 +215,7 @@ $show_pagination = $this->show_pagination;
                                                             <?php echo $data['Tel_centro']; ?> 
                                                         </span>
                                                     </td>
+                                                    <td class="td-fecha_creacion"> <?php echo $data['fecha_creacion']; ?></td>
                                                     <th class="td-btn">
                                                         <a class="btn btn-sm btn-success has-tooltip" title="<?php print_lang('view_record'); ?>" href="<?php print_link("centro/view/$rec_id"); ?>">
                                                             <i class="fa fa-eye"></i> <?php print_lang('view'); ?>

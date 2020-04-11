@@ -18,7 +18,7 @@ $redirect_to = $this->redirect_to;
         <div class="container">
             <div class="row ">
                 <div class="col ">
-                    <h4 class="record-title"><?php print_lang('my_account'); ?></h4>
+                    <h4 class="record-title"><?php print_lang('mi_cuenta'); ?></h4>
                 </div>
             </div>
         </div>
@@ -62,11 +62,11 @@ $redirect_to = $this->redirect_to;
                                         <div class="form-group ">
                                             <div class="row">
                                                 <div class="col-sm-4">
-                                                    <label class="control-label" for="apellido"><?php print_lang('apellido'); ?> <span class="text-danger">*</span></label>
+                                                    <label class="control-label" for="apellido"><?php print_lang('apellido'); ?> </label>
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div class="">
-                                                        <input id="ctrl-apellido"  value="<?php  echo $data['apellido']; ?>" type="text" placeholder="<?php print_lang('primer_apellido'); ?>"  required="" name="apellido"  class="form-control " />
+                                                        <input id="ctrl-apellido"  value="<?php  echo $data['apellido']; ?>" type="text" placeholder="<?php print_lang('primer_apellido'); ?>"  name="apellido"  class="form-control " />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -74,11 +74,12 @@ $redirect_to = $this->redirect_to;
                                             <div class="form-group ">
                                                 <div class="row">
                                                     <div class="col-sm-4">
-                                                        <label class="control-label" for="numero_empleado"><?php print_lang('numero_de_empleado'); ?> <span class="text-danger">*</span></label>
+                                                        <label class="control-label" for="numero_empleado"><?php print_lang('numero_de_empleado'); ?> </label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <div class="">
-                                                            <input id="ctrl-numero_empleado"  value="<?php  echo $data['numero_empleado']; ?>" type="number" placeholder="<?php print_lang('_empleado'); ?>" step="1"  required="" name="numero_empleado"  class="form-control " />
+                                                            <input id="ctrl-numero_empleado"  value="<?php  echo $data['numero_empleado']; ?>" type="number" placeholder="<?php print_lang('_empleado'); ?>" step="1"  name="numero_empleado"  data-url="api/json/account_numero_empleado_value_exist/" data-loading-msg="<?php print_lang('checking_availability_'); ?>" data-available-msg="<?php print_lang('available'); ?>" data-unavailable-msg="<?php print_lang('not_available'); ?>" class="form-control  ctrl-check-duplicate" />
+                                                                <div class="check-status"></div> 
                                                             </div>
                                                         </div>
                                                     </div>

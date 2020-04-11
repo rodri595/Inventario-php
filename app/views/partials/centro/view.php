@@ -21,7 +21,7 @@ $show_export_btn = $this->show_export_btn;
         <div class="container">
             <div class="row ">
                 <div class="col ">
-                    <h4 class="record-title"><?php print_lang('view_centro'); ?></h4>
+                    <h4 class="record-title"><?php print_lang('reporte_de_centro'); ?></h4>
                 </div>
             </div>
         </div>
@@ -85,23 +85,6 @@ $show_export_btn = $this->show_export_btn;
                                             </span>
                                         </td>
                                     </tr>
-                                    <tr  class="td-desc_centro">
-                                        <th class="title"> <?php print_lang('desc_centro'); ?>: </th>
-                                        <td class="value">
-                                            <span  data-pk="<?php echo $data['id_centro'] ?>" 
-                                                data-url="<?php print_link("centro/editfield/" . urlencode($data['id_bodega'])); ?>" 
-                                                data-name="desc_centro" 
-                                                data-title="Descripción" 
-                                                data-placement="left" 
-                                                data-toggle="click" 
-                                                data-type="textarea" 
-                                                data-mode="popover" 
-                                                data-showbuttons="left" 
-                                                class="is-editable" >
-                                                <?php echo $data['desc_centro']; ?> 
-                                            </span>
-                                        </td>
-                                    </tr>
                                     <tr  class="td-direccion_centro">
                                         <th class="title"> <?php print_lang('direccion_centro'); ?>: </th>
                                         <td class="value">
@@ -119,6 +102,28 @@ $show_export_btn = $this->show_export_btn;
                                                 <?php echo $data['direccion_centro']; ?> 
                                             </span>
                                         </td>
+                                    </tr>
+                                    <tr  class="td-Nombre_centro">
+                                        <th class="title"> <?php print_lang('nombre_centro'); ?>: </th>
+                                        <td class="value">
+                                            <span  data-value="<?php echo $data['Nombre_centro']; ?>" 
+                                                data-pk="<?php echo $data['id_centro'] ?>" 
+                                                data-url="<?php print_link("centro/editfield/" . urlencode($data['id_bodega'])); ?>" 
+                                                data-name="Nombre_centro" 
+                                                data-title="Ingrese Nombre" 
+                                                data-placement="left" 
+                                                data-toggle="click" 
+                                                data-type="text" 
+                                                data-mode="popover" 
+                                                data-showbuttons="left" 
+                                                class="is-editable" >
+                                                <?php echo $data['Nombre_centro']; ?> 
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr  class="td-fecha_creacion">
+                                        <th class="title"> <?php print_lang('fecha_creacion'); ?>: </th>
+                                        <td class="value"> <?php echo $data['fecha_creacion']; ?></td>
                                     </tr>
                                 </tbody>
                                 <!-- Table Body End -->

@@ -18,7 +18,7 @@ $redirect_to = $this->redirect_to;
         <div class="container">
             <div class="row ">
                 <div class="col ">
-                    <h4 class="record-title"><?php print_lang('edit_centro'); ?></h4>
+                    <h4 class="record-title"><?php print_lang('modifica_centro'); ?></h4>
                 </div>
             </div>
         </div>
@@ -37,11 +37,11 @@ $redirect_to = $this->redirect_to;
                                 <div class="form-group ">
                                     <div class="row">
                                         <div class="col-sm-4">
-                                            <label class="control-label" for="numero_centro"><?php print_lang('numero_piso_bodega'); ?> <span class="text-danger">*</span></label>
+                                            <label class="control-label" for="Nombre_centro"><?php print_lang('nombre_lugar'); ?> <span class="text-danger">*</span></label>
                                         </div>
                                         <div class="col-sm-8">
                                             <div class="">
-                                                <input id="ctrl-numero_centro"  value="<?php  echo $data['numero_centro']; ?>" type="text" placeholder="<?php print_lang('referencia'); ?>"  required="" name="numero_centro"  class="form-control " />
+                                                <input id="ctrl-Nombre_centro"  value="<?php  echo $data['Nombre_centro']; ?>" type="text" placeholder="<?php print_lang('ingrese_nombre'); ?>"  required="" name="Nombre_centro"  class="form-control " />
                                                 </div>
                                             </div>
                                         </div>
@@ -49,24 +49,11 @@ $redirect_to = $this->redirect_to;
                                     <div class="form-group ">
                                         <div class="row">
                                             <div class="col-sm-4">
-                                                <label class="control-label" for="desc_centro"><?php print_lang('descripci_n'); ?> <span class="text-danger">*</span></label>
+                                                <label class="control-label" for="numero_centro"><?php print_lang('numero_piso_bodega'); ?> </label>
                                             </div>
                                             <div class="col-sm-8">
                                                 <div class="">
-                                                    <textarea placeholder="<?php print_lang('descripci_n'); ?>" id="ctrl-desc_centro"  required="" rows="5" name="desc_centro" class=" form-control"><?php  echo $data['desc_centro']; ?></textarea>
-                                                    <!--<div class="invalid-feedback animated bounceIn text-center"><?php print_lang('please_enter_text'); ?></div>-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group ">
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <label class="control-label" for="direccion_centro"><?php print_lang('direccion_centro'); ?> <span class="text-danger">*</span></label>
-                                            </div>
-                                            <div class="col-sm-8">
-                                                <div class="">
-                                                    <input id="ctrl-direccion_centro"  value="<?php  echo $data['direccion_centro']; ?>" type="text" placeholder="<?php print_lang('direccion_de_centro_medico'); ?>"  required="" name="direccion_centro"  class="form-control " />
+                                                    <input id="ctrl-numero_centro"  value="<?php  echo $data['numero_centro']; ?>" type="text" placeholder="<?php print_lang('referencia'); ?>"  name="numero_centro"  class="form-control " />
                                                     </div>
                                                 </div>
                                             </div>
@@ -74,27 +61,39 @@ $redirect_to = $this->redirect_to;
                                         <div class="form-group ">
                                             <div class="row">
                                                 <div class="col-sm-4">
-                                                    <label class="control-label" for="Tel_centro"><?php print_lang('telefono'); ?> <span class="text-danger">*</span></label>
+                                                    <label class="control-label" for="direccion_centro"><?php print_lang('direccion_centro'); ?> </label>
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div class="">
-                                                        <input id="ctrl-Tel_centro"  value="<?php  echo $data['Tel_centro']; ?>" type="text" placeholder="<?php print_lang('ingrese_telefono'); ?>"  required="" name="Tel_centro"  class="form-control " />
+                                                        <input id="ctrl-direccion_centro"  value="<?php  echo $data['direccion_centro']; ?>" type="text" placeholder="<?php print_lang('direccion_de_centro_medico'); ?>"  name="direccion_centro"  class="form-control " />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-ajax-status"></div>
-                                        <div class="form-group text-center">
-                                            <button class="btn btn-primary" type="submit">
-                                                <?php print_lang('update'); ?>
-                                                <i class="fa fa-send"></i>
-                                            </button>
-                                        </div>
-                                    </form>
+                                            <div class="form-group ">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <label class="control-label" for="Tel_centro"><?php print_lang('telefono'); ?> </label>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <div class="">
+                                                            <input id="ctrl-Tel_centro"  value="<?php  echo $data['Tel_centro']; ?>" type="tel" placeholder="<?php print_lang('ingrese_telefono'); ?>"  name="Tel_centro"  class="form-control " />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-ajax-status"></div>
+                                            <div class="form-group text-center">
+                                                <button class="btn btn-primary" type="submit">
+                                                    <?php print_lang('actualizar'); ?>
+                                                    <i class="fa fa-send"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>

@@ -1,12 +1,12 @@
 <?php 
 /**
- * Producto2 Page Controller
+ * Enviado Page Controller
  * @category  Controller
  */
-class Producto2Controller extends SecureController{
+class EnviadoController extends SecureController{
 	function __construct(){
 		parent::__construct();
-		$this->tablename = "producto2";
+		$this->tablename = "enviado";
 	}
 	/**
      * List page records
@@ -18,51 +18,39 @@ class Producto2Controller extends SecureController{
 		$request = $this->request;
 		$db = $this->GetModel();
 		$tablename = $this->tablename;
-		$fields = array("id_producto", 
-			"nombre_producto", 
-			"desc_producto", 
-			"cantidad_producto", 
-			"peso_producto", 
-			"dimension_producto", 
-			"fk_proveedor", 
-			"fk_categoria", 
-			"fecha_creacion", 
-			"fecha_ultima_update", 
-			"fecha_delete", 
-			"isdeleted");
+		$fields = array("enviado.id_enviado", 
+			"enviado.fecha_enviado", 
+			"enviado.lugar_salida", 
+			"centro.Nombre_centro AS centro_Nombre_centro", 
+			"enviado.png", 
+			"enviado.creacion");
 		$pagination = $this->get_pagination(MAX_RECORD_COUNT); // get current pagination e.g array(page_number, page_limit)
 		//search table record
 		if(!empty($request->search)){
 			$text = trim($request->search); 
 			$search_condition = "(
-				producto2.id_producto LIKE ? OR 
-				producto2.nombre_producto LIKE ? OR 
-				producto2.desc_producto LIKE ? OR 
-				producto2.cantidad_producto LIKE ? OR 
-				producto2.peso_producto LIKE ? OR 
-				producto2.dimension_producto LIKE ? OR 
-				producto2.fk_proveedor LIKE ? OR 
-				producto2.fk_categoria LIKE ? OR 
-				producto2.fecha_creacion LIKE ? OR 
-				producto2.fecha_ultima_update LIKE ? OR 
-				producto2.fecha_delete LIKE ? OR 
-				producto2.isdeleted LIKE ?
+				enviado.id_enviado LIKE ? OR 
+				enviado.fecha_enviado LIKE ? OR 
+				enviado.lugar_salida LIKE ? OR 
+				enviado.png LIKE ? OR 
+				enviado.creacion LIKE ?
 			)";
 			$search_params = array(
-				"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
+				"%$text%","%$text%","%$text%","%$text%","%$text%"
 			);
 			//setting search conditions
 			$db->where($search_condition, $search_params);
 			 //template to use when ajax search
-			$this->view->search_template = "producto2/search.php";
+			$this->view->search_template = "enviado/search.php";
 		}
+		$db->join("centro", "enviado.lugar_salida = centro.id_centro", "INNER");
 		if(!empty($request->orderby)){
 			$orderby = $request->orderby;
 			$ordertype = (!empty($request->ordertype) ? $request->ordertype : ORDER_TYPE);
 			$db->orderBy($orderby, $ordertype);
 		}
 		else{
-			$db->orderBy("producto2.id_producto", ORDER_TYPE);
+			$db->orderBy("enviado.id_enviado", ORDER_TYPE);
 		}
 		if($fieldname){
 			$db->where($fieldname , $fieldvalue); //filter by a single field name
@@ -81,13 +69,13 @@ class Producto2Controller extends SecureController{
 		if($db->getLastError()){
 			$this->set_page_error();
 		}
-		$page_title = $this->view->page_title = get_lang('producto2');
+		$page_title = $this->view->page_title = get_lang('paquetes_enviados');
 		$this->view->report_filename = date('Y-m-d') . '-' . $page_title;
 		$this->view->report_title = $page_title;
 		$this->view->report_layout = "report_layout.php";
 		$this->view->report_paper_size = "A4";
 		$this->view->report_orientation = "portrait";
-		$this->render_view("producto2/list.php", $data); //render the full page
+		$this->render_view("enviado/list.php", $data); //render the full page
 	}
 	/**
      * View record detail 
@@ -100,27 +88,22 @@ class Producto2Controller extends SecureController{
 		$db = $this->GetModel();
 		$rec_id = $this->rec_id = urldecode($rec_id);
 		$tablename = $this->tablename;
-		$fields = array("id_producto", 
-			"nombre_producto", 
-			"desc_producto", 
-			"cantidad_producto", 
-			"peso_producto", 
-			"dimension_producto", 
-			"fk_proveedor", 
-			"fk_categoria", 
-			"fecha_creacion", 
-			"fecha_ultima_update", 
-			"fecha_delete", 
-			"isdeleted");
+		$fields = array("enviado.id_enviado", 
+			"enviado.fecha_enviado", 
+			"enviado.lugar_salida", 
+			"centro.Nombre_centro AS centro_Nombre_centro", 
+			"enviado.png", 
+			"enviado.creacion");
 		if($value){
 			$db->where($rec_id, urldecode($value)); //select record based on field name
 		}
 		else{
-			$db->where("producto2.id_producto", $rec_id);; //select record based on primary key
+			$db->where("enviado.id_enviado", $rec_id);; //select record based on primary key
 		}
+		$db->join("centro", "enviado.lugar_salida = centro.id_centro", "INNER");  
 		$record = $db->getOne($tablename, $fields );
 		if($record){
-			$page_title = $this->view->page_title = get_lang('view_producto2');
+			$page_title = $this->view->page_title = get_lang('view_enviado');
 		$this->view->report_filename = date('Y-m-d') . '-' . $page_title;
 		$this->view->report_title = $page_title;
 		$this->view->report_layout = "report_layout.php";
@@ -135,7 +118,7 @@ class Producto2Controller extends SecureController{
 				$this->set_page_error(get_lang('no_record_found'));
 			}
 		}
-		return $this->render_view("producto2/view.php", $record);
+		return $this->render_view("enviado/view.php", $record);
 	}
 	/**
      * Insert new record to the database table
@@ -148,49 +131,33 @@ class Producto2Controller extends SecureController{
 			$tablename = $this->tablename;
 			$request = $this->request;
 			//fillable fields
-			$fields = $this->fields = array("nombre_producto","desc_producto","cantidad_producto","peso_producto","dimension_producto","fk_proveedor","fk_categoria","fecha_creacion","fecha_ultima_update","fecha_delete","isdeleted");
+			$fields = $this->fields = array("fecha_enviado","lugar_salida","png","creacion");
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
-				'nombre_producto' => 'required',
-				'desc_producto' => 'required',
-				'cantidad_producto' => 'required',
-				'peso_producto' => 'required',
-				'dimension_producto' => 'required',
-				'fk_proveedor' => 'required',
-				'fk_categoria' => 'required',
-				'fecha_creacion' => 'required',
-				'fecha_ultima_update' => 'required',
-				'fecha_delete' => 'required',
-				'isdeleted' => 'required',
+				'fecha_enviado' => 'required',
+				'lugar_salida' => 'required',
 			);
 			$this->sanitize_array = array(
-				'nombre_producto' => 'sanitize_string',
-				'desc_producto' => 'sanitize_string',
-				'cantidad_producto' => 'sanitize_string',
-				'peso_producto' => 'sanitize_string',
-				'dimension_producto' => 'sanitize_string',
-				'fk_proveedor' => 'sanitize_string',
-				'fk_categoria' => 'sanitize_string',
-				'fecha_creacion' => 'sanitize_string',
-				'fecha_ultima_update' => 'sanitize_string',
-				'fecha_delete' => 'sanitize_string',
-				'isdeleted' => 'sanitize_string',
+				'fecha_enviado' => 'sanitize_string',
+				'lugar_salida' => 'sanitize_string',
+				'png' => 'sanitize_string',
 			);
 			$this->filter_vals = true; //set whether to remove empty fields
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
+			$modeldata['creacion'] = datetime_now();
 			if($this->validated()){
 				$rec_id = $this->rec_id = $db->insert($tablename, $modeldata);
 				if($rec_id){
-					$this->set_flash_msg(get_lang('record_added_successfully'), "success");
-					return	$this->redirect("producto2");
+					$this->set_flash_msg(get_lang('dato_agregado'), "success");
+					return	$this->redirect("enviado");
 				}
 				else{
 					$this->set_page_error();
 				}
 			}
 		}
-		$page_title = $this->view->page_title = get_lang('add_new_producto2');
-		$this->render_view("producto2/add.php");
+		$page_title = $this->view->page_title = get_lang('emisor');
+		$this->render_view("enviado/add.php");
 	}
 	/**
      * Update table record with formdata
@@ -204,43 +171,26 @@ class Producto2Controller extends SecureController{
 		$this->rec_id = $rec_id;
 		$tablename = $this->tablename;
 		 //editable fields
-		$fields = $this->fields = array("id_producto","nombre_producto","desc_producto","cantidad_producto","peso_producto","dimension_producto","fk_proveedor","fk_categoria","fecha_creacion","fecha_ultima_update","fecha_delete","isdeleted");
+		$fields = $this->fields = array("id_enviado","fecha_enviado","lugar_salida","png");
 		if($formdata){
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
-				'nombre_producto' => 'required',
-				'desc_producto' => 'required',
-				'cantidad_producto' => 'required',
-				'peso_producto' => 'required',
-				'dimension_producto' => 'required',
-				'fk_proveedor' => 'required',
-				'fk_categoria' => 'required',
-				'fecha_creacion' => 'required',
-				'fecha_ultima_update' => 'required',
-				'fecha_delete' => 'required',
-				'isdeleted' => 'required',
+				'fecha_enviado' => 'required',
+				'lugar_salida' => 'required',
 			);
 			$this->sanitize_array = array(
-				'nombre_producto' => 'sanitize_string',
-				'desc_producto' => 'sanitize_string',
-				'cantidad_producto' => 'sanitize_string',
-				'peso_producto' => 'sanitize_string',
-				'dimension_producto' => 'sanitize_string',
-				'fk_proveedor' => 'sanitize_string',
-				'fk_categoria' => 'sanitize_string',
-				'fecha_creacion' => 'sanitize_string',
-				'fecha_ultima_update' => 'sanitize_string',
-				'fecha_delete' => 'sanitize_string',
-				'isdeleted' => 'sanitize_string',
+				'fecha_enviado' => 'sanitize_string',
+				'lugar_salida' => 'sanitize_string',
+				'png' => 'sanitize_string',
 			);
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
 			if($this->validated()){
-				$db->where("producto2.id_producto", $rec_id);;
+				$db->where("enviado.id_enviado", $rec_id);;
 				$bool = $db->update($tablename, $modeldata);
 				$numRows = $db->getRowCount(); //number of affected rows. 0 = no record field updated
 				if($bool && $numRows){
 					$this->set_flash_msg(get_lang('record_updated_successfully'), "success");
-					return $this->redirect("producto2");
+					return $this->redirect("enviado");
 				}
 				else{
 					if($db->getLastError()){
@@ -251,18 +201,18 @@ class Producto2Controller extends SecureController{
 						$page_error = get_lang('no_record_updated');
 						$this->set_page_error($page_error);
 						$this->set_flash_msg($page_error, "warning");
-						return	$this->redirect("producto2");
+						return	$this->redirect("enviado");
 					}
 				}
 			}
 		}
-		$db->where("producto2.id_producto", $rec_id);;
+		$db->where("enviado.id_enviado", $rec_id);;
 		$data = $db->getOne($tablename, $fields);
-		$page_title = $this->view->page_title = get_lang('edit_producto2');
+		$page_title = $this->view->page_title = get_lang('edit_enviado');
 		if(!$data){
 			$this->set_page_error();
 		}
-		return $this->render_view("producto2/edit.php", $data);
+		return $this->render_view("enviado/edit.php", $data);
 	}
 	/**
      * Update single field
@@ -275,7 +225,7 @@ class Producto2Controller extends SecureController{
 		$this->rec_id = $rec_id;
 		$tablename = $this->tablename;
 		//editable fields
-		$fields = $this->fields = array("id_producto","nombre_producto","desc_producto","cantidad_producto","peso_producto","dimension_producto","fk_proveedor","fk_categoria","fecha_creacion","fecha_ultima_update","fecha_delete","isdeleted");
+		$fields = $this->fields = array("id_enviado","fecha_enviado","lugar_salida","png");
 		$page_error = null;
 		if($formdata){
 			$postdata = array();
@@ -284,35 +234,18 @@ class Producto2Controller extends SecureController{
 			$postdata[$fieldname] = $fieldvalue;
 			$postdata = $this->format_request_data($postdata);
 			$this->rules_array = array(
-				'nombre_producto' => 'required',
-				'desc_producto' => 'required',
-				'cantidad_producto' => 'required',
-				'peso_producto' => 'required',
-				'dimension_producto' => 'required',
-				'fk_proveedor' => 'required',
-				'fk_categoria' => 'required',
-				'fecha_creacion' => 'required',
-				'fecha_ultima_update' => 'required',
-				'fecha_delete' => 'required',
-				'isdeleted' => 'required',
+				'fecha_enviado' => 'required',
+				'lugar_salida' => 'required',
 			);
 			$this->sanitize_array = array(
-				'nombre_producto' => 'sanitize_string',
-				'desc_producto' => 'sanitize_string',
-				'cantidad_producto' => 'sanitize_string',
-				'peso_producto' => 'sanitize_string',
-				'dimension_producto' => 'sanitize_string',
-				'fk_proveedor' => 'sanitize_string',
-				'fk_categoria' => 'sanitize_string',
-				'fecha_creacion' => 'sanitize_string',
-				'fecha_ultima_update' => 'sanitize_string',
-				'fecha_delete' => 'sanitize_string',
-				'isdeleted' => 'sanitize_string',
+				'fecha_enviado' => 'sanitize_string',
+				'lugar_salida' => 'sanitize_string',
+				'png' => 'sanitize_string',
 			);
 			$this->filter_rules = true; //filter validation rules by excluding fields not in the formdata
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
 			if($this->validated()){
-				$db->where("producto2.id_producto", $rec_id);;
+				$db->where("enviado.id_enviado", $rec_id);;
 				$bool = $db->update($tablename, $modeldata);
 				$numRows = $db->getRowCount();
 				if($bool && $numRows){
@@ -352,7 +285,7 @@ class Producto2Controller extends SecureController{
 		$this->rec_id = $rec_id;
 		//form multiple delete, split record id separated by comma into array
 		$arr_rec_id = array_map('trim', explode(",", $rec_id));
-		$db->where("producto2.id_producto", $arr_rec_id, "in");
+		$db->where("enviado.id_enviado", $arr_rec_id, "in");
 		$bool = $db->delete($tablename);
 		if($bool){
 			$this->set_flash_msg(get_lang('record_deleted_successfully'), "success");
@@ -361,6 +294,6 @@ class Producto2Controller extends SecureController{
 			$page_error = $db->getLastError();
 			$this->set_flash_msg($page_error, "danger");
 		}
-		return	$this->redirect("producto2");
+		return	$this->redirect("enviado");
 	}
 }

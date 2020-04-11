@@ -18,15 +18,13 @@ class UsuarioController extends SecureController{
 		$request = $this->request;
 		$db = $this->GetModel();
 		$tablename = $this->tablename;
-		$fields = array("usuario.id_usuario", 
-			"usuario.user_usuario", 
-			"usuario.nombre", 
-			"usuario.apellido", 
-			"usuario.correo", 
-			"usuario.fecha_creacion_usuario", 
-			"usuario.numero_empleado", 
-			"usuario.fk_rol", 
-			"rol.nombre_rol AS rol_nombre_rol");
+		$fields = array("id_usuario", 
+			"user_usuario", 
+			"nombre", 
+			"apellido", 
+			"correo", 
+			"fecha_creacion_usuario", 
+			"numero_empleado");
 		$pagination = $this->get_pagination(MAX_RECORD_COUNT); // get current pagination e.g array(page_number, page_limit)
 		//search table record
 		if(!empty($request->search)){
@@ -39,18 +37,16 @@ class UsuarioController extends SecureController{
 				usuario.correo LIKE ? OR 
 				usuario.fecha_creacion_usuario LIKE ? OR 
 				usuario.password LIKE ? OR 
-				usuario.numero_empleado LIKE ? OR 
-				usuario.fk_rol LIKE ?
+				usuario.numero_empleado LIKE ?
 			)";
 			$search_params = array(
-				"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
+				"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
 			);
 			//setting search conditions
 			$db->where($search_condition, $search_params);
 			 //template to use when ajax search
 			$this->view->search_template = "usuario/search.php";
 		}
-		$db->join("rol", "usuario.fk_rol = rol.id_rol", "INNER");
 		if(!empty($request->orderby)){
 			$orderby = $request->orderby;
 			$ordertype = (!empty($request->ordertype) ? $request->ordertype : ORDER_TYPE);
@@ -101,8 +97,7 @@ class UsuarioController extends SecureController{
 			"apellido", 
 			"correo", 
 			"fecha_creacion_usuario", 
-			"numero_empleado", 
-			"fk_rol");
+			"numero_empleado");
 		if($value){
 			$db->where($rec_id, urldecode($value)); //select record based on field name
 		}
@@ -139,7 +134,7 @@ class UsuarioController extends SecureController{
 			$tablename = $this->tablename;
 			$request = $this->request;
 			//fillable fields
-			$fields = $this->fields = array("user_usuario","nombre","apellido","correo","password","numero_empleado");
+			$fields = $this->fields = array("user_usuario","nombre","apellido","correo","fecha_creacion_usuario","password","numero_empleado");
 			$postdata = $this->format_request_data($formdata);
 			$cpassword = $postdata['confirm_password'];
 			$password = $postdata['password'];
@@ -149,10 +144,9 @@ class UsuarioController extends SecureController{
 			$this->rules_array = array(
 				'user_usuario' => 'required',
 				'nombre' => 'required',
-				'apellido' => 'required',
 				'correo' => 'required|valid_email',
 				'password' => 'required',
-				'numero_empleado' => 'required|numeric',
+				'numero_empleado' => 'numeric',
 			);
 			$this->sanitize_array = array(
 				'user_usuario' => 'sanitize_string',
@@ -166,6 +160,7 @@ class UsuarioController extends SecureController{
 			$password_text = $modeldata['password'];
 			//update modeldata with the password hash
 			$modeldata['password'] = $this->modeldata['password'] = password_hash($password_text , PASSWORD_DEFAULT);
+			$modeldata['fecha_creacion_usuario'] = datetime_now();
 			//Check if Duplicate Record Already Exit In The Database
 			$db->where("user_usuario", $modeldata['user_usuario']);
 			if($db->has($tablename)){
@@ -175,6 +170,11 @@ class UsuarioController extends SecureController{
 			$db->where("correo", $modeldata['correo']);
 			if($db->has($tablename)){
 				$this->view->page_error[] = $modeldata['correo'].get_lang('_already_exist_');
+			}
+			//Check if Duplicate Record Already Exit In The Database
+			$db->where("numero_empleado", $modeldata['numero_empleado']);
+			if($db->has($tablename)){
+				$this->view->page_error[] = $modeldata['numero_empleado'].get_lang('_already_exist_');
 			} 
 			if($this->validated()){
 				$rec_id = $this->rec_id = $db->insert($tablename, $modeldata);
@@ -208,8 +208,7 @@ class UsuarioController extends SecureController{
 			$this->rules_array = array(
 				'user_usuario' => 'required',
 				'nombre' => 'required',
-				'apellido' => 'required',
-				'numero_empleado' => 'required|numeric',
+				'numero_empleado' => 'numeric',
 			);
 			$this->sanitize_array = array(
 				'user_usuario' => 'sanitize_string',
@@ -223,6 +222,13 @@ class UsuarioController extends SecureController{
 				$db->where("user_usuario", $modeldata['user_usuario'])->where("id_usuario", $rec_id, "!=");
 				if($db->has($tablename)){
 					$this->view->page_error[] = $modeldata['user_usuario'].get_lang('_already_exist_');
+				}
+			}
+			//Check if Duplicate Record Already Exit In The Database
+			if(isset($modeldata['numero_empleado'])){
+				$db->where("numero_empleado", $modeldata['numero_empleado'])->where("id_usuario", $rec_id, "!=");
+				if($db->has($tablename)){
+					$this->view->page_error[] = $modeldata['numero_empleado'].get_lang('_already_exist_');
 				}
 			} 
 			if($this->validated()){
@@ -277,8 +283,7 @@ class UsuarioController extends SecureController{
 			$this->rules_array = array(
 				'user_usuario' => 'required',
 				'nombre' => 'required',
-				'apellido' => 'required',
-				'numero_empleado' => 'required|numeric',
+				'numero_empleado' => 'numeric',
 			);
 			$this->sanitize_array = array(
 				'user_usuario' => 'sanitize_string',
@@ -293,6 +298,13 @@ class UsuarioController extends SecureController{
 				$db->where("user_usuario", $modeldata['user_usuario'])->where("id_usuario", $rec_id, "!=");
 				if($db->has($tablename)){
 					$this->view->page_error[] = $modeldata['user_usuario'].get_lang('_already_exist_');
+				}
+			}
+			//Check if Duplicate Record Already Exit In The Database
+			if(isset($modeldata['numero_empleado'])){
+				$db->where("numero_empleado", $modeldata['numero_empleado'])->where("id_usuario", $rec_id, "!=");
+				if($db->has($tablename)){
+					$this->view->page_error[] = $modeldata['numero_empleado'].get_lang('_already_exist_');
 				}
 			} 
 			if($this->validated()){

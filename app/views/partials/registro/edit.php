@@ -37,75 +37,39 @@ $redirect_to = $this->redirect_to;
                                 <div class="form-group ">
                                     <div class="row">
                                         <div class="col-sm-4">
-                                            <label class="control-label" for="fk_detalle_registro"><?php print_lang('detalle_registro'); ?> <span class="text-danger">*</span></label>
+                                            <label class="control-label" for="emisor"><?php print_lang('emisor'); ?> <span class="text-danger">*</span></label>
                                         </div>
                                         <div class="col-sm-8">
                                             <div class="">
-                                                <select required=""  id="ctrl-fk_detalle_registro" name="fk_detalle_registro"  placeholder="<?php print_lang('select_a_value_'); ?>"    class="custom-select" >
-                                                    <option value=""><?php print_lang('select_a_value_'); ?></option>
-                                                    <?php
-                                                    $rec = $data['fk_detalle_registro'];
-                                                    $fk_detalle_registro_options = $comp_model -> registro_fk_detalle_registro_option_list();
-                                                    if(!empty($fk_detalle_registro_options)){
-                                                    foreach($fk_detalle_registro_options as $option){
-                                                    $value = (!empty($option['value']) ? $option['value'] : null);
-                                                    $label = (!empty($option['label']) ? $option['label'] : $value);
-                                                    $selected = ( $value == $rec ? 'selected' : null );
-                                                    ?>
-                                                    <option 
-                                                        <?php echo $selected; ?> value="<?php echo $value; ?>"><?php echo $label; ?>
-                                                    </option>
-                                                    <?php
-                                                    }
-                                                    }
-                                                    ?>
-                                                </select>
+                                                <input id="ctrl-emisor"  value="<?php  echo $data['emisor']; ?>" type="number" placeholder="<?php print_lang('enter_emisor'); ?>" step="1"  required="" name="emisor"  class="form-control " />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group ">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <label class="control-label" for="fk_proveedor"><?php print_lang('proveedor'); ?> <span class="text-danger">*</span></label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <div class="">
-                                                <select required=""  id="ctrl-fk_proveedor" name="fk_proveedor"  placeholder="<?php print_lang('select_a_value_'); ?>"    class="custom-select" >
-                                                    <option value=""><?php print_lang('select_a_value_'); ?></option>
-                                                    <?php
-                                                    $rec = $data['fk_proveedor'];
-                                                    $fk_proveedor_options = $comp_model -> registro_fk_proveedor_option_list();
-                                                    if(!empty($fk_proveedor_options)){
-                                                    foreach($fk_proveedor_options as $option){
-                                                    $value = (!empty($option['value']) ? $option['value'] : null);
-                                                    $label = (!empty($option['label']) ? $option['label'] : $value);
-                                                    $selected = ( $value == $rec ? 'selected' : null );
-                                                    ?>
-                                                    <option 
-                                                        <?php echo $selected; ?> value="<?php echo $value; ?>"><?php echo $label; ?>
-                                                    </option>
-                                                    <?php
-                                                    }
-                                                    }
-                                                    ?>
-                                                </select>
+                                    <div class="form-group ">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label class="control-label" for="recepetr"><?php print_lang('recepetr'); ?> <span class="text-danger">*</span></label>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div class="">
+                                                    <input id="ctrl-recepetr"  value="<?php  echo $data['recepetr']; ?>" type="number" placeholder="<?php print_lang('enter_recepetr'); ?>" step="1"  required="" name="recepetr"  class="form-control " />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="form-ajax-status"></div>
+                                    <div class="form-group text-center">
+                                        <button class="btn btn-primary" type="submit">
+                                            <?php print_lang('update'); ?>
+                                            <i class="fa fa-send"></i>
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="form-ajax-status"></div>
-                            <div class="form-group text-center">
-                                <button class="btn btn-primary" type="submit">
-                                    <?php print_lang('update'); ?>
-                                    <i class="fa fa-send"></i>
-                                </button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>

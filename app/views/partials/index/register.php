@@ -15,7 +15,7 @@ $redirect_to = $this->redirect_to;
         <div class="container">
             <div class="row ">
                 <div class="col ">
-                    <h4 class="record-title"><?php print_lang('user_registration'); ?></h4>
+                    <h4 class="record-title"><?php print_lang('registro'); ?></h4>
                 </div>
                 <div class="col-sm-6 comp-grid">
                     <div class="">
@@ -92,14 +92,21 @@ $redirect_to = $this->redirect_to;
                                                 <div class="form-group ">
                                                     <div class="row">
                                                         <div class="col-sm-4">
-                                                            <label class="control-label" for="fecha_creacion_usuario"><?php print_lang('fecha_creacion_usuario'); ?> <span class="text-danger">*</span></label>
+                                                            <label class="control-label" for="password"><?php print_lang('password'); ?> <span class="text-danger">*</span></label>
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <div class="input-group">
-                                                                <input id="ctrl-fecha_creacion_usuario" class="form-control datepicker  datepicker"  required="" value="<?php  echo $this->set_field_value('fecha_creacion_usuario',""); ?>" type="datetime" name="fecha_creacion_usuario" placeholder="<?php print_lang('enter_fecha_creacion_usuario'); ?>" data-enable-time="false" data-min-date="" data-max-date="" data-date-format="Y-m-d" data-alt-format="F j, Y" data-inline="false" data-no-calendar="false" data-mode="single" />
-                                                                    <div class="input-group-append">
-                                                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                                <input id="ctrl-password"  value="<?php  echo $this->set_field_value('password',""); ?>" type="password" placeholder="<?php print_lang('enter_password'); ?>"  required="" name="password"  class="form-control  password password-strength" />
+                                                                    <div class="input-group-append cursor-pointer btn-toggle-password">
+                                                                        <span class="input-group-text"><i class="fa fa-eye"></i></span>
                                                                     </div>
+                                                                </div>
+                                                                <div class="password-strength-msg">
+                                                                    <small class="font-weight-bold"><?php print_lang('should_contain'); ?></small>
+                                                                    <small class="length chip">6 <?php print_lang('characters_minimum'); ?></small>
+                                                                    <small class="caps chip"><?php print_lang('capital_letter'); ?></small>
+                                                                    <small class="number chip"><?php print_lang('number'); ?></small>
+                                                                    <small class="special chip"><?php print_lang('symbol'); ?></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -107,21 +114,17 @@ $redirect_to = $this->redirect_to;
                                                     <div class="form-group ">
                                                         <div class="row">
                                                             <div class="col-sm-4">
-                                                                <label class="control-label" for="password"><?php print_lang('password'); ?> <span class="text-danger">*</span></label>
+                                                                <label class="control-label" for="confirm_password"><?php print_lang('confirm_password'); ?> <span class="text-danger">*</span></label>
                                                             </div>
                                                             <div class="col-sm-8">
                                                                 <div class="input-group">
-                                                                    <input id="ctrl-password"  value="<?php  echo $this->set_field_value('password',""); ?>" type="password" placeholder="<?php print_lang('enter_password'); ?>"  required="" name="password"  class="form-control  password password-strength" />
+                                                                    <input id="ctrl-password-confirm" data-match="#ctrl-password"  class="form-control password-confirm " type="password" name="confirm_password" required placeholder="<?php print_lang('confirm_password'); ?>" />
                                                                         <div class="input-group-append cursor-pointer btn-toggle-password">
                                                                             <span class="input-group-text"><i class="fa fa-eye"></i></span>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="password-strength-msg">
-                                                                        <small class="font-weight-bold"><?php print_lang('should_contain'); ?></small>
-                                                                        <small class="length chip">6 <?php print_lang('characters_minimum'); ?></small>
-                                                                        <small class="caps chip"><?php print_lang('capital_letter'); ?></small>
-                                                                        <small class="number chip"><?php print_lang('number'); ?></small>
-                                                                        <small class="special chip"><?php print_lang('symbol'); ?></small>
+                                                                        <div class="invalid-feedback">
+                                                                            Password does not match
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -129,58 +132,28 @@ $redirect_to = $this->redirect_to;
                                                         <div class="form-group ">
                                                             <div class="row">
                                                                 <div class="col-sm-4">
-                                                                    <label class="control-label" for="confirm_password"><?php print_lang('confirm_password'); ?> <span class="text-danger">*</span></label>
+                                                                    <label class="control-label" for="numero_empleado"><?php print_lang('numero_empleado'); ?> <span class="text-danger">*</span></label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <div class="input-group">
-                                                                        <input id="ctrl-password-confirm" data-match="#ctrl-password"  class="form-control password-confirm " type="password" name="confirm_password" required placeholder="<?php print_lang('confirm_password'); ?>" />
-                                                                            <div class="input-group-append cursor-pointer btn-toggle-password">
-                                                                                <span class="input-group-text"><i class="fa fa-eye"></i></span>
-                                                                            </div>
-                                                                            <div class="invalid-feedback">
-                                                                                Password does not match
-                                                                            </div>
+                                                                    <div class="">
+                                                                        <input id="ctrl-numero_empleado"  value="<?php  echo $this->set_field_value('numero_empleado',""); ?>" type="number" placeholder="<?php print_lang('enter_numero_empleado'); ?>" step="1"  required="" name="numero_empleado"  class="form-control " />
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group ">
-                                                                <div class="row">
-                                                                    <div class="col-sm-4">
-                                                                        <label class="control-label" for="numero_empleado"><?php print_lang('numero_empleado'); ?> <span class="text-danger">*</span></label>
-                                                                    </div>
-                                                                    <div class="col-sm-8">
-                                                                        <div class="">
-                                                                            <input id="ctrl-numero_empleado"  value="<?php  echo $this->set_field_value('numero_empleado',""); ?>" type="number" placeholder="<?php print_lang('enter_numero_empleado'); ?>" step="1"  required="" name="numero_empleado"  class="form-control " />
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group ">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-4">
-                                                                            <label class="control-label" for="fk_rol"><?php print_lang('fk_rol'); ?> <span class="text-danger">*</span></label>
-                                                                        </div>
-                                                                        <div class="col-sm-8">
-                                                                            <div class="">
-                                                                                <input id="ctrl-fk_rol"  value="<?php  echo $this->set_field_value('fk_rol',""); ?>" type="text" placeholder="<?php print_lang('enter_fk_rol'); ?>"  required="" name="fk_rol"  class="form-control " />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!--[main-form-end]-->
-                                                                <div class="form-group form-submit-btn-holder text-center mt-3">
-                                                                    <button class="btn btn-primary" type="submit">
-                                                                        <?php print_lang('submit'); ?>
-                                                                        <i class="fa fa-send"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </form>
                                                         </div>
-                                                    </div>
+                                                        <!--[main-form-end]-->
+                                                        <div class="form-group form-submit-btn-holder text-center mt-3">
+                                                            <button class="btn btn-primary" type="submit">
+                                                                <?php print_lang('submit'); ?>
+                                                                <i class="fa fa-send"></i>
+                                                            </button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
-                                    </section>
-                                    
+                                    </div>
+                                </div>
+                            </section>
+                            

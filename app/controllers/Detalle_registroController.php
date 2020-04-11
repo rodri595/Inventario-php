@@ -20,11 +20,11 @@ class Detalle_registroController extends SecureController{
 		$tablename = $this->tablename;
 		$fields = array("detalle_registro.id_detalle_registro", 
 			"detalle_registro.fk_registro", 
-			"registro.id_registro AS registro_id_registro", 
 			"detalle_registro.fk_producto", 
 			"producto.nombre_producto AS producto_nombre_producto", 
-			"detalle_registro.cantidad");
-		$pagination = $this->get_pagination(MAX_RECORD_COUNT); // get current pagination e.g array(page_number, page_limit)
+			"detalle_registro.desc_detalle", 
+			"detalle_registro.fk_cantidad");
+		$pagination = $this->get_pagination(25); // get current pagination e.g array(page_number, page_limit)
 		//search table record
 		if(!empty($request->search)){
 			$text = trim($request->search); 
@@ -32,17 +32,17 @@ class Detalle_registroController extends SecureController{
 				detalle_registro.id_detalle_registro LIKE ? OR 
 				detalle_registro.fk_registro LIKE ? OR 
 				detalle_registro.fk_producto LIKE ? OR 
-				detalle_registro.cantidad LIKE ?
+				detalle_registro.desc_detalle LIKE ? OR 
+				detalle_registro.fk_cantidad LIKE ?
 			)";
 			$search_params = array(
-				"%$text%","%$text%","%$text%","%$text%"
+				"%$text%","%$text%","%$text%","%$text%","%$text%"
 			);
 			//setting search conditions
 			$db->where($search_condition, $search_params);
 			 //template to use when ajax search
 			$this->view->search_template = "detalle_registro/search.php";
 		}
-		$db->join("registro", "detalle_registro.fk_registro = registro.id_registro", "INNER");
 		$db->join("producto", "detalle_registro.fk_producto = producto.id_producto", "INNER");
 		if(!empty($request->orderby)){
 			$orderby = $request->orderby;
@@ -69,57 +69,13 @@ class Detalle_registroController extends SecureController{
 		if($db->getLastError()){
 			$this->set_page_error();
 		}
-		$page_title = $this->view->page_title = get_lang('detalle_registro');
+		$page_title = $this->view->page_title = get_lang('lista_de_productos_en_todos_los_registros');
 		$this->view->report_filename = date('Y-m-d') . '-' . $page_title;
 		$this->view->report_title = $page_title;
 		$this->view->report_layout = "report_layout.php";
 		$this->view->report_paper_size = "A4";
 		$this->view->report_orientation = "portrait";
 		$this->render_view("detalle_registro/list.php", $data); //render the full page
-	}
-	/**
-     * View record detail 
-	 * @param $rec_id (select record by table primary key) 
-     * @param $value value (select record by value of field name(rec_id))
-     * @return BaseView
-     */
-	function view($rec_id = null, $value = null){
-		$request = $this->request;
-		$db = $this->GetModel();
-		$rec_id = $this->rec_id = urldecode($rec_id);
-		$tablename = $this->tablename;
-		$fields = array("detalle_registro.id_detalle_registro", 
-			"detalle_registro.fk_registro", 
-			"registro.id_registro AS registro_id_registro", 
-			"detalle_registro.fk_producto", 
-			"producto.nombre_producto AS producto_nombre_producto", 
-			"detalle_registro.cantidad");
-		if($value){
-			$db->where($rec_id, urldecode($value)); //select record based on field name
-		}
-		else{
-			$db->where("detalle_registro.id_detalle_registro", $rec_id);; //select record based on primary key
-		}
-		$db->join("registro", "detalle_registro.fk_registro = registro.id_registro", "INNER");
-		$db->join("producto", "detalle_registro.fk_producto = producto.id_producto", "INNER");  
-		$record = $db->getOne($tablename, $fields );
-		if($record){
-			$page_title = $this->view->page_title = get_lang('view_detalle_registro');
-		$this->view->report_filename = date('Y-m-d') . '-' . $page_title;
-		$this->view->report_title = $page_title;
-		$this->view->report_layout = "report_layout.php";
-		$this->view->report_paper_size = "A4";
-		$this->view->report_orientation = "portrait";
-		}
-		else{
-			if($db->getLastError()){
-				$this->set_page_error();
-			}
-			else{
-				$this->set_page_error(get_lang('no_record_found'));
-			}
-		}
-		return $this->render_view("detalle_registro/view.php", $record);
 	}
 	/**
      * Insert new record to the database table
@@ -132,32 +88,33 @@ class Detalle_registroController extends SecureController{
 			$tablename = $this->tablename;
 			$request = $this->request;
 			//fillable fields
-			$fields = $this->fields = array("fk_registro","fk_producto","cantidad");
+			$fields = $this->fields = array("fk_registro","fk_producto","fk_cantidad","desc_detalle");
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
-				'fk_registro' => 'required',
+				'fk_registro' => 'required|numeric|min_numeric,0',
 				'fk_producto' => 'required',
-				'cantidad' => 'required',
+				'fk_cantidad' => 'numeric|min_numeric,0',
 			);
 			$this->sanitize_array = array(
 				'fk_registro' => 'sanitize_string',
 				'fk_producto' => 'sanitize_string',
-				'cantidad' => 'sanitize_string',
+				'fk_cantidad' => 'sanitize_string',
+				'desc_detalle' => 'sanitize_string',
 			);
 			$this->filter_vals = true; //set whether to remove empty fields
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
 			if($this->validated()){
 				$rec_id = $this->rec_id = $db->insert($tablename, $modeldata);
 				if($rec_id){
-					$this->set_flash_msg(get_lang('record_added_successfully'), "success");
-					return	$this->redirect("detalle_registro");
+					$this->set_flash_msg(get_lang('record_agregado_a_registro'), "success");
+					return	$this->redirect("ficha/add");
 				}
 				else{
 					$this->set_page_error();
 				}
 			}
 		}
-		$page_title = $this->view->page_title = get_lang('add_new_detalle_registro');
+		$page_title = $this->view->page_title = get_lang('agregar_producto_en_registro');
 		$this->render_view("detalle_registro/add.php");
 	}
 	/**
@@ -172,18 +129,19 @@ class Detalle_registroController extends SecureController{
 		$this->rec_id = $rec_id;
 		$tablename = $this->tablename;
 		 //editable fields
-		$fields = $this->fields = array("id_detalle_registro","fk_registro","fk_producto","cantidad");
+		$fields = $this->fields = array("id_detalle_registro","fk_registro","fk_producto","fk_cantidad","desc_detalle");
 		if($formdata){
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
-				'fk_registro' => 'required',
+				'fk_registro' => 'required|numeric|min_numeric,0',
 				'fk_producto' => 'required',
-				'cantidad' => 'required',
+				'fk_cantidad' => 'numeric|min_numeric,0',
 			);
 			$this->sanitize_array = array(
 				'fk_registro' => 'sanitize_string',
 				'fk_producto' => 'sanitize_string',
-				'cantidad' => 'sanitize_string',
+				'fk_cantidad' => 'sanitize_string',
+				'desc_detalle' => 'sanitize_string',
 			);
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
 			if($this->validated()){
@@ -227,7 +185,7 @@ class Detalle_registroController extends SecureController{
 		$this->rec_id = $rec_id;
 		$tablename = $this->tablename;
 		//editable fields
-		$fields = $this->fields = array("id_detalle_registro","fk_registro","fk_producto","cantidad");
+		$fields = $this->fields = array("id_detalle_registro","fk_registro","fk_producto","fk_cantidad","desc_detalle");
 		$page_error = null;
 		if($formdata){
 			$postdata = array();
@@ -236,14 +194,15 @@ class Detalle_registroController extends SecureController{
 			$postdata[$fieldname] = $fieldvalue;
 			$postdata = $this->format_request_data($postdata);
 			$this->rules_array = array(
-				'fk_registro' => 'required',
+				'fk_registro' => 'required|numeric|min_numeric,0',
 				'fk_producto' => 'required',
-				'cantidad' => 'required',
+				'fk_cantidad' => 'numeric|min_numeric,0',
 			);
 			$this->sanitize_array = array(
 				'fk_registro' => 'sanitize_string',
 				'fk_producto' => 'sanitize_string',
-				'cantidad' => 'sanitize_string',
+				'fk_cantidad' => 'sanitize_string',
+				'desc_detalle' => 'sanitize_string',
 			);
 			$this->filter_rules = true; //filter validation rules by excluding fields not in the formdata
 			$modeldata = $this->modeldata = $this->validate_form($postdata);

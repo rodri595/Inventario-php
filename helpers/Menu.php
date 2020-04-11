@@ -16,6 +16,24 @@ class Menu{
 		),
 		
 		array(
+			'path' => 'ficha', 
+			'label' => 'Ficha', 
+			'icon' => '<i class="fa fa-calendar "></i>','submenu' => array(
+		array(
+			'path' => 'ficha', 
+			'label' => 'Lista de Fichas', 
+			'icon' => '<i class="fa fa-calendar-check-o "></i>'
+		),
+		
+		array(
+			'path' => 'ficha/add', 
+			'label' => 'Crear Ficha', 
+			'icon' => '<i class="fa fa-calendar-o "></i>'
+		)
+	)
+		),
+		
+		array(
 			'path' => 'proveedor', 
 			'label' => 'Proveedor', 
 			'icon' => '<i class="fa fa-plane "></i>','submenu' => array(
@@ -29,24 +47,6 @@ class Menu{
 			'path' => 'proveedor/add', 
 			'label' => 'Nuevo Proveedor', 
 			'icon' => '<i class="fa fa-paper-plane-o "></i>'
-		)
-	)
-		),
-		
-		array(
-			'path' => 'registro', 
-			'label' => 'Registro', 
-			'icon' => '<i class="fa fa-calendar "></i>','submenu' => array(
-		array(
-			'path' => 'registro/Index', 
-			'label' => 'Registro Actual', 
-			'icon' => '<i class="fa fa-calendar-check-o "></i>'
-		),
-		
-		array(
-			'path' => 'registro/add', 
-			'label' => 'Crear Registro', 
-			'icon' => '<i class="fa fa-calendar-plus-o "></i>'
 		)
 	)
 		),
@@ -89,7 +89,7 @@ class Menu{
 		
 		array(
 			'path' => 'producto', 
-			'label' => 'Productos', 
+			'label' => 'Producto', 
 			'icon' => '<i class="fa fa-dashcube "></i>','submenu' => array(
 		array(
 			'path' => 'producto', 
@@ -99,24 +99,48 @@ class Menu{
 		
 		array(
 			'path' => 'producto/add', 
-			'label' => 'Nuevo Producto', 
+			'label' => 'Crear Nuevo Producto', 
 			'icon' => '<i class="fa fa-cube "></i>'
+		)
+	)
 		),
 		
 		array(
-			'path' => 'categoria', 
-			'label' => 'Categoria de Productos', 
-			'icon' => '<i class="fa fa-book "></i>','submenu' => array(
+			'path' => 'movmientos', 
+			'label' => 'Movimientos', 
+			'icon' => '<i class="fa fa-truck "></i>','submenu' => array(
 		array(
-			'path' => 'categoria', 
-			'label' => 'Lista de Categorias', 
-			'icon' => '<i class="fa fa-bookmark "></i>'
+			'path' => 'envio', 
+			'label' => 'Envios', 
+			'icon' => '<i class="fa fa-send-o "></i>','submenu' => array(
+		array(
+			'path' => 'enviado', 
+			'label' => 'Lista de Envios', 
+			'icon' => '<i class="fa fa-list "></i>'
 		),
 		
 		array(
-			'path' => 'categoria/add', 
-			'label' => 'Nueva Categoria', 
-			'icon' => '<i class="fa fa-bookmark-o "></i>'
+			'path' => 'enviado/add', 
+			'label' => 'Crear Movimiento de Envio', 
+			'icon' => '<i class="fa fa-truck "></i>'
+		)
+	)
+		),
+		
+		array(
+			'path' => 'recibido', 
+			'label' => 'Recibido', 
+			'icon' => '<i class="fa fa-inbox "></i>','submenu' => array(
+		array(
+			'path' => 'recibido', 
+			'label' => 'Lista de Recibido', 
+			'icon' => '<i class="fa fa-list-alt "></i>'
+		),
+		
+		array(
+			'path' => 'recibido/add', 
+			'label' => 'Crear Movimiento de Recibidos', 
+			'icon' => '<i class="fa fa-truck "></i>'
 		)
 	)
 		)
@@ -126,6 +150,4 @@ class Menu{
 		
 	
 	
-			public static $producto_fk_proveedor = array();
-		
 }

@@ -19,23 +19,25 @@ class CentroController extends SecureController{
 		$db = $this->GetModel();
 		$tablename = $this->tablename;
 		$fields = array("id_centro", 
-			"numero_centro", 
-			"desc_centro", 
+			"Nombre_centro", 
 			"direccion_centro", 
-			"Tel_centro");
+			"numero_centro", 
+			"Tel_centro", 
+			"fecha_creacion");
 		$pagination = $this->get_pagination(MAX_RECORD_COUNT); // get current pagination e.g array(page_number, page_limit)
 		//search table record
 		if(!empty($request->search)){
 			$text = trim($request->search); 
 			$search_condition = "(
 				centro.id_centro LIKE ? OR 
-				centro.numero_centro LIKE ? OR 
-				centro.desc_centro LIKE ? OR 
+				centro.Nombre_centro LIKE ? OR 
 				centro.direccion_centro LIKE ? OR 
-				centro.Tel_centro LIKE ?
+				centro.numero_centro LIKE ? OR 
+				centro.Tel_centro LIKE ? OR 
+				centro.fecha_creacion LIKE ?
 			)";
 			$search_params = array(
-				"%$text%","%$text%","%$text%","%$text%","%$text%"
+				"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
 			);
 			//setting search conditions
 			$db->where($search_condition, $search_params);
@@ -89,8 +91,9 @@ class CentroController extends SecureController{
 		$fields = array("Tel_centro", 
 			"id_centro", 
 			"numero_centro", 
-			"desc_centro", 
-			"direccion_centro");
+			"direccion_centro", 
+			"Nombre_centro", 
+			"fecha_creacion");
 		if($value){
 			$db->where($rec_id, urldecode($value)); //select record based on field name
 		}
@@ -99,7 +102,7 @@ class CentroController extends SecureController{
 		}
 		$record = $db->getOne($tablename, $fields );
 		if($record){
-			$page_title = $this->view->page_title = get_lang('view_centro');
+			$page_title = $this->view->page_title = get_lang('centro');
 		$this->view->report_filename = date('Y-m-d') . '-' . $page_title;
 		$this->view->report_title = $page_title;
 		$this->view->report_layout = "report_layout.php";
@@ -127,26 +130,24 @@ class CentroController extends SecureController{
 			$tablename = $this->tablename;
 			$request = $this->request;
 			//fillable fields
-			$fields = $this->fields = array("numero_centro","desc_centro","direccion_centro","Tel_centro");
+			$fields = $this->fields = array("Nombre_centro","numero_centro","direccion_centro","Tel_centro","fecha_creacion");
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
-				'numero_centro' => 'required',
-				'desc_centro' => 'required',
-				'direccion_centro' => 'required',
-				'Tel_centro' => 'required',
+				'Nombre_centro' => 'required',
 			);
 			$this->sanitize_array = array(
+				'Nombre_centro' => 'sanitize_string',
 				'numero_centro' => 'sanitize_string',
-				'desc_centro' => 'sanitize_string',
 				'direccion_centro' => 'sanitize_string',
 				'Tel_centro' => 'sanitize_string',
 			);
 			$this->filter_vals = true; //set whether to remove empty fields
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
+			$modeldata['fecha_creacion'] = datetime_now();
 			if($this->validated()){
 				$rec_id = $this->rec_id = $db->insert($tablename, $modeldata);
 				if($rec_id){
-					$this->set_flash_msg(get_lang('record_added_successfully'), "success");
+					$this->set_flash_msg(get_lang('dato_agregado_'), "success");
 					return	$this->redirect("centro");
 				}
 				else{
@@ -154,7 +155,7 @@ class CentroController extends SecureController{
 				}
 			}
 		}
-		$page_title = $this->view->page_title = get_lang('add_new_centro');
+		$page_title = $this->view->page_title = get_lang('agregar_centro_lugar');
 		$this->render_view("centro/add.php");
 	}
 	/**
@@ -169,18 +170,15 @@ class CentroController extends SecureController{
 		$this->rec_id = $rec_id;
 		$tablename = $this->tablename;
 		 //editable fields
-		$fields = $this->fields = array("numero_centro","desc_centro","direccion_centro","Tel_centro");
+		$fields = $this->fields = array("Nombre_centro","numero_centro","direccion_centro","Tel_centro");
 		if($formdata){
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
-				'numero_centro' => 'required',
-				'desc_centro' => 'required',
-				'direccion_centro' => 'required',
-				'Tel_centro' => 'required',
+				'Nombre_centro' => 'required',
 			);
 			$this->sanitize_array = array(
+				'Nombre_centro' => 'sanitize_string',
 				'numero_centro' => 'sanitize_string',
-				'desc_centro' => 'sanitize_string',
 				'direccion_centro' => 'sanitize_string',
 				'Tel_centro' => 'sanitize_string',
 			);
@@ -209,7 +207,7 @@ class CentroController extends SecureController{
 		}
 		$db->where("centro.id_centro", $rec_id);;
 		$data = $db->getOne($tablename, $fields);
-		$page_title = $this->view->page_title = get_lang('edit_centro');
+		$page_title = $this->view->page_title = get_lang('editar_centro_');
 		if(!$data){
 			$this->set_page_error();
 		}
@@ -226,7 +224,7 @@ class CentroController extends SecureController{
 		$this->rec_id = $rec_id;
 		$tablename = $this->tablename;
 		//editable fields
-		$fields = $this->fields = array("numero_centro","desc_centro","direccion_centro","Tel_centro");
+		$fields = $this->fields = array("Nombre_centro","numero_centro","direccion_centro","Tel_centro");
 		$page_error = null;
 		if($formdata){
 			$postdata = array();
@@ -235,14 +233,11 @@ class CentroController extends SecureController{
 			$postdata[$fieldname] = $fieldvalue;
 			$postdata = $this->format_request_data($postdata);
 			$this->rules_array = array(
-				'numero_centro' => 'required',
-				'desc_centro' => 'required',
-				'direccion_centro' => 'required',
-				'Tel_centro' => 'required',
+				'Nombre_centro' => 'required',
 			);
 			$this->sanitize_array = array(
+				'Nombre_centro' => 'sanitize_string',
 				'numero_centro' => 'sanitize_string',
-				'desc_centro' => 'sanitize_string',
 				'direccion_centro' => 'sanitize_string',
 				'Tel_centro' => 'sanitize_string',
 			);
