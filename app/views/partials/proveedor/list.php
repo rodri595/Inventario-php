@@ -249,11 +249,7 @@ $show_pagination = $this->show_pagination;
                                                             <?php echo $data['rtn_proveedor']; ?> 
                                                         </span>
                                                     </td>
-                                                    <td class="td-fecha_creacion">
-                                                        <span title="<?php echo human_datetime($data['fecha_creacion']); ?>" class="has-tooltip">
-                                                            <?php echo relative_date($data['fecha_creacion']); ?>
-                                                        </span>
-                                                    </td>
+                                                    <td class="td-fecha_creacion"> <?php echo $data['fecha_creacion']; ?></td>
                                                     <th class="td-btn">
                                                         <a class="btn btn-sm btn-success has-tooltip" title="<?php print_lang('view_record'); ?>" href="<?php print_link("proveedor/view/$rec_id"); ?>">
                                                             <i class="fa fa-eye"></i> <?php print_lang('view'); ?>
@@ -281,7 +277,7 @@ $show_pagination = $this->show_pagination;
                                         if(empty($records)){
                                         ?>
                                         <h4 class="bg-light text-center border-top text-muted animated bounce  p-3">
-                                            <i class="fa fa-ban"></i> <?php print_lang('no_record_found'); ?>
+                                            <i class="fa fa-ban"></i> <?php print_lang('0_records'); ?>
                                         </h4>
                                         <?php
                                         }

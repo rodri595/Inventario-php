@@ -227,7 +227,7 @@ $show_pagination = $this->show_pagination;
                                             if(empty($records)){
                                             ?>
                                             <h4 class="bg-light text-center border-top text-muted animated bounce  p-3">
-                                                <i class="fa fa-ban"></i> <?php print_lang('no_record_found'); ?>
+                                                <i class="fa fa-ban"></i> <?php print_lang('0_records'); ?>
                                             </h4>
                                             <?php
                                             }

@@ -122,14 +122,30 @@ $show_pagination = $this->show_pagination;
                                                     <i class="fa fa-calendar-plus-o "></i>
                                                     <?php Html :: get_field_order_link('fecha', get_lang('fecha_ficha_creada')); ?>
                                                 </th>
-                                                <th  class="td-producto_nombre_producto"> <?php print_lang('producto'); ?></th>
-                                                <th  class="td-detalle_registro_fk_cantidad"> <?php print_lang('cantidad_enviada'); ?></th>
-                                                <th  class="td-producto_cantidad_producto"> <?php print_lang('cantidad_en_almacen'); ?></th>
-                                                <th  class="td-enviado_id_enviado"> <?php print_lang('_rastreo_salida'); ?></th>
-                                                <th  class="td-enviado_fecha_enviado"> <?php print_lang('fecha_salida'); ?></th>
-                                                <th  class="td-centro_Nombre_centro"> <?php print_lang('salio_de'); ?></th>
-                                                <th  class="td-recibido_id_recibido"> <?php print_lang('_rastreo_llegada'); ?></th>
-                                                <th  class="td-recibido_fecha_recibido"> <?php print_lang('fecha_llegada'); ?></th>
+                                                <th  <?php echo (get_value('orderby')=='producto_nombre_producto' ? 'class="sortedby td-producto_nombre_producto"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('producto_nombre_producto', get_lang('producto')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='detalle_registro_fk_cantidad' ? 'class="sortedby td-detalle_registro_fk_cantidad"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('detalle_registro_fk_cantidad', get_lang('cantidad_enviada')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='producto_cantidad_producto' ? 'class="sortedby td-producto_cantidad_producto"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('producto_cantidad_producto', get_lang('cantidad_en_almacen')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='enviado_id_enviado' ? 'class="sortedby td-enviado_id_enviado"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('enviado_id_enviado', get_lang('_rastreo_salida')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='enviado_fecha_enviado' ? 'class="sortedby td-enviado_fecha_enviado"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('enviado_fecha_enviado', get_lang('fecha_salida')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='centro_Nombre_centro' ? 'class="sortedby td-centro_Nombre_centro"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('centro_Nombre_centro', get_lang('salio_de')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='recibido_id_recibido' ? 'class="sortedby td-recibido_id_recibido"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('recibido_id_recibido', get_lang('_rastreo_llegada')); ?>
+                                                </th>
+                                                <th  <?php echo (get_value('orderby')=='recibido_fecha_recibido' ? 'class="sortedby td-recibido_fecha_recibido"' : null); ?>>
+                                                    <?php Html :: get_field_order_link('recibido_fecha_recibido', get_lang('fecha_llegada')); ?>
+                                                </th>
                                                 <th  <?php echo (get_value('orderby')=='centro2_Nombre_centro' ? 'class="sortedby td-centro2_Nombre_centro"' : null); ?>>
                                                     <i class="fa fa-building-o "></i>
                                                     <?php Html :: get_field_order_link('centro2_Nombre_centro', get_lang('llego_a')); ?>
@@ -298,7 +314,7 @@ $show_pagination = $this->show_pagination;
                                         if(empty($records)){
                                         ?>
                                         <h4 class="bg-light text-center border-top text-muted animated bounce  p-3">
-                                            <i class="fa fa-ban"></i> <?php print_lang('no_record_found'); ?>
+                                            <i class="fa fa-ban"></i> <?php print_lang('0_records'); ?>
                                         </h4>
                                         <?php
                                         }
@@ -365,6 +381,49 @@ $show_pagination = $this->show_pagination;
                                                         ?>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div  class="">
+                                    <div class="container">
+                                        <div class="row ">
+                                            <div class="col-md-4 comp-grid">
+                                                <h4 ><?php print_lang('suma_total_'); ?></h4>
+                                            </div>
+                                            <div class="col-sm-3 comp-grid">
+                                                <?php $rec_count = $comp_model->getcount_montoenlps();  ?>
+                                                <a class="animated slideInLeft record-count card bg-light text-dark"  href="<?php print_link("ficha/") ?>">
+                                                    <div class="row">
+                                                        <div class="col-2">
+                                                            <i class="fa fa-money "></i>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <div class="flex-column justify-content align-center">
+                                                                <div class="title"> Monto en Lps.</div>
+                                                                <small class=""></small>
+                                                            </div>
+                                                        </div>
+                                                        <h4 class="value"><strong><?php echo $rec_count; ?></strong></h4>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="col-sm-3 comp-grid">
+                                                <?php $rec_count = $comp_model->getcount_montototallps();  ?>
+                                                <a class="animated rubberBand record-count card bg-light text-dark"  href="<?php print_link("ficha/") ?>">
+                                                    <div class="row">
+                                                        <div class="col-2">
+                                                            <i class="fa fa-money "></i>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <div class="flex-column justify-content align-center">
+                                                                <div class="title">Monto Total Lps.</div>
+                                                                <small class=""></small>
+                                                            </div>
+                                                        </div>
+                                                        <h4 class="value"><strong><?php echo $rec_count; ?></strong></h4>
+                                                    </div>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

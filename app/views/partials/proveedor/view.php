@@ -123,11 +123,7 @@ $show_export_btn = $this->show_export_btn;
                                     </tr>
                                     <tr  class="td-fecha_creacion">
                                         <th class="title"> <?php print_lang('fecha_creacion'); ?>: </th>
-                                        <td class="value">
-                                            <span title="<?php echo human_datetime($data['fecha_creacion']); ?>" class="has-tooltip">
-                                                <?php echo relative_date($data['fecha_creacion']); ?>
-                                            </span>
-                                        </td>
+                                        <td class="value"> <?php echo $data['fecha_creacion']; ?></td>
                                     </tr>
                                     <tr  class="td-direccion_proveedor">
                                         <th class="title"> <?php print_lang('direccion_proveedor'); ?>: </th>

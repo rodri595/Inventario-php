@@ -195,6 +195,51 @@ class SharedController extends BaseController{
 	}
 
 	/**
+     * getcount_montoenlps Model Action
+     * @return Value
+     */
+	function getcount_montoenlps(){
+		$db = $this->GetModel();
+		$sqltext = "SELECT sum(producto.precio_producto) FROM ficha 
+INNER JOIN enviado ON ficha.fk_emisor=enviado.id_enviado 
+INNER JOIN recibido ON ficha.fk_receptor=recibido.id_recibido 
+INNER JOIN centro ON enviado.lugar_salida=centro.id_centro 
+INNER JOIN centro AS centro2 ON recibido.lugar_recibido=centro2.id_centro 
+INNER JOIN detalle_registro ON ficha.id=detalle_registro.fk_registro 
+INNER JOIN producto ON detalle_registro.fk_producto=producto.id_producto ";
+		$queryparams = null;
+		$val = $db->rawQueryValue($sqltext, $queryparams);
+		
+		if(is_array($val)){
+			return $val[0];
+		}
+		return $val;
+	}
+
+	/**
+     * getcount_montototallps Model Action
+     * @return Value
+     */
+	function getcount_montototallps(){
+		$db = $this->GetModel();
+		$sqltext = "    
+SELECT sum(producto.precio_producto*detalle_registro.fk_cantidad) FROM ficha 
+INNER JOIN enviado ON ficha.fk_emisor=enviado.id_enviado 
+INNER JOIN recibido ON ficha.fk_receptor=recibido.id_recibido 
+INNER JOIN centro ON enviado.lugar_salida=centro.id_centro 
+INNER JOIN centro AS centro2 ON recibido.lugar_recibido=centro2.id_centro 
+INNER JOIN detalle_registro ON ficha.id=detalle_registro.fk_registro 
+INNER JOIN producto ON detalle_registro.fk_producto=producto.id_producto ";
+		$queryparams = null;
+		$val = $db->rawQueryValue($sqltext, $queryparams);
+		
+		if(is_array($val)){
+			return $val[0];
+		}
+		return $val;
+	}
+
+	/**
      * getcount_fichaacrear Model Action
      * @return Value
      */
