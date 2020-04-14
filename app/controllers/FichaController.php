@@ -119,7 +119,7 @@ class FichaController extends SecureController{
 		if($db->getLastError()){
 			$this->set_page_error();
 		}
-		$page_title = $this->view->page_title = get_lang('lista_de_totalas_las_fichas');
+		$page_title = $this->view->page_title = get_lang('presupuesto_en_bienes_inventario');
 		$this->view->report_filename = date('Y-m-d') . '-' . $page_title;
 		$this->view->report_title = $page_title;
 		$this->view->report_layout = "report_layout.php";

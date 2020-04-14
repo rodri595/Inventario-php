@@ -1,3 +1,10 @@
+<?php 
+//check if current user role is allowed access to the pages
+$can_add = ACL::is_allowed("centro/add");
+$can_edit = ACL::is_allowed("centro/edit");
+$can_view = ACL::is_allowed("centro/view");
+$can_delete = ACL::is_allowed("centro/delete");
+?>
 <?php
 $comp_model = new SharedController;
 $page_element_id = "view-page-" . random_str();
@@ -48,7 +55,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-Tel_centro">
                                         <th class="title"> <?php print_lang('tel_centro'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['Tel_centro']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['Tel_centro']; ?>" 
                                                 data-pk="<?php echo $data['id_centro'] ?>" 
                                                 data-url="<?php print_link("centro/editfield/" . urlencode($data['id_bodega'])); ?>" 
                                                 data-name="Tel_centro" 
@@ -58,7 +65,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['Tel_centro']; ?> 
                                             </span>
                                         </td>
@@ -70,7 +77,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-numero_centro">
                                         <th class="title"> <?php print_lang('numero_centro'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['numero_centro']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['numero_centro']; ?>" 
                                                 data-pk="<?php echo $data['id_centro'] ?>" 
                                                 data-url="<?php print_link("centro/editfield/" . urlencode($data['id_bodega'])); ?>" 
                                                 data-name="numero_centro" 
@@ -80,7 +87,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['numero_centro']; ?> 
                                             </span>
                                         </td>
@@ -88,7 +95,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-direccion_centro">
                                         <th class="title"> <?php print_lang('direccion_centro'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['direccion_centro']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['direccion_centro']; ?>" 
                                                 data-pk="<?php echo $data['id_centro'] ?>" 
                                                 data-url="<?php print_link("centro/editfield/" . urlencode($data['id_bodega'])); ?>" 
                                                 data-name="direccion_centro" 
@@ -98,7 +105,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['direccion_centro']; ?> 
                                             </span>
                                         </td>
@@ -106,7 +113,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-Nombre_centro">
                                         <th class="title"> <?php print_lang('nombre_centro'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['Nombre_centro']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['Nombre_centro']; ?>" 
                                                 data-pk="<?php echo $data['id_centro'] ?>" 
                                                 data-url="<?php print_link("centro/editfield/" . urlencode($data['id_bodega'])); ?>" 
                                                 data-name="Nombre_centro" 
@@ -116,7 +123,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['Nombre_centro']; ?> 
                                             </span>
                                         </td>
@@ -157,12 +164,16 @@ $show_export_btn = $this->show_export_btn;
                                                         </a>
                                                     </div>
                                                 </div>
+                                                <?php if($can_edit){ ?>
                                                 <a class="btn btn-sm btn-info"  href="<?php print_link("centro/edit/$rec_id"); ?>">
                                                     <i class="fa fa-edit"></i> <?php print_lang('edit'); ?>
                                                 </a>
+                                                <?php } ?>
+                                                <?php if($can_delete){ ?>
                                                 <a class="btn btn-sm btn-danger record-delete-btn mx-1"  href="<?php print_link("centro/delete/$rec_id/?csrf_token=$csrf_token&redirect=$current_page"); ?>" data-prompt-msg="Are you sure you want to delete this record?" data-display-style="modal">
                                                     <i class="fa fa-times"></i> <?php print_lang('delete'); ?>
                                                 </a>
+                                                <?php } ?>
                                             </div>
                                             <?php
                                             }

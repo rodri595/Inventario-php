@@ -1,3 +1,10 @@
+<?php 
+//check if current user role is allowed access to the pages
+$can_add = ACL::is_allowed("proveedor/add");
+$can_edit = ACL::is_allowed("proveedor/edit");
+$can_view = ACL::is_allowed("proveedor/view");
+$can_delete = ACL::is_allowed("proveedor/delete");
+?>
 <?php
 $comp_model = new SharedController;
 $page_element_id = "list-page-" . random_str();
@@ -26,10 +33,12 @@ $show_pagination = $this->show_pagination;
                     <h4 class="record-title"><?php print_lang('proveedores'); ?></h4>
                 </div>
                 <div class="col-sm-3 ">
+                    <?php if($can_add){ ?>
                     <a  class="btn btn btn-primary my-1" href="<?php print_link("proveedor/add") ?>">
                         <i class="fa fa-plane "></i>                                
                         <?php print_lang('nuevo_proveedor'); ?> 
                     </a>
+                    <?php } ?>
                 </div>
                 <div class="col-sm-4 ">
                     <form  class="search" action="<?php print_link('proveedor'); ?>" method="get">
@@ -107,12 +116,14 @@ $show_pagination = $this->show_pagination;
                                     <table class="table  table-striped table-sm text-left">
                                         <thead class="table-header bg-light">
                                             <tr>
+                                                <?php if($can_delete){ ?>
                                                 <th class="td-checkbox">
                                                     <label class="custom-control custom-checkbox custom-control-inline">
                                                         <input class="toggle-check-all custom-control-input" type="checkbox" />
                                                         <span class="custom-control-label"></span>
                                                     </label>
                                                 </th>
+                                                <?php } ?>
                                                 <th class="td-sno">#</th>
                                                 <th  class="td-id_proveedor"> <?php print_lang('id_de_proveedor'); ?></th>
                                                 <th  <?php echo (get_value('orderby')=='nombre_proveedor' ? 'class="sortedby td-nombre_proveedor"' : null); ?>>
@@ -151,16 +162,18 @@ $show_pagination = $this->show_pagination;
                                             $counter++;
                                             ?>
                                             <tr>
+                                                <?php if($can_delete){ ?>
                                                 <th class=" td-checkbox">
                                                     <label class="custom-control custom-checkbox custom-control-inline">
                                                         <input class="optioncheck custom-control-input" name="optioncheck[]" value="<?php echo $data['id_proveedor'] ?>" type="checkbox" />
                                                             <span class="custom-control-label"></span>
                                                         </label>
                                                     </th>
+                                                    <?php } ?>
                                                     <th class="td-sno"><?php echo $counter; ?></th>
                                                     <td class="td-id_proveedor"><a href="<?php print_link("proveedor/view/$data[id_proveedor]") ?>"><?php echo $data['id_proveedor']; ?></a></td>
                                                     <td class="td-nombre_proveedor">
-                                                        <span  data-value="<?php echo $data['nombre_proveedor']; ?>" 
+                                                        <span <?php if($can_edit){ ?> data-value="<?php echo $data['nombre_proveedor']; ?>" 
                                                             data-pk="<?php echo $data['id_proveedor'] ?>" 
                                                             data-url="<?php print_link("proveedor/editfield/" . urlencode($data['id_proveedor'])); ?>" 
                                                             data-name="nombre_proveedor" 
@@ -170,12 +183,12 @@ $show_pagination = $this->show_pagination;
                                                             data-type="text" 
                                                             data-mode="popover" 
                                                             data-showbuttons="left" 
-                                                            class="is-editable" >
+                                                            class="is-editable" <?php } ?>>
                                                             <?php echo $data['nombre_proveedor']; ?> 
                                                         </span>
                                                     </td>
                                                     <td class="td-desc_proveedor">
-                                                        <span  data-value="<?php echo $data['desc_proveedor']; ?>" 
+                                                        <span <?php if($can_edit){ ?> data-value="<?php echo $data['desc_proveedor']; ?>" 
                                                             data-pk="<?php echo $data['id_proveedor'] ?>" 
                                                             data-url="<?php print_link("proveedor/editfield/" . urlencode($data['id_proveedor'])); ?>" 
                                                             data-name="desc_proveedor" 
@@ -185,12 +198,12 @@ $show_pagination = $this->show_pagination;
                                                             data-type="text" 
                                                             data-mode="popover" 
                                                             data-showbuttons="left" 
-                                                            class="is-editable" >
+                                                            class="is-editable" <?php } ?>>
                                                             <?php echo $data['desc_proveedor']; ?> 
                                                         </span>
                                                     </td>
                                                     <td class="td-asignado_proveedor">
-                                                        <span  data-value="<?php echo $data['asignado_proveedor']; ?>" 
+                                                        <span <?php if($can_edit){ ?> data-value="<?php echo $data['asignado_proveedor']; ?>" 
                                                             data-pk="<?php echo $data['id_proveedor'] ?>" 
                                                             data-url="<?php print_link("proveedor/editfield/" . urlencode($data['id_proveedor'])); ?>" 
                                                             data-name="asignado_proveedor" 
@@ -200,12 +213,12 @@ $show_pagination = $this->show_pagination;
                                                             data-type="text" 
                                                             data-mode="popover" 
                                                             data-showbuttons="left" 
-                                                            class="is-editable" >
+                                                            class="is-editable" <?php } ?>>
                                                             <?php echo $data['asignado_proveedor']; ?> 
                                                         </span>
                                                     </td>
                                                     <td class="td-tel_proveedor">
-                                                        <span  data-value="<?php echo $data['tel_proveedor']; ?>" 
+                                                        <span <?php if($can_edit){ ?> data-value="<?php echo $data['tel_proveedor']; ?>" 
                                                             data-pk="<?php echo $data['id_proveedor'] ?>" 
                                                             data-url="<?php print_link("proveedor/editfield/" . urlencode($data['id_proveedor'])); ?>" 
                                                             data-name="tel_proveedor" 
@@ -215,12 +228,12 @@ $show_pagination = $this->show_pagination;
                                                             data-type="text" 
                                                             data-mode="popover" 
                                                             data-showbuttons="left" 
-                                                            class="is-editable" >
+                                                            class="is-editable" <?php } ?>>
                                                             <?php echo $data['tel_proveedor']; ?> 
                                                         </span>
                                                     </td>
                                                     <td class="td-direccion_proveedor">
-                                                        <span  data-value="<?php echo $data['direccion_proveedor']; ?>" 
+                                                        <span <?php if($can_edit){ ?> data-value="<?php echo $data['direccion_proveedor']; ?>" 
                                                             data-pk="<?php echo $data['id_proveedor'] ?>" 
                                                             data-url="<?php print_link("proveedor/editfield/" . urlencode($data['id_proveedor'])); ?>" 
                                                             data-name="direccion_proveedor" 
@@ -230,12 +243,12 @@ $show_pagination = $this->show_pagination;
                                                             data-type="text" 
                                                             data-mode="popover" 
                                                             data-showbuttons="left" 
-                                                            class="is-editable" >
+                                                            class="is-editable" <?php } ?>>
                                                             <?php echo $data['direccion_proveedor']; ?> 
                                                         </span>
                                                     </td>
                                                     <td class="td-rtn_proveedor">
-                                                        <span  data-value="<?php echo $data['rtn_proveedor']; ?>" 
+                                                        <span <?php if($can_edit){ ?> data-value="<?php echo $data['rtn_proveedor']; ?>" 
                                                             data-pk="<?php echo $data['id_proveedor'] ?>" 
                                                             data-url="<?php print_link("proveedor/editfield/" . urlencode($data['id_proveedor'])); ?>" 
                                                             data-name="rtn_proveedor" 
@@ -245,22 +258,28 @@ $show_pagination = $this->show_pagination;
                                                             data-type="text" 
                                                             data-mode="popover" 
                                                             data-showbuttons="left" 
-                                                            class="is-editable" >
+                                                            class="is-editable" <?php } ?>>
                                                             <?php echo $data['rtn_proveedor']; ?> 
                                                         </span>
                                                     </td>
                                                     <td class="td-fecha_creacion"> <?php echo $data['fecha_creacion']; ?></td>
                                                     <th class="td-btn">
+                                                        <?php if($can_view){ ?>
                                                         <a class="btn btn-sm btn-success has-tooltip" title="<?php print_lang('view_record'); ?>" href="<?php print_link("proveedor/view/$rec_id"); ?>">
                                                             <i class="fa fa-eye"></i> <?php print_lang('view'); ?>
                                                         </a>
+                                                        <?php } ?>
+                                                        <?php if($can_edit){ ?>
                                                         <a class="btn btn-sm btn-info has-tooltip" title="<?php print_lang('edit_this_record'); ?>" href="<?php print_link("proveedor/edit/$rec_id"); ?>">
                                                             <i class="fa fa-edit"></i> <?php print_lang('edit'); ?>
                                                         </a>
+                                                        <?php } ?>
+                                                        <?php if($can_delete){ ?>
                                                         <a class="btn btn-sm btn-danger has-tooltip record-delete-btn" title="<?php print_lang('delete_this_record'); ?>" href="<?php print_link("proveedor/delete/$rec_id/?csrf_token=$csrf_token&redirect=$current_page"); ?>" data-prompt-msg="Are you sure you want to delete this record?" data-display-style="modal">
                                                             <i class="fa fa-times"></i>
                                                             <?php print_lang('delete'); ?>
                                                         </a>
+                                                        <?php } ?>
                                                     </th>
                                                 </tr>
                                                 <?php 
@@ -290,9 +309,11 @@ $show_pagination = $this->show_pagination;
                                         <div class="row justify-content-center">    
                                             <div class="col-md-auto justify-content-center">    
                                                 <div class="p-3 d-flex justify-content-between">    
+                                                    <?php if($can_delete){ ?>
                                                     <button data-prompt-msg="<?php print_lang('are_you_sure_you_want_to_delete_these_records_'); ?>" data-display-style="modal" data-url="<?php print_link("proveedor/delete/{sel_ids}/?csrf_token=$csrf_token&redirect=$current_page"); ?>" class="btn btn-sm btn-danger btn-delete-selected d-none">
                                                         <i class="fa fa-times"></i> <?php print_lang('delete_selected'); ?>
                                                     </button>
+                                                    <?php } ?>
                                                     <div class="dropup export-btn-holder mx-1">
                                                         <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             <i class="fa fa-save"></i> <?php print_lang('export'); ?>

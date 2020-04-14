@@ -1,3 +1,10 @@
+<?php 
+//check if current user role is allowed access to the pages
+$can_add = ACL::is_allowed("ficha/add");
+$can_edit = ACL::is_allowed("ficha/edit");
+$can_view = ACL::is_allowed("ficha/view");
+$can_delete = ACL::is_allowed("ficha/delete");
+?>
 <?php
 $comp_model = new SharedController;
 $page_element_id = "view-page-" . random_str();
@@ -241,12 +248,16 @@ $show_export_btn = $this->show_export_btn;
                                                         </a>
                                                     </div>
                                                 </div>
+                                                <?php if($can_edit){ ?>
                                                 <a class="btn btn-sm btn-info"  href="<?php print_link("ficha/edit/$rec_id"); ?>">
                                                     <i class="fa fa-edit"></i> <?php print_lang('edit'); ?>
                                                 </a>
+                                                <?php } ?>
+                                                <?php if($can_delete){ ?>
                                                 <a class="btn btn-sm btn-danger record-delete-btn mx-1"  href="<?php print_link("ficha/delete/$rec_id/?csrf_token=$csrf_token&redirect=$current_page"); ?>" data-prompt-msg="Are you sure you want to delete this record?" data-display-style="modal">
                                                     <i class="fa fa-times"></i> <?php print_lang('delete'); ?>
                                                 </a>
+                                                <?php } ?>
                                             </div>
                                             <?php
                                             }

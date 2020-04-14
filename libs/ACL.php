@@ -13,7 +13,44 @@ class ACL
 	 * Use "*" to grant all access right to particular user role
 	 * @var array
 	 */
-	public static $role_pages = '*';
+	public static $role_pages = array(
+			'admin' =>
+						array(
+							'categoria' => array('list','view','add','edit', 'editfield','delete','import_data'),
+							'proveedor' => array('list','view','add','edit', 'editfield','delete','import_data'),
+							'usuario' => array('list','view','add','edit', 'editfield','delete','import_data','accountedit','accountview'),
+							'centro' => array('list','view','add','edit', 'editfield','delete'),
+							'detalle_registro' => array('list','view','add','edit', 'editfield','delete','import_data','list','view','add','edit', 'editfield','delete'),
+							'producto' => array('list','view','add','edit', 'editfield','delete','import_data','list','view','add','edit', 'editfield','delete','list','view','add','edit', 'editfield','delete'),
+							'enviado' => array('list','view','add','edit', 'editfield','delete'),
+							'recibido' => array('list','view','add','edit', 'editfield','delete'),
+							'ficha' => array('list','view','add','edit', 'editfield','delete')
+						),
+		
+			'capa1' =>
+						array(
+							'categoria' => array('list','view','add'),
+							'proveedor' => array('list','view','add'),
+							'centro' => array('list','view','add'),
+							'detalle_registro' => array('list','view'),
+							'producto' => array('list','view','add'),
+							'enviado' => array('list','view'),
+							'recibido' => array('list','view'),
+							'ficha' => array('list','view')
+						),
+		
+			'capa2' =>
+						array(
+							'categoria' => array('list','view'),
+							'proveedor' => array('list','view'),
+							'centro' => array('list','view'),
+							'detalle_registro' => array('list','view','add'),
+							'producto' => array('list','view'),
+							'enviado' => array('list','view','add'),
+							'recibido' => array('list','view','add'),
+							'ficha' => array('list','view','add')
+						)
+		);
 
 	/**
 	 * Current user role name

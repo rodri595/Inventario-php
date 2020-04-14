@@ -23,16 +23,16 @@ $show_pagination = $this->show_pagination;
         <div class="container-fluid">
             <div class="row ">
                 <div class="col ">
-                    <h4 class="record-title"><?php print_lang('movimiento'); ?></h4>
+                    <h4 class="record-title"><?php print_lang('app_logs'); ?></h4>
                 </div>
                 <div class="col-sm-3 ">
-                    <a  class="btn btn btn-primary my-1" href="<?php print_link("movimiento/add") ?>">
+                    <a  class="btn btn btn-primary my-1" href="<?php print_link("app_logs/add") ?>">
                         <i class="fa fa-plus"></i>                              
-                        <?php print_lang('add_new_movimiento'); ?> 
+                        <?php print_lang('add_new_app_logs'); ?> 
                     </a>
                 </div>
                 <div class="col-sm-4 ">
-                    <form  class="search" action="<?php print_link('movimiento'); ?>" method="get">
+                    <form  class="search" action="<?php print_link('app_logs'); ?>" method="get">
                         <div class="input-group">
                             <input value="<?php echo get_value('search'); ?>" class="form-control" type="text" name="search"  placeholder="<?php print_lang('search'); ?>" />
                                 <div class="input-group-append">
@@ -54,7 +54,7 @@ $show_pagination = $this->show_pagination;
                                     if(!empty($field_name)){
                                     ?>
                                     <li class="breadcrumb-item">
-                                        <a class="text-decoration-none" href="<?php print_link('movimiento'); ?>">
+                                        <a class="text-decoration-none" href="<?php print_link('app_logs'); ?>">
                                             <i class="fa fa-angle-left"></i>
                                         </a>
                                     </li>
@@ -71,7 +71,7 @@ $show_pagination = $this->show_pagination;
                                     if(get_value("search")){
                                     ?>
                                     <li class="breadcrumb-item">
-                                        <a class="text-decoration-none" href="<?php print_link('movimiento'); ?>">
+                                        <a class="text-decoration-none" href="<?php print_link('app_logs'); ?>">
                                             <i class="fa fa-angle-left"></i>
                                         </a>
                                     </li>
@@ -102,13 +102,25 @@ $show_pagination = $this->show_pagination;
                     <div class="col-md-12 comp-grid">
                         <?php $this :: display_page_errors(); ?>
                         <div  class=" animated fadeIn page-content">
-                            <div id="movimiento-list-records">
+                            <div id="app_logs-list-records">
                                 <div id="page-report-body" class="table-responsive">
                                     <table class="table  table-striped table-sm text-left">
                                         <thead class="table-header bg-light">
                                             <tr>
                                                 <th class="td-sno">#</th>
-                                                <th  class="td-id"> <?php print_lang('id'); ?></th>
+                                                <th  class="td-log_id"> <?php print_lang('log_id'); ?></th>
+                                                <th  class="td-Timestamp"> <?php print_lang('timestamp'); ?></th>
+                                                <th  class="td-Action"> <?php print_lang('action'); ?></th>
+                                                <th  class="td-TableName"> <?php print_lang('tablename'); ?></th>
+                                                <th  class="td-RecordID"> <?php print_lang('recordid'); ?></th>
+                                                <th  class="td-SqlQuery"> <?php print_lang('sqlquery'); ?></th>
+                                                <th  class="td-UserID"> <?php print_lang('userid'); ?></th>
+                                                <th  class="td-ServerIP"> <?php print_lang('serverip'); ?></th>
+                                                <th  class="td-RequestUrl"> <?php print_lang('requesturl'); ?></th>
+                                                <th  class="td-RequestData"> <?php print_lang('requestdata'); ?></th>
+                                                <th  class="td-RequestCompleted"> <?php print_lang('requestcompleted'); ?></th>
+                                                <th  class="td-RequestMsg"> <?php print_lang('requestmsg'); ?></th>
+                                                <th class="td-btn"></th>
                                             </tr>
                                         </thead>
                                         <?php
@@ -119,24 +131,28 @@ $show_pagination = $this->show_pagination;
                                             <?php
                                             $counter = 0;
                                             foreach($records as $data){
-                                            $rec_id = (!empty($data['']) ? urlencode($data['']) : null);
+                                            $rec_id = (!empty($data['log_id']) ? urlencode($data['log_id']) : null);
                                             $counter++;
                                             ?>
                                             <tr>
                                                 <th class="td-sno"><?php echo $counter; ?></th>
-                                                <td class="td-id">
-                                                    <span  data-value="<?php echo $data['id']; ?>" 
-                                                        data-name="id" 
-                                                        data-title="Enter Id" 
-                                                        data-placement="left" 
-                                                        data-toggle="click" 
-                                                        data-type="text" 
-                                                        data-mode="popover" 
-                                                        data-showbuttons="left" 
-                                                        class="is-editable" >
-                                                        <?php echo $data['id']; ?> 
-                                                    </span>
-                                                </td>
+                                                <td class="td-log_id"><a href="<?php print_link("app_logs/view/$data[log_id]") ?>"><?php echo $data['log_id']; ?></a></td>
+                                                <td class="td-Timestamp"> <?php echo $data['Timestamp']; ?></td>
+                                                <td class="td-Action"> <?php echo $data['Action']; ?></td>
+                                                <td class="td-TableName"> <?php echo $data['TableName']; ?></td>
+                                                <td class="td-RecordID"> <?php echo $data['RecordID']; ?></td>
+                                                <td class="td-SqlQuery"> <?php echo $data['SqlQuery']; ?></td>
+                                                <td class="td-UserID"> <?php echo $data['UserID']; ?></td>
+                                                <td class="td-ServerIP"> <?php echo $data['ServerIP']; ?></td>
+                                                <td class="td-RequestUrl"> <?php echo $data['RequestUrl']; ?></td>
+                                                <td class="td-RequestData"> <?php echo $data['RequestData']; ?></td>
+                                                <td class="td-RequestCompleted"> <?php echo $data['RequestCompleted']; ?></td>
+                                                <td class="td-RequestMsg"> <?php echo $data['RequestMsg']; ?></td>
+                                                <th class="td-btn">
+                                                    <a class="btn btn-sm btn-success has-tooltip" title="<?php print_lang('view_record'); ?>" href="<?php print_link("app_logs/view/$rec_id"); ?>">
+                                                        <i class="fa fa-eye"></i> <?php print_lang('view'); ?>
+                                                    </a>
+                                                </th>
                                             </tr>
                                             <?php 
                                             }

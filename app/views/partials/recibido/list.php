@@ -1,3 +1,10 @@
+<?php 
+//check if current user role is allowed access to the pages
+$can_add = ACL::is_allowed("recibido/add");
+$can_edit = ACL::is_allowed("recibido/edit");
+$can_view = ACL::is_allowed("recibido/view");
+$can_delete = ACL::is_allowed("recibido/delete");
+?>
 <?php
 $comp_model = new SharedController;
 $page_element_id = "list-page-" . random_str();
@@ -26,10 +33,12 @@ $show_pagination = $this->show_pagination;
                     <h4 class="record-title"><?php print_lang('lista_de_movimientos_recibidos'); ?></h4>
                 </div>
                 <div class="col-sm-3 ">
+                    <?php if($can_add){ ?>
                     <a  class="btn btn btn-primary my-1" href="<?php print_link("recibido/add") ?>">
                         <i class="fa fa-plus"></i>                              
                         <?php print_lang('crear_movimiento_de_recibido'); ?> 
                     </a>
+                    <?php } ?>
                 </div>
                 <div class="col-sm-4 ">
                     <form  class="search" action="<?php print_link('recibido'); ?>" method="get">
@@ -107,12 +116,14 @@ $show_pagination = $this->show_pagination;
                                     <table class="table  table-striped table-sm text-left">
                                         <thead class="table-header bg-light">
                                             <tr>
+                                                <?php if($can_delete){ ?>
                                                 <th class="td-checkbox">
                                                     <label class="custom-control custom-checkbox custom-control-inline">
                                                         <input class="toggle-check-all custom-control-input" type="checkbox" />
                                                         <span class="custom-control-label"></span>
                                                     </label>
                                                 </th>
+                                                <?php } ?>
                                                 <th class="td-sno">#</th>
                                                 <th  <?php echo (get_value('orderby')=='id_recibido' ? 'class="sortedby td-id_recibido"' : null); ?>>
                                                     <?php Html :: get_field_order_link('id_recibido', get_lang('id_recibido')); ?>
@@ -142,16 +153,18 @@ $show_pagination = $this->show_pagination;
                                             $counter++;
                                             ?>
                                             <tr>
+                                                <?php if($can_delete){ ?>
                                                 <th class=" td-checkbox">
                                                     <label class="custom-control custom-checkbox custom-control-inline">
                                                         <input class="optioncheck custom-control-input" name="optioncheck[]" value="<?php echo $data['id_recibido'] ?>" type="checkbox" />
                                                             <span class="custom-control-label"></span>
                                                         </label>
                                                     </th>
+                                                    <?php } ?>
                                                     <th class="td-sno"><?php echo $counter; ?></th>
                                                     <td class="td-id_recibido"><a href="<?php print_link("recibido/view/$data[id_recibido]") ?>"><?php echo $data['id_recibido']; ?></a></td>
                                                     <td class="td-fecha_recibido">
-                                                        <span  data-flatpickr="{ minDate: '', maxDate: ''}" 
+                                                        <span <?php if($can_edit){ ?> data-flatpickr="{ minDate: '', maxDate: ''}" 
                                                             data-value="<?php echo $data['fecha_recibido']; ?>" 
                                                             data-pk="<?php echo $data['id_recibido'] ?>" 
                                                             data-url="<?php print_link("recibido/editfield/" . urlencode($data['id_recibido'])); ?>" 
@@ -162,7 +175,7 @@ $show_pagination = $this->show_pagination;
                                                             data-type="flatdatetimepicker" 
                                                             data-mode="popover" 
                                                             data-showbuttons="left" 
-                                                            class="is-editable" >
+                                                            class="is-editable" <?php } ?>>
                                                             <?php echo $data['fecha_recibido']; ?> 
                                                         </span>
                                                     </td>
@@ -174,16 +187,22 @@ $show_pagination = $this->show_pagination;
                                                     <td class="td-png"><?php Html :: page_img($data['png'],50,50,1); ?></td>
                                                     <td class="td-creacion"> <?php echo $data['creacion']; ?></td>
                                                     <th class="td-btn">
+                                                        <?php if($can_view){ ?>
                                                         <a class="btn btn-sm btn-success has-tooltip" title="<?php print_lang('view_record'); ?>" href="<?php print_link("recibido/view/$rec_id"); ?>">
                                                             <i class="fa fa-eye"></i> <?php print_lang('view'); ?>
                                                         </a>
+                                                        <?php } ?>
+                                                        <?php if($can_edit){ ?>
                                                         <a class="btn btn-sm btn-info has-tooltip" title="<?php print_lang('edit_this_record'); ?>" href="<?php print_link("recibido/edit/$rec_id"); ?>">
                                                             <i class="fa fa-edit"></i> <?php print_lang('edit'); ?>
                                                         </a>
+                                                        <?php } ?>
+                                                        <?php if($can_delete){ ?>
                                                         <a class="btn btn-sm btn-danger has-tooltip record-delete-btn" title="<?php print_lang('delete_this_record'); ?>" href="<?php print_link("recibido/delete/$rec_id/?csrf_token=$csrf_token&redirect=$current_page"); ?>" data-prompt-msg="Are you sure you want to delete this record?" data-display-style="modal">
                                                             <i class="fa fa-times"></i>
                                                             <?php print_lang('delete'); ?>
                                                         </a>
+                                                        <?php } ?>
                                                     </th>
                                                 </tr>
                                                 <?php 
@@ -213,9 +232,11 @@ $show_pagination = $this->show_pagination;
                                         <div class="row justify-content-center">    
                                             <div class="col-md-auto justify-content-center">    
                                                 <div class="p-3 d-flex justify-content-between">    
+                                                    <?php if($can_delete){ ?>
                                                     <button data-prompt-msg="<?php print_lang('are_you_sure_you_want_to_delete_these_records_'); ?>" data-display-style="modal" data-url="<?php print_link("recibido/delete/{sel_ids}/?csrf_token=$csrf_token&redirect=$current_page"); ?>" class="btn btn-sm btn-danger btn-delete-selected d-none">
                                                         <i class="fa fa-times"></i> <?php print_lang('delete_selected'); ?>
                                                     </button>
+                                                    <?php } ?>
                                                     <div class="dropup export-btn-holder mx-1">
                                                         <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             <i class="fa fa-save"></i> <?php print_lang('export'); ?>

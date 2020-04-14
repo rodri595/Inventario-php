@@ -1,3 +1,10 @@
+<?php 
+//check if current user role is allowed access to the pages
+$can_add = ACL::is_allowed("proveedor/add");
+$can_edit = ACL::is_allowed("proveedor/edit");
+$can_view = ACL::is_allowed("proveedor/view");
+$can_delete = ACL::is_allowed("proveedor/delete");
+?>
 <?php
 $comp_model = new SharedController;
 $page_element_id = "view-page-" . random_str();
@@ -52,7 +59,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-nombre_proveedor">
                                         <th class="title"> <?php print_lang('nombre_proveedor'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['nombre_proveedor']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['nombre_proveedor']; ?>" 
                                                 data-pk="<?php echo $data['id_proveedor'] ?>" 
                                                 data-url="<?php print_link("proveedor/editfield/" . urlencode($data['id_proveedor'])); ?>" 
                                                 data-name="nombre_proveedor" 
@@ -62,7 +69,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['nombre_proveedor']; ?> 
                                             </span>
                                         </td>
@@ -70,7 +77,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-desc_proveedor">
                                         <th class="title"> <?php print_lang('desc_proveedor'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['desc_proveedor']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['desc_proveedor']; ?>" 
                                                 data-pk="<?php echo $data['id_proveedor'] ?>" 
                                                 data-url="<?php print_link("proveedor/editfield/" . urlencode($data['id_proveedor'])); ?>" 
                                                 data-name="desc_proveedor" 
@@ -80,7 +87,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['desc_proveedor']; ?> 
                                             </span>
                                         </td>
@@ -88,7 +95,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-asignado_proveedor">
                                         <th class="title"> <?php print_lang('asignado_proveedor'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['asignado_proveedor']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['asignado_proveedor']; ?>" 
                                                 data-pk="<?php echo $data['id_proveedor'] ?>" 
                                                 data-url="<?php print_link("proveedor/editfield/" . urlencode($data['id_proveedor'])); ?>" 
                                                 data-name="asignado_proveedor" 
@@ -98,7 +105,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['asignado_proveedor']; ?> 
                                             </span>
                                         </td>
@@ -106,7 +113,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-tel_proveedor">
                                         <th class="title"> <?php print_lang('tel_proveedor'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['tel_proveedor']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['tel_proveedor']; ?>" 
                                                 data-pk="<?php echo $data['id_proveedor'] ?>" 
                                                 data-url="<?php print_link("proveedor/editfield/" . urlencode($data['id_proveedor'])); ?>" 
                                                 data-name="tel_proveedor" 
@@ -116,7 +123,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['tel_proveedor']; ?> 
                                             </span>
                                         </td>
@@ -128,7 +135,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-direccion_proveedor">
                                         <th class="title"> <?php print_lang('direccion_proveedor'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['direccion_proveedor']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['direccion_proveedor']; ?>" 
                                                 data-pk="<?php echo $data['id_proveedor'] ?>" 
                                                 data-url="<?php print_link("proveedor/editfield/" . urlencode($data['id_proveedor'])); ?>" 
                                                 data-name="direccion_proveedor" 
@@ -138,7 +145,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['direccion_proveedor']; ?> 
                                             </span>
                                         </td>
@@ -146,7 +153,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-rtn_proveedor">
                                         <th class="title"> <?php print_lang('rtn_proveedor'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['rtn_proveedor']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['rtn_proveedor']; ?>" 
                                                 data-pk="<?php echo $data['id_proveedor'] ?>" 
                                                 data-url="<?php print_link("proveedor/editfield/" . urlencode($data['id_proveedor'])); ?>" 
                                                 data-name="rtn_proveedor" 
@@ -156,7 +163,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['rtn_proveedor']; ?> 
                                             </span>
                                         </td>
@@ -201,12 +208,16 @@ $show_export_btn = $this->show_export_btn;
                                                         </a>
                                                     </div>
                                                 </div>
+                                                <?php if($can_edit){ ?>
                                                 <a class="btn btn-sm btn-info"  href="<?php print_link("proveedor/edit/$rec_id"); ?>">
                                                     <i class="fa fa-edit"></i> <?php print_lang('edit'); ?>
                                                 </a>
+                                                <?php } ?>
+                                                <?php if($can_delete){ ?>
                                                 <a class="btn btn-sm btn-danger record-delete-btn mx-1"  href="<?php print_link("proveedor/delete/$rec_id/?csrf_token=$csrf_token&redirect=$current_page"); ?>" data-prompt-msg="Are you sure you want to delete this record?" data-display-style="modal">
                                                     <i class="fa fa-times"></i> <?php print_lang('delete'); ?>
                                                 </a>
+                                                <?php } ?>
                                             </div>
                                             <?php
                                             }

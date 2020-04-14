@@ -134,6 +134,35 @@ $redirect_to = $this->redirect_to;
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="form-group ">
+                                                                <div class="row">
+                                                                    <div class="col-sm-4">
+                                                                        <label class="control-label" for="rol"><?php print_lang('rol'); ?> <span class="text-danger">*</span></label>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="">
+                                                                            <select required=""  id="ctrl-rol" name="rol"  placeholder="<?php print_lang('select_a_value_'); ?>"    class="custom-select" >
+                                                                                <option value=""><?php print_lang('select_a_value_'); ?></option>
+                                                                                <?php
+                                                                                $rol_options = Menu :: $rol;
+                                                                                if(!empty($rol_options)){
+                                                                                foreach($rol_options as $option){
+                                                                                $value = $option['value'];
+                                                                                $label = $option['label'];
+                                                                                $selected = $this->set_field_selected('rol', $value, "");
+                                                                                ?>
+                                                                                <option <?php echo $selected ?> value="<?php echo $value ?>">
+                                                                                    <?php echo $label ?>
+                                                                                </option>                                   
+                                                                                <?php
+                                                                                }
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="form-group form-submit-btn-holder text-center mt-3">
                                                             <div class="form-ajax-status"></div>

@@ -93,68 +93,6 @@ class IndexController extends BaseController{
 		}
 	}
 	/**
-     * Insert new record into the user table
-	 * @param $formdata array from $_POST
-     * @return BaseView
-     */
-	function register($formdata = null){
-		if($formdata){
-			$request = $this->request;
-			$db = $this->GetModel();
-			$tablename = $this->tablename;
-			$fields = $this->fields = array("user_usuario","nombre","apellido","correo","fecha_creacion_usuario","password","numero_empleado"); //registration fields
-			$postdata = $this->format_request_data($formdata);
-			$cpassword = $postdata['confirm_password'];
-			$password = $postdata['password'];
-			if($cpassword != $password){
-				$this->view->page_error[] = get_lang('your_password_confirmation_is_not_consistent');
-			}
-			$this->rules_array = array(
-				'user_usuario' => 'required',
-				'nombre' => 'required',
-				'apellido' => 'required',
-				'correo' => 'required|valid_email',
-				'password' => 'required',
-				'numero_empleado' => 'required|numeric',
-			);
-			$this->sanitize_array = array(
-				'user_usuario' => 'sanitize_string',
-				'nombre' => 'sanitize_string',
-				'apellido' => 'sanitize_string',
-				'correo' => 'sanitize_string',
-				'numero_empleado' => 'sanitize_string',
-			);
-			$this->filter_vals = true; //set whether to remove empty fields
-			$modeldata = $this->modeldata = $this->validate_form($postdata);
-			$password_text = $modeldata['password'];
-			//update modeldata with the password hash
-			$modeldata['password'] = $this->modeldata['password'] = password_hash($password_text , PASSWORD_DEFAULT);
-			$modeldata['fecha_creacion_usuario'] = datetime_now();
-			//Check if Duplicate Record Already Exit In The Database
-			$db->where("user_usuario", $modeldata['user_usuario']);
-			if($db->has($tablename)){
-				$this->view->page_error[] = $modeldata['user_usuario'].get_lang('_already_exist_');
-			}
-			//Check if Duplicate Record Already Exit In The Database
-			$db->where("correo", $modeldata['correo']);
-			if($db->has($tablename)){
-				$this->view->page_error[] = $modeldata['correo'].get_lang('_already_exist_');
-			}
-			if($this->validated()){
-				$rec_id = $this->rec_id = $db->insert($tablename, $modeldata);
-				if($rec_id){
-					$this->login_user($modeldata['user_usuario'] , $password_text);
-					return;
-				}
-				else{
-					$this->set_page_error();
-				}
-			}
-		}
-		$page_title = $this->view->page_title = get_lang('add_new_usuario');
-		return $this->render_view("index/register.php");
-	}
-	/**
      * Logout Action
      * Destroy All Sessions And Cookies
      * @return View

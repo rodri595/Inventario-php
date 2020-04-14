@@ -35,7 +35,7 @@ define("FORBIDDEN", 403);
 define("IMG_DIR",  "assets/images/");
 define("FONTS_DIR",  "assets/fonts/");
 define("SITE_FAVICON", IMG_DIR . "favicon.ico");
-define("SITE_LOGO", IMG_DIR . "logo.ico");
+define("SITE_LOGO", IMG_DIR . "logo.png");
 
 define("CSS_DIR", SITE_ADDR . "assets/css/");
 define("JS_DIR", SITE_ADDR . "assets/js/");
@@ -63,7 +63,7 @@ define("HOME_PAGE", "Home");
 define("DEFAULT_PAGE", "index"); //Default Controller Class
 define("DEFAULT_PAGE_ACTION", "index"); //Default Controller Action
 define("DEFAULT_LAYOUT", LAYOUTS_DIR . "main_layout.php");
-define("DEFAULT_LANGUAGE", "english"); //Default Language
+define("DEFAULT_LANGUAGE", "spanish"); //Default Language
 
 // Page Meta Information
 define("META_AUTHOR", "rodrigo");
@@ -100,3 +100,4 @@ define('USER_ID',(isset($_SESSION[APP_ID.'user_data']) ? $_SESSION[APP_ID.'user_
 define('USER_NAME',(isset($_SESSION[APP_ID.'user_data']) ? $_SESSION[APP_ID.'user_data']['user_usuario'] : null ));
 define('USER_EMAIL',(isset($_SESSION[APP_ID.'user_data']) ? $_SESSION[APP_ID.'user_data']['correo'] : null ));
 
+define('USER_ROLE',(isset($_SESSION[APP_ID.'user_data']) ? $_SESSION[APP_ID.'user_data']['rol'] : null ));

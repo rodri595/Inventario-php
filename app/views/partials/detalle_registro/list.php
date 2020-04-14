@@ -1,3 +1,10 @@
+<?php 
+//check if current user role is allowed access to the pages
+$can_add = ACL::is_allowed("detalle_registro/add");
+$can_edit = ACL::is_allowed("detalle_registro/edit");
+$can_view = ACL::is_allowed("detalle_registro/view");
+$can_delete = ACL::is_allowed("detalle_registro/delete");
+?>
 <?php
 $comp_model = new SharedController;
 $page_element_id = "list-page-" . random_str();
@@ -26,10 +33,12 @@ $show_pagination = $this->show_pagination;
                     <h4 class="record-title"><?php print_lang('productos_a_enviar_en_ficha'); ?></h4>
                 </div>
                 <div class="col-sm-3 ">
+                    <?php if($can_add){ ?>
                     <a  class="btn btn btn-primary my-1" href="<?php print_link("detalle_registro/add") ?>">
                         <i class="fa fa-plus"></i>                              
                         <?php print_lang('agregar_porductos_a_ficha'); ?> 
                     </a>
+                    <?php } ?>
                 </div>
                 <div class="col-sm-4 ">
                     <form  class="search" action="<?php print_link('detalle_registro'); ?>" method="get">
@@ -108,12 +117,14 @@ $show_pagination = $this->show_pagination;
                                         <table class="table  table-striped table-sm text-left">
                                             <thead class="table-header bg-light">
                                                 <tr>
+                                                    <?php if($can_delete){ ?>
                                                     <th class="td-checkbox">
                                                         <label class="custom-control custom-checkbox custom-control-inline">
                                                             <input class="toggle-check-all custom-control-input" type="checkbox" />
                                                             <span class="custom-control-label"></span>
                                                         </label>
                                                     </th>
+                                                    <?php } ?>
                                                     <th class="td-sno">#</th>
                                                     <th  <?php echo (get_value('orderby')=='fk_registro' ? 'class="sortedby td-fk_registro"' : null); ?>>
                                                         <?php Html :: get_field_order_link('fk_registro', get_lang('producto_guardado_en_registro_')); ?>
@@ -142,15 +153,17 @@ $show_pagination = $this->show_pagination;
                                                 $counter++;
                                                 ?>
                                                 <tr>
+                                                    <?php if($can_delete){ ?>
                                                     <th class=" td-checkbox">
                                                         <label class="custom-control custom-checkbox custom-control-inline">
                                                             <input class="optioncheck custom-control-input" name="optioncheck[]" value="<?php echo $data['id_detalle_registro'] ?>" type="checkbox" />
                                                                 <span class="custom-control-label"></span>
                                                             </label>
                                                         </th>
+                                                        <?php } ?>
                                                         <th class="td-sno"><?php echo $counter; ?></th>
                                                         <td class="td-fk_registro">
-                                                            <span  data-min="0" 
+                                                            <span <?php if($can_edit){ ?> data-min="0" 
                                                                 data-source='<?php print_link('api/json/detalle_registro_fk_registro_option_list'); ?>' 
                                                                 data-value="<?php echo $data['fk_registro']; ?>" 
                                                                 data-pk="<?php echo $data['id_detalle_registro'] ?>" 
@@ -162,7 +175,7 @@ $show_pagination = $this->show_pagination;
                                                                 data-type="number" 
                                                                 data-mode="popover" 
                                                                 data-showbuttons="left" 
-                                                                class="is-editable" >
+                                                                class="is-editable" <?php } ?>>
                                                                 <?php echo $data['fk_registro']; ?> 
                                                             </span>
                                                         </td>
@@ -172,7 +185,7 @@ $show_pagination = $this->show_pagination;
                                                             </a>
                                                         </td>
                                                         <td class="td-desc_detalle">
-                                                            <span  data-value="<?php echo $data['desc_detalle']; ?>" 
+                                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['desc_detalle']; ?>" 
                                                                 data-pk="<?php echo $data['id_detalle_registro'] ?>" 
                                                                 data-url="<?php print_link("detalle_registro/editfield/" . urlencode($data['id_detalle_registro'])); ?>" 
                                                                 data-name="desc_detalle" 
@@ -182,12 +195,12 @@ $show_pagination = $this->show_pagination;
                                                                 data-type="text" 
                                                                 data-mode="popover" 
                                                                 data-showbuttons="left" 
-                                                                class="is-editable" >
+                                                                class="is-editable" <?php } ?>>
                                                                 <?php echo $data['desc_detalle']; ?> 
                                                             </span>
                                                         </td>
                                                         <td class="td-fk_cantidad">
-                                                            <span  data-min="0" 
+                                                            <span <?php if($can_edit){ ?> data-min="0" 
                                                                 data-step="0.1" 
                                                                 data-value="<?php echo $data['fk_cantidad']; ?>" 
                                                                 data-pk="<?php echo $data['id_detalle_registro'] ?>" 
@@ -199,18 +212,22 @@ $show_pagination = $this->show_pagination;
                                                                 data-type="number" 
                                                                 data-mode="popover" 
                                                                 data-showbuttons="left" 
-                                                                class="is-editable" >
+                                                                class="is-editable" <?php } ?>>
                                                                 <?php echo $data['fk_cantidad']; ?> 
                                                             </span>
                                                         </td>
                                                         <th class="td-btn">
+                                                            <?php if($can_edit){ ?>
                                                             <a class="btn btn-sm btn-info has-tooltip" title="<?php print_lang('edit_this_record'); ?>" href="<?php print_link("detalle_registro/edit/$rec_id"); ?>">
                                                                 <i class="fa fa-edit"></i> <?php print_lang('editar'); ?>
                                                             </a>
+                                                            <?php } ?>
+                                                            <?php if($can_delete){ ?>
                                                             <a class="btn btn-sm btn-danger has-tooltip record-delete-btn" title="<?php print_lang('delete_this_record'); ?>" href="<?php print_link("detalle_registro/delete/$rec_id/?csrf_token=$csrf_token&redirect=$current_page"); ?>" data-prompt-msg="Are you sure you want to delete this record?" data-display-style="modal">
                                                                 <i class="fa fa-times"></i>
                                                                 <?php print_lang('borrar'); ?>
                                                             </a>
+                                                            <?php } ?>
                                                         </th>
                                                     </tr>
                                                     <?php 
@@ -240,9 +257,11 @@ $show_pagination = $this->show_pagination;
                                             <div class="row justify-content-center">    
                                                 <div class="col-md-auto justify-content-center">    
                                                     <div class="p-3 d-flex justify-content-between">    
+                                                        <?php if($can_delete){ ?>
                                                         <button data-prompt-msg="<?php print_lang('are_you_sure_you_want_to_delete_these_records_'); ?>" data-display-style="modal" data-url="<?php print_link("detalle_registro/delete/{sel_ids}/?csrf_token=$csrf_token&redirect=$current_page"); ?>" class="btn btn-sm btn-danger btn-delete-selected d-none">
                                                             <i class="fa fa-times"></i> <?php print_lang('delete_selected'); ?>
                                                         </button>
+                                                        <?php } ?>
                                                         <div class="dropup export-btn-holder mx-1">
                                                             <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                 <i class="fa fa-save"></i> <?php print_lang('export'); ?>

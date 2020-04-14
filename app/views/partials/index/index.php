@@ -57,10 +57,6 @@
                                                 </button>
                                             </div>
                                             <hr />
-                                            <div class="text-center">
-                                                <?php print_lang('don_t_have_an_account_'); ?> <a href="<?php print_link("index/register") ?>" class="btn btn-success"><?php print_lang('register'); ?>
-                                                <i class="fa fa-user"></i></a>
-                                            </div>
                                         </form>
                                     </div>
                                 </div>

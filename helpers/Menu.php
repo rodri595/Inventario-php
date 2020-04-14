@@ -106,11 +106,7 @@ class Menu{
 		),
 		
 		array(
-			'path' => 'movmientos', 
-			'label' => 'Movimientos', 
-			'icon' => '<i class="fa fa-truck "></i>','submenu' => array(
-		array(
-			'path' => 'envio', 
+			'path' => 'enviado', 
 			'label' => 'Envios', 
 			'icon' => '<i class="fa fa-send-o "></i>','submenu' => array(
 		array(
@@ -144,10 +140,22 @@ class Menu{
 		)
 	)
 		)
-	)
-		)
 	);
 		
 	
 	
+			public static $rol = array(
+		array(
+			"value" => "admin", 
+			"label" => "admin", 
+		),
+		array(
+			"value" => "capa1", 
+			"label" => "capa1", 
+		),
+		array(
+			"value" => "capa2", 
+			"label" => "capa2", 
+		),);
+		
 }

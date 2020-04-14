@@ -1,3 +1,10 @@
+<?php 
+//check if current user role is allowed access to the pages
+$can_add = ACL::is_allowed("producto/add");
+$can_edit = ACL::is_allowed("producto/edit");
+$can_view = ACL::is_allowed("producto/view");
+$can_delete = ACL::is_allowed("producto/delete");
+?>
 <?php
 $comp_model = new SharedController;
 $page_element_id = "view-page-" . random_str();
@@ -52,7 +59,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-nombre_producto">
                                         <th class="title"> <?php print_lang('nombre_producto'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['nombre_producto']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['nombre_producto']; ?>" 
                                                 data-pk="<?php echo $data['id_producto'] ?>" 
                                                 data-url="<?php print_link("producto/editfield/" . urlencode($data['id_producto'])); ?>" 
                                                 data-name="nombre_producto" 
@@ -62,7 +69,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['nombre_producto']; ?> 
                                             </span>
                                         </td>
@@ -70,7 +77,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-desc_producto">
                                         <th class="title"> <?php print_lang('desc_producto'); ?>: </th>
                                         <td class="value">
-                                            <span  data-pk="<?php echo $data['id_producto'] ?>" 
+                                            <span <?php if($can_edit){ ?> data-pk="<?php echo $data['id_producto'] ?>" 
                                                 data-url="<?php print_link("producto/editfield/" . urlencode($data['id_producto'])); ?>" 
                                                 data-name="desc_producto" 
                                                 data-title="Detalles" 
@@ -79,7 +86,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="textarea" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['desc_producto']; ?> 
                                             </span>
                                         </td>
@@ -87,7 +94,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-cantidad_producto">
                                         <th class="title"> <?php print_lang('cantidad_producto'); ?>: </th>
                                         <td class="value">
-                                            <span  data-min="0" 
+                                            <span <?php if($can_edit){ ?> data-min="0" 
                                                 data-step="0.1" 
                                                 data-value="<?php echo $data['cantidad_producto']; ?>" 
                                                 data-pk="<?php echo $data['id_producto'] ?>" 
@@ -99,7 +106,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="number" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['cantidad_producto']; ?> 
                                             </span>
                                         </td>
@@ -107,7 +114,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-peso_producto">
                                         <th class="title"> <?php print_lang('peso_producto'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['peso_producto']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['peso_producto']; ?>" 
                                                 data-pk="<?php echo $data['id_producto'] ?>" 
                                                 data-url="<?php print_link("producto/editfield/" . urlencode($data['id_producto'])); ?>" 
                                                 data-name="peso_producto" 
@@ -117,7 +124,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['peso_producto']; ?> 
                                             </span>
                                         </td>
@@ -125,7 +132,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-dimension_producto">
                                         <th class="title"> <?php print_lang('dimension_producto'); ?>: </th>
                                         <td class="value">
-                                            <span  data-value="<?php echo $data['dimension_producto']; ?>" 
+                                            <span <?php if($can_edit){ ?> data-value="<?php echo $data['dimension_producto']; ?>" 
                                                 data-pk="<?php echo $data['id_producto'] ?>" 
                                                 data-url="<?php print_link("producto/editfield/" . urlencode($data['id_producto'])); ?>" 
                                                 data-name="dimension_producto" 
@@ -135,7 +142,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="text" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['dimension_producto']; ?> 
                                             </span>
                                         </td>
@@ -163,7 +170,7 @@ $show_export_btn = $this->show_export_btn;
                                     <tr  class="td-precio_producto">
                                         <th class="title"> <?php print_lang('precio_producto'); ?>: </th>
                                         <td class="value">
-                                            <span  data-min="0" 
+                                            <span <?php if($can_edit){ ?> data-min="0" 
                                                 data-step="0.1" 
                                                 data-value="<?php echo $data['precio_producto']; ?>" 
                                                 data-pk="<?php echo $data['id_producto'] ?>" 
@@ -175,7 +182,7 @@ $show_export_btn = $this->show_export_btn;
                                                 data-type="number" 
                                                 data-mode="popover" 
                                                 data-showbuttons="left" 
-                                                class="is-editable" >
+                                                class="is-editable" <?php } ?>>
                                                 <?php echo $data['precio_producto']; ?> 
                                             </span>
                                         </td>
@@ -212,12 +219,16 @@ $show_export_btn = $this->show_export_btn;
                                                         </a>
                                                     </div>
                                                 </div>
+                                                <?php if($can_edit){ ?>
                                                 <a class="btn btn-sm btn-info"  href="<?php print_link("producto/edit/$rec_id"); ?>">
                                                     <i class="fa fa-edit"></i> <?php print_lang('edit'); ?>
                                                 </a>
+                                                <?php } ?>
+                                                <?php if($can_delete){ ?>
                                                 <a class="btn btn-sm btn-danger record-delete-btn mx-1"  href="<?php print_link("producto/delete/$rec_id/?csrf_token=$csrf_token&redirect=$current_page"); ?>" data-prompt-msg="Are you sure you want to delete this record?" data-display-style="modal">
                                                     <i class="fa fa-times"></i> <?php print_lang('delete'); ?>
                                                 </a>
+                                                <?php } ?>
                                             </div>
                                             <?php
                                             }

@@ -24,7 +24,8 @@ class UsuarioController extends SecureController{
 			"apellido", 
 			"correo", 
 			"fecha_creacion_usuario", 
-			"numero_empleado");
+			"numero_empleado", 
+			"rol");
 		$pagination = $this->get_pagination(MAX_RECORD_COUNT); // get current pagination e.g array(page_number, page_limit)
 		//search table record
 		if(!empty($request->search)){
@@ -37,10 +38,11 @@ class UsuarioController extends SecureController{
 				usuario.correo LIKE ? OR 
 				usuario.fecha_creacion_usuario LIKE ? OR 
 				usuario.password LIKE ? OR 
-				usuario.numero_empleado LIKE ?
+				usuario.numero_empleado LIKE ? OR 
+				usuario.rol LIKE ?
 			)";
 			$search_params = array(
-				"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
+				"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
 			);
 			//setting search conditions
 			$db->where($search_condition, $search_params);
@@ -97,7 +99,8 @@ class UsuarioController extends SecureController{
 			"apellido", 
 			"correo", 
 			"fecha_creacion_usuario", 
-			"numero_empleado");
+			"numero_empleado", 
+			"rol");
 		if($value){
 			$db->where($rec_id, urldecode($value)); //select record based on field name
 		}
@@ -134,7 +137,7 @@ class UsuarioController extends SecureController{
 			$tablename = $this->tablename;
 			$request = $this->request;
 			//fillable fields
-			$fields = $this->fields = array("user_usuario","nombre","apellido","correo","fecha_creacion_usuario","password","numero_empleado");
+			$fields = $this->fields = array("user_usuario","nombre","apellido","correo","fecha_creacion_usuario","password","numero_empleado","rol");
 			$postdata = $this->format_request_data($formdata);
 			$cpassword = $postdata['confirm_password'];
 			$password = $postdata['password'];
@@ -147,6 +150,7 @@ class UsuarioController extends SecureController{
 				'correo' => 'required|valid_email',
 				'password' => 'required',
 				'numero_empleado' => 'numeric',
+				'rol' => 'required',
 			);
 			$this->sanitize_array = array(
 				'user_usuario' => 'sanitize_string',
@@ -154,6 +158,7 @@ class UsuarioController extends SecureController{
 				'apellido' => 'sanitize_string',
 				'correo' => 'sanitize_string',
 				'numero_empleado' => 'sanitize_string',
+				'rol' => 'sanitize_string',
 			);
 			$this->filter_vals = true; //set whether to remove empty fields
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
@@ -202,19 +207,21 @@ class UsuarioController extends SecureController{
 		$this->rec_id = $rec_id;
 		$tablename = $this->tablename;
 		 //editable fields
-		$fields = $this->fields = array("id_usuario","user_usuario","nombre","apellido","numero_empleado");
+		$fields = $this->fields = array("id_usuario","user_usuario","nombre","apellido","numero_empleado","rol");
 		if($formdata){
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
 				'user_usuario' => 'required',
 				'nombre' => 'required',
 				'numero_empleado' => 'numeric',
+				'rol' => 'required',
 			);
 			$this->sanitize_array = array(
 				'user_usuario' => 'sanitize_string',
 				'nombre' => 'sanitize_string',
 				'apellido' => 'sanitize_string',
 				'numero_empleado' => 'sanitize_string',
+				'rol' => 'sanitize_string',
 			);
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
 			//Check if Duplicate Record Already Exit In The Database
@@ -272,7 +279,7 @@ class UsuarioController extends SecureController{
 		$this->rec_id = $rec_id;
 		$tablename = $this->tablename;
 		//editable fields
-		$fields = $this->fields = array("id_usuario","user_usuario","nombre","apellido","numero_empleado");
+		$fields = $this->fields = array("id_usuario","user_usuario","nombre","apellido","numero_empleado","rol");
 		$page_error = null;
 		if($formdata){
 			$postdata = array();
@@ -284,12 +291,14 @@ class UsuarioController extends SecureController{
 				'user_usuario' => 'required',
 				'nombre' => 'required',
 				'numero_empleado' => 'numeric',
+				'rol' => 'required',
 			);
 			$this->sanitize_array = array(
 				'user_usuario' => 'sanitize_string',
 				'nombre' => 'sanitize_string',
 				'apellido' => 'sanitize_string',
 				'numero_empleado' => 'sanitize_string',
+				'rol' => 'sanitize_string',
 			);
 			$this->filter_rules = true; //filter validation rules by excluding fields not in the formdata
 			$modeldata = $this->modeldata = $this->validate_form($postdata);

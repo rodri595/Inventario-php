@@ -23,7 +23,8 @@ class AccountController extends SecureController{
 			"apellido", 
 			"correo", 
 			"fecha_creacion_usuario", 
-			"numero_empleado");
+			"numero_empleado", 
+			"rol");
 		$user = $db->getOne($tablename , $fields);
 		if(!empty($user)){
 			$page_title = $this->view->page_title = get_lang('my_account');
@@ -45,19 +46,21 @@ class AccountController extends SecureController{
 		$rec_id = $this->rec_id = USER_ID;
 		$tablename = $this->tablename;
 		 //editable fields
-		$fields = $this->fields = array("id_usuario","user_usuario","nombre","apellido","numero_empleado");
+		$fields = $this->fields = array("id_usuario","user_usuario","nombre","apellido","numero_empleado","rol");
 		if($formdata){
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
 				'user_usuario' => 'required',
 				'nombre' => 'required',
 				'numero_empleado' => 'numeric',
+				'rol' => 'required',
 			);
 			$this->sanitize_array = array(
 				'user_usuario' => 'sanitize_string',
 				'nombre' => 'sanitize_string',
 				'apellido' => 'sanitize_string',
 				'numero_empleado' => 'sanitize_string',
+				'rol' => 'sanitize_string',
 			);
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
 			//Check if Duplicate Record Already Exit In The Database
@@ -118,8 +121,6 @@ class AccountController extends SecureController{
 			$db->where ("id_usuario", $rec_id);
 			$result = $db->update($tablename, array('correo' => $email ));
 			if($result){
-				$this->set_flash_msg(get_lang('email_address_changed_successfully'), "success");
-				$this->redirect("account");
 			}
 			else{
 				$this->set_page_error(get_lang('email_not_changed'));

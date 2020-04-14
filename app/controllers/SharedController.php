@@ -18,23 +18,23 @@ class SharedController extends BaseController{
 	}
 
 	/**
-     * usuario_correo_value_exist Model Action
-     * @return array
-     */
-	function usuario_correo_value_exist($val){
-		$db = $this->GetModel();
-		$db->where("correo", $val);
-		$exist = $db->has("usuario");
-		return $exist;
-	}
-
-	/**
      * usuario_numero_empleado_value_exist Model Action
      * @return array
      */
 	function usuario_numero_empleado_value_exist($val){
 		$db = $this->GetModel();
 		$db->where("numero_empleado", $val);
+		$exist = $db->has("usuario");
+		return $exist;
+	}
+
+	/**
+     * usuario_correo_value_exist Model Action
+     * @return array
+     */
+	function usuario_correo_value_exist($val){
+		$db = $this->GetModel();
+		$db->where("correo", $val);
 		$exist = $db->has("usuario");
 		return $exist;
 	}
@@ -73,7 +73,7 @@ class SharedController extends BaseController{
      */
 	function detalle_registro_fk_producto_option_list(){
 		$db = $this->GetModel();
-		$sqltext = "SELECT DISTINCT id_producto AS value , id_producto AS label FROM producto ORDER BY label ASC";
+		$sqltext = "SELECT  DISTINCT id_producto AS value,nombre_producto AS label FROM producto";
 		$queryparams = null;
 		$arr = $db->rawQuery($sqltext, $queryparams);
 		return $arr;

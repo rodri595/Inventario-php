@@ -1,3 +1,10 @@
+<?php 
+//check if current user role is allowed access to the pages
+$can_add = ACL::is_allowed("usuario/add");
+$can_edit = ACL::is_allowed("usuario/edit");
+$can_view = ACL::is_allowed("usuario/view");
+$can_delete = ACL::is_allowed("usuario/delete");
+?>
 <?php
 $comp_model = new SharedController;
 $page_element_id = "list-page-" . random_str();
@@ -26,10 +33,12 @@ $show_pagination = $this->show_pagination;
                     <h4 class="record-title"><?php print_lang('lista_de_usuarios'); ?></h4>
                 </div>
                 <div class="col-sm-3 ">
+                    <?php if($can_add){ ?>
                     <a  class="btn btn btn-primary my-1" href="<?php print_link("usuario/add") ?>">
                         <i class="fa fa-plus"></i>                              
                         <?php print_lang('crear_usuario'); ?> 
                     </a>
+                    <?php } ?>
                 </div>
                 <div class="col-sm-4 ">
                     <form  class="search" action="<?php print_link('usuario'); ?>" method="get">
@@ -107,12 +116,14 @@ $show_pagination = $this->show_pagination;
                                     <table class="table  table-striped table-sm text-left">
                                         <thead class="table-header bg-light">
                                             <tr>
+                                                <?php if($can_delete){ ?>
                                                 <th class="td-checkbox">
                                                     <label class="custom-control custom-checkbox custom-control-inline">
                                                         <input class="toggle-check-all custom-control-input" type="checkbox" />
                                                         <span class="custom-control-label"></span>
                                                     </label>
                                                 </th>
+                                                <?php } ?>
                                                 <th class="td-sno">#</th>
                                                 <th  <?php echo (get_value('orderby')=='id_usuario' ? 'class="sortedby td-id_usuario"' : null); ?>>
                                                     <?php Html :: get_field_order_link('id_usuario', get_lang('id_usuario')); ?>
@@ -135,6 +146,7 @@ $show_pagination = $this->show_pagination;
                                                 <th  <?php echo (get_value('orderby')=='numero_empleado' ? 'class="sortedby td-numero_empleado"' : null); ?>>
                                                     <?php Html :: get_field_order_link('numero_empleado', get_lang('numero_empleado')); ?>
                                                 </th>
+                                                <th  class="td-rol"> <?php print_lang('rol'); ?></th>
                                                 <th class="td-btn"></th>
                                             </tr>
                                         </thead>
@@ -150,16 +162,18 @@ $show_pagination = $this->show_pagination;
                                             $counter++;
                                             ?>
                                             <tr>
+                                                <?php if($can_delete){ ?>
                                                 <th class=" td-checkbox">
                                                     <label class="custom-control custom-checkbox custom-control-inline">
                                                         <input class="optioncheck custom-control-input" name="optioncheck[]" value="<?php echo $data['id_usuario'] ?>" type="checkbox" />
                                                             <span class="custom-control-label"></span>
                                                         </label>
                                                     </th>
+                                                    <?php } ?>
                                                     <th class="td-sno"><?php echo $counter; ?></th>
                                                     <td class="td-id_usuario"><a href="<?php print_link("usuario/view/$data[id_usuario]") ?>"><?php echo $data['id_usuario']; ?></a></td>
                                                     <td class="td-user_usuario">
-                                                        <span  data-value="<?php echo $data['user_usuario']; ?>" 
+                                                        <span <?php if($can_edit){ ?> data-value="<?php echo $data['user_usuario']; ?>" 
                                                             data-pk="<?php echo $data['id_usuario'] ?>" 
                                                             data-url="<?php print_link("usuario/editfield/" . urlencode($data['id_usuario'])); ?>" 
                                                             data-name="user_usuario" 
@@ -169,12 +183,12 @@ $show_pagination = $this->show_pagination;
                                                             data-type="text" 
                                                             data-mode="popover" 
                                                             data-showbuttons="left" 
-                                                            class="is-editable" >
+                                                            class="is-editable" <?php } ?>>
                                                             <?php echo $data['user_usuario']; ?> 
                                                         </span>
                                                     </td>
                                                     <td class="td-nombre">
-                                                        <span  data-value="<?php echo $data['nombre']; ?>" 
+                                                        <span <?php if($can_edit){ ?> data-value="<?php echo $data['nombre']; ?>" 
                                                             data-pk="<?php echo $data['id_usuario'] ?>" 
                                                             data-url="<?php print_link("usuario/editfield/" . urlencode($data['id_usuario'])); ?>" 
                                                             data-name="nombre" 
@@ -184,12 +198,12 @@ $show_pagination = $this->show_pagination;
                                                             data-type="text" 
                                                             data-mode="popover" 
                                                             data-showbuttons="left" 
-                                                            class="is-editable" >
+                                                            class="is-editable" <?php } ?>>
                                                             <?php echo $data['nombre']; ?> 
                                                         </span>
                                                     </td>
                                                     <td class="td-apellido">
-                                                        <span  data-value="<?php echo $data['apellido']; ?>" 
+                                                        <span <?php if($can_edit){ ?> data-value="<?php echo $data['apellido']; ?>" 
                                                             data-pk="<?php echo $data['id_usuario'] ?>" 
                                                             data-url="<?php print_link("usuario/editfield/" . urlencode($data['id_usuario'])); ?>" 
                                                             data-name="apellido" 
@@ -199,14 +213,14 @@ $show_pagination = $this->show_pagination;
                                                             data-type="text" 
                                                             data-mode="popover" 
                                                             data-showbuttons="left" 
-                                                            class="is-editable" >
+                                                            class="is-editable" <?php } ?>>
                                                             <?php echo $data['apellido']; ?> 
                                                         </span>
                                                     </td>
                                                     <td class="td-correo"> <?php echo $data['correo']; ?></td>
                                                     <td class="td-fecha_creacion_usuario"> <?php echo $data['fecha_creacion_usuario']; ?></td>
                                                     <td class="td-numero_empleado">
-                                                        <span  data-value="<?php echo $data['numero_empleado']; ?>" 
+                                                        <span <?php if($can_edit){ ?> data-value="<?php echo $data['numero_empleado']; ?>" 
                                                             data-pk="<?php echo $data['id_usuario'] ?>" 
                                                             data-url="<?php print_link("usuario/editfield/" . urlencode($data['id_usuario'])); ?>" 
                                                             data-name="numero_empleado" 
@@ -216,21 +230,43 @@ $show_pagination = $this->show_pagination;
                                                             data-type="number" 
                                                             data-mode="popover" 
                                                             data-showbuttons="left" 
-                                                            class="is-editable" >
+                                                            class="is-editable" <?php } ?>>
                                                             <?php echo $data['numero_empleado']; ?> 
                                                         </span>
                                                     </td>
+                                                    <td class="td-rol">
+                                                        <span <?php if($can_edit){ ?> data-source='<?php echo json_encode_quote(Menu :: $rol); ?>' 
+                                                            data-value="<?php echo $data['rol']; ?>" 
+                                                            data-pk="<?php echo $data['id_usuario'] ?>" 
+                                                            data-url="<?php print_link("usuario/editfield/" . urlencode($data['id_usuario'])); ?>" 
+                                                            data-name="rol" 
+                                                            data-title="Select a value ..." 
+                                                            data-placement="left" 
+                                                            data-toggle="click" 
+                                                            data-type="select" 
+                                                            data-mode="popover" 
+                                                            data-showbuttons="left" 
+                                                            class="is-editable" <?php } ?>>
+                                                            <?php echo $data['rol']; ?> 
+                                                        </span>
+                                                    </td>
                                                     <th class="td-btn">
+                                                        <?php if($can_view){ ?>
                                                         <a class="btn btn-sm btn-success has-tooltip" title="<?php print_lang('view_record'); ?>" href="<?php print_link("usuario/view/$rec_id"); ?>">
                                                             <i class="fa fa-eye"></i> <?php print_lang('view'); ?>
                                                         </a>
+                                                        <?php } ?>
+                                                        <?php if($can_edit){ ?>
                                                         <a class="btn btn-sm btn-info has-tooltip" title="<?php print_lang('edit_this_record'); ?>" href="<?php print_link("usuario/edit/$rec_id"); ?>">
                                                             <i class="fa fa-edit"></i> <?php print_lang('edit'); ?>
                                                         </a>
+                                                        <?php } ?>
+                                                        <?php if($can_delete){ ?>
                                                         <a class="btn btn-sm btn-danger has-tooltip record-delete-btn" title="<?php print_lang('delete_this_record'); ?>" href="<?php print_link("usuario/delete/$rec_id/?csrf_token=$csrf_token&redirect=$current_page"); ?>" data-prompt-msg="Are you sure you want to delete this record?" data-display-style="modal">
                                                             <i class="fa fa-times"></i>
                                                             <?php print_lang('delete'); ?>
                                                         </a>
+                                                        <?php } ?>
                                                     </th>
                                                 </tr>
                                                 <?php 
@@ -260,9 +296,11 @@ $show_pagination = $this->show_pagination;
                                         <div class="row justify-content-center">    
                                             <div class="col-md-auto justify-content-center">    
                                                 <div class="p-3 d-flex justify-content-between">    
+                                                    <?php if($can_delete){ ?>
                                                     <button data-prompt-msg="<?php print_lang('are_you_sure_you_want_to_delete_these_records_'); ?>" data-display-style="modal" data-url="<?php print_link("usuario/delete/{sel_ids}/?csrf_token=$csrf_token&redirect=$current_page"); ?>" class="btn btn-sm btn-danger btn-delete-selected d-none">
                                                         <i class="fa fa-times"></i> <?php print_lang('delete_selected'); ?>
                                                     </button>
+                                                    <?php } ?>
                                                     <div class="dropup export-btn-holder mx-1">
                                                         <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             <i class="fa fa-save"></i> <?php print_lang('export'); ?>

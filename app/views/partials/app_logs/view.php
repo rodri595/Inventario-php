@@ -21,7 +21,7 @@ $show_export_btn = $this->show_export_btn;
         <div class="container">
             <div class="row ">
                 <div class="col ">
-                    <h4 class="record-title"><?php print_lang('view_registro2'); ?></h4>
+                    <h4 class="record-title"><?php print_lang('view_app_logs'); ?></h4>
                 </div>
             </div>
         </div>
@@ -38,71 +38,60 @@ $show_export_btn = $this->show_export_btn;
                         <?php
                         $counter = 0;
                         if(!empty($data)){
-                        $rec_id = (!empty($data['id_registro']) ? urlencode($data['id_registro']) : null);
+                        $rec_id = (!empty($data['log_id']) ? urlencode($data['log_id']) : null);
                         $counter++;
                         ?>
                         <div id="page-report-body" class="">
                             <table class="table table-hover table-borderless table-striped">
                                 <!-- Table Body Start -->
                                 <tbody class="page-data" id="page-data-<?php echo $page_element_id; ?>">
-                                    <tr  class="td-id_registro">
-                                        <th class="title"> <?php print_lang('id_registro'); ?>: </th>
-                                        <td class="value"> <?php echo $data['id_registro']; ?></td>
+                                    <tr  class="td-log_id">
+                                        <th class="title"> <?php print_lang('log_id'); ?>: </th>
+                                        <td class="value"> <?php echo $data['log_id']; ?></td>
                                     </tr>
-                                    <tr  class="td-fecha_creacion">
-                                        <th class="title"> <?php print_lang('fecha_creacion'); ?>: </th>
-                                        <td class="value">
-                                            <span  data-flatpickr="{ minDate: '', maxDate: ''}" 
-                                                data-value="<?php echo $data['fecha_creacion']; ?>" 
-                                                data-pk="<?php echo $data['id_registro'] ?>" 
-                                                data-url="<?php print_link("registro2/editfield/" . urlencode($data['id_registro'])); ?>" 
-                                                data-name="fecha_creacion" 
-                                                data-title="Enter Fecha Creacion" 
-                                                data-placement="left" 
-                                                data-toggle="click" 
-                                                data-type="flatdatetimepicker" 
-                                                data-mode="popover" 
-                                                data-showbuttons="left" 
-                                                class="is-editable" >
-                                                <?php echo $data['fecha_creacion']; ?> 
-                                            </span>
-                                        </td>
+                                    <tr  class="td-Timestamp">
+                                        <th class="title"> <?php print_lang('timestamp'); ?>: </th>
+                                        <td class="value"> <?php echo $data['Timestamp']; ?></td>
                                     </tr>
-                                    <tr  class="td-lugar_enviado">
-                                        <th class="title"> <?php print_lang('lugar_enviado'); ?>: </th>
-                                        <td class="value">
-                                            <span  data-value="<?php echo $data['lugar_enviado']; ?>" 
-                                                data-pk="<?php echo $data['id_registro'] ?>" 
-                                                data-url="<?php print_link("registro2/editfield/" . urlencode($data['id_registro'])); ?>" 
-                                                data-name="lugar_enviado" 
-                                                data-title="Enter Lugar Enviado" 
-                                                data-placement="left" 
-                                                data-toggle="click" 
-                                                data-type="number" 
-                                                data-mode="popover" 
-                                                data-showbuttons="left" 
-                                                class="is-editable" >
-                                                <?php echo $data['lugar_enviado']; ?> 
-                                            </span>
-                                        </td>
+                                    <tr  class="td-Action">
+                                        <th class="title"> <?php print_lang('action'); ?>: </th>
+                                        <td class="value"> <?php echo $data['Action']; ?></td>
                                     </tr>
-                                    <tr  class="td-lugar_recibido">
-                                        <th class="title"> <?php print_lang('lugar_recibido'); ?>: </th>
-                                        <td class="value">
-                                            <span  data-value="<?php echo $data['lugar_recibido']; ?>" 
-                                                data-pk="<?php echo $data['id_registro'] ?>" 
-                                                data-url="<?php print_link("registro2/editfield/" . urlencode($data['id_registro'])); ?>" 
-                                                data-name="lugar_recibido" 
-                                                data-title="Enter Lugar Recibido" 
-                                                data-placement="left" 
-                                                data-toggle="click" 
-                                                data-type="text" 
-                                                data-mode="popover" 
-                                                data-showbuttons="left" 
-                                                class="is-editable" >
-                                                <?php echo $data['lugar_recibido']; ?> 
-                                            </span>
-                                        </td>
+                                    <tr  class="td-TableName">
+                                        <th class="title"> <?php print_lang('tablename'); ?>: </th>
+                                        <td class="value"> <?php echo $data['TableName']; ?></td>
+                                    </tr>
+                                    <tr  class="td-RecordID">
+                                        <th class="title"> <?php print_lang('recordid'); ?>: </th>
+                                        <td class="value"> <?php echo $data['RecordID']; ?></td>
+                                    </tr>
+                                    <tr  class="td-SqlQuery">
+                                        <th class="title"> <?php print_lang('sqlquery'); ?>: </th>
+                                        <td class="value"> <?php echo $data['SqlQuery']; ?></td>
+                                    </tr>
+                                    <tr  class="td-UserID">
+                                        <th class="title"> <?php print_lang('userid'); ?>: </th>
+                                        <td class="value"> <?php echo $data['UserID']; ?></td>
+                                    </tr>
+                                    <tr  class="td-ServerIP">
+                                        <th class="title"> <?php print_lang('serverip'); ?>: </th>
+                                        <td class="value"> <?php echo $data['ServerIP']; ?></td>
+                                    </tr>
+                                    <tr  class="td-RequestUrl">
+                                        <th class="title"> <?php print_lang('requesturl'); ?>: </th>
+                                        <td class="value"> <?php echo $data['RequestUrl']; ?></td>
+                                    </tr>
+                                    <tr  class="td-RequestData">
+                                        <th class="title"> <?php print_lang('requestdata'); ?>: </th>
+                                        <td class="value"> <?php echo $data['RequestData']; ?></td>
+                                    </tr>
+                                    <tr  class="td-RequestCompleted">
+                                        <th class="title"> <?php print_lang('requestcompleted'); ?>: </th>
+                                        <td class="value"> <?php echo $data['RequestCompleted']; ?></td>
+                                    </tr>
+                                    <tr  class="td-RequestMsg">
+                                        <th class="title"> <?php print_lang('requestmsg'); ?>: </th>
+                                        <td class="value"> <?php echo $data['RequestMsg']; ?></td>
                                     </tr>
                                 </tbody>
                                 <!-- Table Body End -->
@@ -136,12 +125,6 @@ $show_export_btn = $this->show_export_btn;
                                                         </a>
                                                     </div>
                                                 </div>
-                                                <a class="btn btn-sm btn-info"  href="<?php print_link("registro2/edit/$rec_id"); ?>">
-                                                    <i class="fa fa-edit"></i> <?php print_lang('edit'); ?>
-                                                </a>
-                                                <a class="btn btn-sm btn-danger record-delete-btn mx-1"  href="<?php print_link("registro2/delete/$rec_id/?csrf_token=$csrf_token&redirect=$current_page"); ?>" data-prompt-msg="Are you sure you want to delete this record?" data-display-style="modal">
-                                                    <i class="fa fa-times"></i> <?php print_lang('delete'); ?>
-                                                </a>
                                             </div>
                                             <?php
                                             }
