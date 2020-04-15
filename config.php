@@ -1,6 +1,6 @@
 <?php
 define("DEFAULT_TIMEZONE", ""); // set php date functions timezone
-define("DEVELOPMENT_MODE" , true);// set to false when in production
+define("DEVELOPMENT_MODE" , false);// set to false when in production
 
 // return full path of application directory
 define("ROOT", str_replace("\\", "/", dirname(__FILE__)) . "/");
@@ -63,7 +63,7 @@ define("HOME_PAGE", "Home");
 define("DEFAULT_PAGE", "index"); //Default Controller Class
 define("DEFAULT_PAGE_ACTION", "index"); //Default Controller Action
 define("DEFAULT_LAYOUT", LAYOUTS_DIR . "main_layout.php");
-define("DEFAULT_LANGUAGE", "spanish"); //Default Language
+define("DEFAULT_LANGUAGE", "english"); //Default Language
 
 // Page Meta Information
 define("META_AUTHOR", "rodrigo");

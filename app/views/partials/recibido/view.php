@@ -91,6 +91,10 @@ $show_export_btn = $this->show_export_btn;
                                         <th class="title"> <?php print_lang('creacion'); ?>: </th>
                                         <td class="value"> <?php echo $data['creacion']; ?></td>
                                     </tr>
+                                    <tr  class="td-user_created">
+                                        <th class="title"> <?php print_lang('user_created'); ?>: </th>
+                                        <td class="value"> <?php echo $data['user_created']; ?></td>
+                                    </tr>
                                 </tbody>
                                 <!-- Table Body End -->
                             </table>

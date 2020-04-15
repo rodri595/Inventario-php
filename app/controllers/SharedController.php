@@ -73,7 +73,7 @@ class SharedController extends BaseController{
      */
 	function detalle_registro_fk_producto_option_list(){
 		$db = $this->GetModel();
-		$sqltext = "SELECT  DISTINCT id_producto AS value,nombre_producto AS label FROM producto";
+		$sqltext = "SELECT DISTINCT id_producto AS value , id_producto AS label FROM producto ORDER BY label ASC";
 		$queryparams = null;
 		$arr = $db->rawQuery($sqltext, $queryparams);
 		return $arr;

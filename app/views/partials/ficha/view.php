@@ -60,20 +60,52 @@ $show_export_btn = $this->show_export_btn;
                                         <th class="title"><i class="fa fa-calendar-plus-o "></i> <?php print_lang('fecha_creacion_de_ficha'); ?>: </th>
                                         <td class="value"> <?php echo $data['fecha']; ?></td>
                                     </tr>
-                                    <tr  class="td-fk_receptor">
-                                        <th class="title"> <?php print_lang('codigo_de_lugar_de_recibido'); ?>: </th>
-                                        <td class="value">
-                                            <a size="sm" class="btn btn-sm btn-primary page-modal" href="<?php print_link("recibido/view/" . urlencode($data['fk_receptor'])) ?>">
-                                                <i class="fa fa-building-o "></i> <?php echo $data['recibido_lugar_recibido'] ?>
-                                            </a>
-                                        </td>
+                                    <tr  class="td-enviado_id_enviado">
+                                        <th class="title"> <?php print_lang('rastreo_salida'); ?>: </th>
+                                        <td class="value"> <?php echo $data['enviado_id_enviado']; ?></td>
+                                    </tr>
+                                    <tr  class="td-enviado_fecha_enviado">
+                                        <th class="title"> <?php print_lang('_fecha_enviado'); ?>: </th>
+                                        <td class="value"> <?php echo $data['enviado_fecha_enviado']; ?></td>
+                                    </tr>
+                                    <tr  class="td-enviado_png">
+                                        <th class="title"> <?php print_lang('enviado_png'); ?>: </th>
+                                        <td class="value"><?php Html :: page_img($data['enviado_png'],400,400,1); ?></td>
+                                    </tr>
+                                    <tr  class="td-centro_Nombre_centro">
+                                        <th class="title"> <?php print_lang('centro_nombre_centro'); ?>: </th>
+                                        <td class="value"> <?php echo $data['centro_Nombre_centro']; ?></td>
+                                    </tr>
+                                    <tr  class="td-centro_Tel_centro">
+                                        <th class="title"> <?php print_lang('tel_lugar_de_salida'); ?>: </th>
+                                        <td class="value"> <?php echo $data['centro_Tel_centro']; ?></td>
+                                    </tr>
+                                    <tr  class="td-centro_direccion_centro">
+                                        <th class="title"> <?php print_lang('centro_direccion_centro'); ?>: </th>
+                                        <td class="value"> <?php echo $data['centro_direccion_centro']; ?></td>
+                                    </tr>
+                                    <tr  class="td-centro_numero_centro">
+                                        <th class="title"> <?php print_lang('centro_numero_centro'); ?>: </th>
+                                        <td class="value"> <?php echo $data['centro_numero_centro']; ?></td>
+                                    </tr>
+                                    <tr  class="td-recibido_id_recibido">
+                                        <th class="title"> <?php print_lang('recibido_id_recibido'); ?>: </th>
+                                        <td class="value"> <?php echo $data['recibido_id_recibido']; ?></td>
+                                    </tr>
+                                    <tr  class="td-recibido_fecha_recibido">
+                                        <th class="title"> <?php print_lang('fecha_recibido'); ?>: </th>
+                                        <td class="value"> <?php echo $data['recibido_fecha_recibido']; ?></td>
+                                    </tr>
+                                    <tr  class="td-recibido_png">
+                                        <th class="title"> <?php print_lang('recibido_png'); ?>: </th>
+                                        <td class="value"><?php Html :: page_img($data['recibido_png'],400,400,1); ?></td>
                                     </tr>
                                     <tr  class="td-centro2_Nombre_centro">
                                         <th class="title"><i class="fa fa-building-o "></i> <?php print_lang('lugar_de_salida'); ?>: </th>
                                         <td class="value"> <?php echo $data['centro2_Nombre_centro']; ?></td>
                                     </tr>
                                     <tr  class="td-centro2_Tel_centro">
-                                        <th class="title"> <?php print_lang('telefono_de_lugar'); ?>: </th>
+                                        <th class="title"> <?php print_lang('telefono_de_lugar_de_llegada'); ?>: </th>
                                         <td class="value"> <?php echo $data['centro2_Tel_centro']; ?></td>
                                     </tr>
                                     <tr  class="td-centro2_direccion_centro">
@@ -81,140 +113,48 @@ $show_export_btn = $this->show_export_btn;
                                         <td class="value"> <?php echo $data['centro2_direccion_centro']; ?></td>
                                     </tr>
                                     <tr  class="td-centro2_numero_centro">
-                                        <th class="title"> <?php print_lang('referencia_sala_bodega_salida'); ?>: </th>
+                                        <th class="title"> <?php print_lang('referencia_sala_bodega_llegada'); ?>: </th>
                                         <td class="value"> <?php echo $data['centro2_numero_centro']; ?></td>
-                                    </tr>
-                                    <tr  class="td-fk_emisor">
-                                        <th class="title"> <?php print_lang('codigo_de_lugar_de_envio'); ?>: </th>
-                                        <td class="value">
-                                            <a size="sm" class="btn btn-secondary page-modal" href="<?php print_link("enviado/view/" . urlencode($data['fk_emisor'])) ?>">
-                                                <i class="fa fa-building "></i> <?php echo $data['enviado_lugar_salida'] ?>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr  class="td-enviado_id_enviado">
-                                        <th class="title"> <?php print_lang('enviado_id_enviado'); ?>: </th>
-                                        <td class="value"> <?php echo $data['enviado_id_enviado']; ?></td>
-                                    </tr>
-                                    <tr  class="td-enviado_fecha_enviado">
-                                        <th class="title"> <?php print_lang('enviado_fecha_enviado'); ?>: </th>
-                                        <td class="value"> <?php echo $data['enviado_fecha_enviado']; ?></td>
-                                    </tr>
-                                    <tr  class="td-enviado_lugar_salida">
-                                        <th class="title"> <?php print_lang('enviado_lugar_salida'); ?>: </th>
-                                        <td class="value"> <?php echo $data['enviado_lugar_salida']; ?></td>
-                                    </tr>
-                                    <tr  class="td-enviado_png">
-                                        <th class="title"> <?php print_lang('enviado_png'); ?>: </th>
-                                        <td class="value"> <?php echo $data['enviado_png']; ?></td>
-                                    </tr>
-                                    <tr  class="td-enviado_creacion">
-                                        <th class="title"> <?php print_lang('enviado_creacion'); ?>: </th>
-                                        <td class="value"> <?php echo $data['enviado_creacion']; ?></td>
-                                    </tr>
-                                    <tr  class="td-recibido_id_recibido">
-                                        <th class="title"> <?php print_lang('recibido_id_recibido'); ?>: </th>
-                                        <td class="value"> <?php echo $data['recibido_id_recibido']; ?></td>
-                                    </tr>
-                                    <tr  class="td-recibido_fecha_recibido">
-                                        <th class="title"> <?php print_lang('recibido_fecha_recibido'); ?>: </th>
-                                        <td class="value"> <?php echo $data['recibido_fecha_recibido']; ?></td>
-                                    </tr>
-                                    <tr  class="td-recibido_lugar_recibido">
-                                        <th class="title"> <?php print_lang('recibido_lugar_recibido'); ?>: </th>
-                                        <td class="value"> <?php echo $data['recibido_lugar_recibido']; ?></td>
-                                    </tr>
-                                    <tr  class="td-recibido_png">
-                                        <th class="title"> <?php print_lang('recibido_png'); ?>: </th>
-                                        <td class="value"> <?php echo $data['recibido_png']; ?></td>
-                                    </tr>
-                                    <tr  class="td-recibido_creacion">
-                                        <th class="title"> <?php print_lang('recibido_creacion'); ?>: </th>
-                                        <td class="value"> <?php echo $data['recibido_creacion']; ?></td>
-                                    </tr>
-                                    <tr  class="td-centro_Tel_centro">
-                                        <th class="title"> <?php print_lang('centro_tel_centro'); ?>: </th>
-                                        <td class="value"> <?php echo $data['centro_Tel_centro']; ?></td>
-                                    </tr>
-                                    <tr  class="td-centro_id_centro">
-                                        <th class="title"> <?php print_lang('centro_id_centro'); ?>: </th>
-                                        <td class="value"> <?php echo $data['centro_id_centro']; ?></td>
-                                    </tr>
-                                    <tr  class="td-centro_numero_centro">
-                                        <th class="title"> <?php print_lang('centro_numero_centro'); ?>: </th>
-                                        <td class="value"> <?php echo $data['centro_numero_centro']; ?></td>
-                                    </tr>
-                                    <tr  class="td-centro_direccion_centro">
-                                        <th class="title"> <?php print_lang('centro_direccion_centro'); ?>: </th>
-                                        <td class="value"> <?php echo $data['centro_direccion_centro']; ?></td>
-                                    </tr>
-                                    <tr  class="td-centro_Nombre_centro">
-                                        <th class="title"> <?php print_lang('centro_nombre_centro'); ?>: </th>
-                                        <td class="value"> <?php echo $data['centro_Nombre_centro']; ?></td>
-                                    </tr>
-                                    <tr  class="td-centro_fecha_creacion">
-                                        <th class="title"> <?php print_lang('centro_fecha_creacion'); ?>: </th>
-                                        <td class="value"> <?php echo $data['centro_fecha_creacion']; ?></td>
-                                    </tr>
-                                    <tr  class="td-detalle_registro_id_detalle_registro">
-                                        <th class="title"> <?php print_lang('detalle_registro_id_detalle_registro'); ?>: </th>
-                                        <td class="value"> <?php echo $data['detalle_registro_id_detalle_registro']; ?></td>
-                                    </tr>
-                                    <tr  class="td-detalle_registro_fk_registro">
-                                        <th class="title"> <?php print_lang('detalle_registro_fk_registro'); ?>: </th>
-                                        <td class="value"> <?php echo $data['detalle_registro_fk_registro']; ?></td>
-                                    </tr>
-                                    <tr  class="td-detalle_registro_fk_producto">
-                                        <th class="title"> <?php print_lang('detalle_registro_fk_producto'); ?>: </th>
-                                        <td class="value"> <?php echo $data['detalle_registro_fk_producto']; ?></td>
-                                    </tr>
-                                    <tr  class="td-detalle_registro_fk_cantidad">
-                                        <th class="title"> <?php print_lang('detalle_registro_fk_cantidad'); ?>: </th>
-                                        <td class="value"> <?php echo $data['detalle_registro_fk_cantidad']; ?></td>
-                                    </tr>
-                                    <tr  class="td-detalle_registro_desc_detalle">
-                                        <th class="title"> <?php print_lang('detalle_registro_desc_detalle'); ?>: </th>
-                                        <td class="value"> <?php echo $data['detalle_registro_desc_detalle']; ?></td>
-                                    </tr>
-                                    <tr  class="td-producto_id_producto">
-                                        <th class="title"> <?php print_lang('producto_id_producto'); ?>: </th>
-                                        <td class="value"> <?php echo $data['producto_id_producto']; ?></td>
                                     </tr>
                                     <tr  class="td-producto_nombre_producto">
                                         <th class="title"> <?php print_lang('producto_nombre_producto'); ?>: </th>
                                         <td class="value"> <?php echo $data['producto_nombre_producto']; ?></td>
                                     </tr>
+                                    <tr  class="td-producto_precio_producto">
+                                        <th class="title"> <?php print_lang('producto_precio_producto'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_precio_producto']; ?></td>
+                                    </tr>
+                                    <tr  class="td-detalle_registro_fk_cantidad">
+                                        <th class="title"> <?php print_lang('cantidad_enviada'); ?>: </th>
+                                        <td class="value"> <?php echo $data['detalle_registro_fk_cantidad']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_cantidad_producto">
+                                        <th class="title"> <?php print_lang('cantidad_en_almacen'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_cantidad_producto']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_dimension_producto">
+                                        <th class="title"> <?php print_lang('dimensiones'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_dimension_producto']; ?></td>
+                                    </tr>
+                                    <tr  class="td-producto_peso_producto">
+                                        <th class="title"> <?php print_lang('peso'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_peso_producto']; ?></td>
+                                    </tr>
                                     <tr  class="td-producto_desc_producto">
                                         <th class="title"> <?php print_lang('producto_desc_producto'); ?>: </th>
                                         <td class="value"> <?php echo $data['producto_desc_producto']; ?></td>
-                                    </tr>
-                                    <tr  class="td-producto_cantidad_producto">
-                                        <th class="title"> <?php print_lang('producto_cantidad_producto'); ?>: </th>
-                                        <td class="value"> <?php echo $data['producto_cantidad_producto']; ?></td>
-                                    </tr>
-                                    <tr  class="td-producto_peso_producto">
-                                        <th class="title"> <?php print_lang('producto_peso_producto'); ?>: </th>
-                                        <td class="value"> <?php echo $data['producto_peso_producto']; ?></td>
-                                    </tr>
-                                    <tr  class="td-producto_dimension_producto">
-                                        <th class="title"> <?php print_lang('producto_dimension_producto'); ?>: </th>
-                                        <td class="value"> <?php echo $data['producto_dimension_producto']; ?></td>
-                                    </tr>
-                                    <tr  class="td-producto_fk_proveedor">
-                                        <th class="title"> <?php print_lang('producto_fk_proveedor'); ?>: </th>
-                                        <td class="value"> <?php echo $data['producto_fk_proveedor']; ?></td>
                                     </tr>
                                     <tr  class="td-producto_fk_categoria">
                                         <th class="title"> <?php print_lang('producto_fk_categoria'); ?>: </th>
                                         <td class="value"> <?php echo $data['producto_fk_categoria']; ?></td>
                                     </tr>
-                                    <tr  class="td-producto_fecha_creacion">
-                                        <th class="title"> <?php print_lang('producto_fecha_creacion'); ?>: </th>
-                                        <td class="value"> <?php echo $data['producto_fecha_creacion']; ?></td>
+                                    <tr  class="td-producto_fk_proveedor">
+                                        <th class="title"> <?php print_lang('producto_fk_proveedor'); ?>: </th>
+                                        <td class="value"> <?php echo $data['producto_fk_proveedor']; ?></td>
                                     </tr>
-                                    <tr  class="td-producto_precio_producto">
-                                        <th class="title"> <?php print_lang('producto_precio_producto'); ?>: </th>
-                                        <td class="value"> <?php echo $data['producto_precio_producto']; ?></td>
+                                    <tr  class="td-user_created">
+                                        <th class="title"> <?php print_lang('user_created'); ?>: </th>
+                                        <td class="value"> <?php echo $data['user_created']; ?></td>
                                     </tr>
                                 </tbody>
                                 <!-- Table Body End -->

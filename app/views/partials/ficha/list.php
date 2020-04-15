@@ -106,6 +106,15 @@ $show_pagination = $this->show_pagination;
         }
         ?>
         <div  class="">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-sm-3 comp-grid">
+                        <h6 ><?php print_lang('para_mas_detalles_dale_click_al_numero_del_registro'); ?></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div  class="">
             <div class="container-fluid">
                 <div class="row ">
                     <div class="col-md-12 comp-grid">
@@ -127,11 +136,11 @@ $show_pagination = $this->show_pagination;
                                                 <th class="td-sno">#</th>
                                                 <th  <?php echo (get_value('orderby')=='id' ? 'class="sortedby td-id"' : null); ?>>
                                                     <i class="fa fa-chevron-circle-down "></i>
-                                                    <?php Html :: get_field_order_link('id', get_lang('id')); ?>
+                                                    <?php Html :: get_field_order_link('id', get_lang('registro')); ?>
                                                 </th>
                                                 <th  <?php echo (get_value('orderby')=='fecha' ? 'class="sortedby td-fecha"' : null); ?>>
                                                     <i class="fa fa-calendar-plus-o "></i>
-                                                    <?php Html :: get_field_order_link('fecha', get_lang('fecha_ficha_creada')); ?>
+                                                    <?php Html :: get_field_order_link('fecha', get_lang('fecha_registro_creado')); ?>
                                                 </th>
                                                 <th  <?php echo (get_value('orderby')=='producto_nombre_producto' ? 'class="sortedby td-producto_nombre_producto"' : null); ?>>
                                                     <?php Html :: get_field_order_link('producto_nombre_producto', get_lang('producto')); ?>
@@ -151,6 +160,7 @@ $show_pagination = $this->show_pagination;
                                                 <th  <?php echo (get_value('orderby')=='centro_Nombre_centro' ? 'class="sortedby td-centro_Nombre_centro"' : null); ?>>
                                                     <?php Html :: get_field_order_link('centro_Nombre_centro', get_lang('salio_de')); ?>
                                                 </th>
+                                                <th  class="td-enviado_png"> <?php print_lang('img_docs'); ?></th>
                                                 <th  <?php echo (get_value('orderby')=='recibido_id_recibido' ? 'class="sortedby td-recibido_id_recibido"' : null); ?>>
                                                     <?php Html :: get_field_order_link('recibido_id_recibido', get_lang('_rastreo_llegada')); ?>
                                                 </th>
@@ -161,6 +171,7 @@ $show_pagination = $this->show_pagination;
                                                     <i class="fa fa-building-o "></i>
                                                     <?php Html :: get_field_order_link('centro2_Nombre_centro', get_lang('llego_a')); ?>
                                                 </th>
+                                                <th  class="td-recibido_png"> <?php print_lang('img_docs'); ?></th>
                                                 <th class="td-btn"></th>
                                             </tr>
                                         </thead>
@@ -268,6 +279,7 @@ $show_pagination = $this->show_pagination;
                                                             <?php echo $data['centro_Nombre_centro']; ?> 
                                                         </span>
                                                     </td>
+                                                    <td class="td-enviado_png"><?php Html :: page_img($data['enviado_png'],50,50,1); ?></td>
                                                     <td class="td-recibido_id_recibido"> <?php echo $data['recibido_id_recibido']; ?></td>
                                                     <td class="td-recibido_fecha_recibido">
                                                         <span <?php if($can_edit){ ?> data-flatpickr="{ minDate: '', maxDate: ''}" 
@@ -300,6 +312,7 @@ $show_pagination = $this->show_pagination;
                                                             <?php echo $data['centro2_Nombre_centro']; ?> 
                                                         </span>
                                                     </td>
+                                                    <td class="td-recibido_png"><?php Html :: page_img($data['recibido_png'],50,50,1); ?></td>
                                                     <th class="td-btn">
                                                         <?php if($can_view){ ?>
                                                         <a class="btn btn-sm btn-success has-tooltip" title="<?php print_lang('view_record'); ?>" href="<?php print_link("ficha/view/$rec_id"); ?>">
@@ -409,7 +422,7 @@ $show_pagination = $this->show_pagination;
                                 <div  class="">
                                     <div class="container">
                                         <div class="row ">
-                                            <div class="col-sm-3 comp-grid">
+                                            <div class="col-md-4 comp-grid">
                                                 <h4 ><?php print_lang('suma_total_'); ?></h4>
                                             </div>
                                             <div class="col-sm-3 comp-grid">
@@ -429,7 +442,7 @@ $show_pagination = $this->show_pagination;
                                                     </div>
                                                 </a>
                                             </div>
-                                            <div class="col-sm-6 comp-grid">
+                                            <div class="col-sm-3 comp-grid">
                                                 <?php $rec_count = $comp_model->getcount_montototallps();  ?>
                                                 <a class="animated rubberBand record-count card bg-light text-dark"  href="<?php print_link("ficha/") ?>">
                                                     <div class="row">
@@ -453,12 +466,12 @@ $show_pagination = $this->show_pagination;
                                     <div class="container">
                                         <div class="row ">
                                             <div class="col-md-6 comp-grid">
-                                                <button data-toggle="modal" data-target="#Modal-1-Page1" class="btn btn-primary">  Rastreo de Envio</button>
+                                                <button data-toggle="modal" data-target="#Modal-1-Page1" class="btn btn-primary"><i class='fa fa-truck '></i>  Rastreo de Envio</button>
                                                 <div data-backdrop="true" class="modal fade" id="Modal-1-Page1" tabindex="-1" role="dialog" aria-labelledby="Modal1" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLongTitle">  Registro de Salidas</h5>
+                                                                <h5 class="modal-title" id="exampleModalLongTitle"><i class='fa fa-truck '></i>  Registros</h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -475,12 +488,12 @@ $show_pagination = $this->show_pagination;
                                                 </div>
                                             </div>
                                             <div class="col-md-6 comp-grid">
-                                                <button data-toggle="modal" data-target="#Modal-1-Page1" class="btn btn-primary">  Rastreo de Llegada</button>
+                                                <button data-toggle="modal" data-target="#Modal-1-Page1" class="btn btn-primary"><i class='fa fa-truck '></i>  Rastreo de Llegada</button>
                                                 <div data-backdrop="true" class="modal fade" id="Modal-1-Page1" tabindex="-1" role="dialog" aria-labelledby="Modal1" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLongTitle">  Registros de Llegada</h5>
+                                                                <h5 class="modal-title" id="exampleModalLongTitle"><i class='fa fa-truck '></i>  Registros</h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>

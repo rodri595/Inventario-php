@@ -33,10 +33,11 @@ class Detalle_registroController extends SecureController{
 				detalle_registro.fk_registro LIKE ? OR 
 				detalle_registro.fk_producto LIKE ? OR 
 				detalle_registro.desc_detalle LIKE ? OR 
-				detalle_registro.fk_cantidad LIKE ?
+				detalle_registro.fk_cantidad LIKE ? OR 
+				detalle_registro.user_created LIKE ?
 			)";
 			$search_params = array(
-				"%$text%","%$text%","%$text%","%$text%","%$text%"
+				"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
 			);
 			//setting search conditions
 			$db->where($search_condition, $search_params);
@@ -88,7 +89,7 @@ class Detalle_registroController extends SecureController{
 			$tablename = $this->tablename;
 			$request = $this->request;
 			//fillable fields
-			$fields = $this->fields = array("fk_registro","fk_producto","fk_cantidad","desc_detalle");
+			$fields = $this->fields = array("fk_registro","fk_producto","fk_cantidad","desc_detalle","user_created");
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
 				'fk_registro' => 'required|numeric|min_numeric,0',
@@ -103,14 +104,17 @@ class Detalle_registroController extends SecureController{
 			);
 			$this->filter_vals = true; //set whether to remove empty fields
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
+			$modeldata['user_created'] = USER_ID;
 			if($this->validated()){
 				$rec_id = $this->rec_id = $db->insert($tablename, $modeldata);
 				if($rec_id){
+					$this->write_to_log("add", "true");
 					$this->set_flash_msg(get_lang('record_agregado_a_registro'), "success");
 					return	$this->redirect("ficha/add");
 				}
 				else{
 					$this->set_page_error();
+					$this->write_to_log("add", "false");
 				}
 			}
 		}
@@ -149,18 +153,21 @@ class Detalle_registroController extends SecureController{
 				$bool = $db->update($tablename, $modeldata);
 				$numRows = $db->getRowCount(); //number of affected rows. 0 = no record field updated
 				if($bool && $numRows){
+					$this->write_to_log("edit", "true");
 					$this->set_flash_msg(get_lang('record_updated_successfully'), "success");
 					return $this->redirect("detalle_registro");
 				}
 				else{
 					if($db->getLastError()){
 						$this->set_page_error();
+						$this->write_to_log("edit", "false");
 					}
 					elseif(!$numRows){
 						//not an error, but no record was updated
 						$page_error = get_lang('no_record_updated');
 						$this->set_page_error($page_error);
 						$this->set_flash_msg($page_error, "warning");
+						$this->write_to_log("edit", "false");
 						return	$this->redirect("detalle_registro");
 					}
 				}
@@ -211,6 +218,7 @@ class Detalle_registroController extends SecureController{
 				$bool = $db->update($tablename, $modeldata);
 				$numRows = $db->getRowCount();
 				if($bool && $numRows){
+					$this->write_to_log("edit", "true");
 					return render_json(
 						array(
 							'num_rows' =>$numRows,
@@ -225,6 +233,7 @@ class Detalle_registroController extends SecureController{
 					elseif(!$numRows){
 						$page_error = get_lang('no_record_updated');
 					}
+					$this->write_to_log("edit", "false");
 					render_error($page_error);
 				}
 			}
@@ -250,11 +259,13 @@ class Detalle_registroController extends SecureController{
 		$db->where("detalle_registro.id_detalle_registro", $arr_rec_id, "in");
 		$bool = $db->delete($tablename);
 		if($bool){
+			$this->write_to_log("delete", "true");
 			$this->set_flash_msg(get_lang('record_deleted_successfully'), "success");
 		}
 		elseif($db->getLastError()){
 			$page_error = $db->getLastError();
 			$this->set_flash_msg($page_error, "danger");
+			$this->write_to_log("delete", "false");
 		}
 		return	$this->redirect("detalle_registro");
 	}

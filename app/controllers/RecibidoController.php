@@ -33,10 +33,11 @@ class RecibidoController extends SecureController{
 				recibido.fecha_recibido LIKE ? OR 
 				recibido.lugar_recibido LIKE ? OR 
 				recibido.png LIKE ? OR 
-				recibido.creacion LIKE ?
+				recibido.creacion LIKE ? OR 
+				recibido.user_created LIKE ?
 			)";
 			$search_params = array(
-				"%$text%","%$text%","%$text%","%$text%","%$text%"
+				"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
 			);
 			//setting search conditions
 			$db->where($search_condition, $search_params);
@@ -93,7 +94,8 @@ class RecibidoController extends SecureController{
 			"recibido.lugar_recibido", 
 			"centro.Nombre_centro AS centro_Nombre_centro", 
 			"recibido.png", 
-			"recibido.creacion");
+			"recibido.creacion", 
+			"recibido.user_created");
 		if($value){
 			$db->where($rec_id, urldecode($value)); //select record based on field name
 		}
@@ -103,6 +105,7 @@ class RecibidoController extends SecureController{
 		$db->join("centro", "recibido.lugar_recibido = centro.id_centro", "INNER");  
 		$record = $db->getOne($tablename, $fields );
 		if($record){
+			$this->write_to_log("view", "true");
 			$page_title = $this->view->page_title = get_lang('view_recibido');
 		$this->view->report_filename = date('Y-m-d') . '-' . $page_title;
 		$this->view->report_title = $page_title;
@@ -117,6 +120,7 @@ class RecibidoController extends SecureController{
 			else{
 				$this->set_page_error(get_lang('no_record_found'));
 			}
+			$this->write_to_log("view", "false");
 		}
 		return $this->render_view("recibido/view.php", $record);
 	}
@@ -131,7 +135,7 @@ class RecibidoController extends SecureController{
 			$tablename = $this->tablename;
 			$request = $this->request;
 			//fillable fields
-			$fields = $this->fields = array("fecha_recibido","lugar_recibido","png","creacion");
+			$fields = $this->fields = array("fecha_recibido","lugar_recibido","png","creacion","user_created");
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
 				'fecha_recibido' => 'required',
@@ -145,14 +149,17 @@ class RecibidoController extends SecureController{
 			$this->filter_vals = true; //set whether to remove empty fields
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
 			$modeldata['creacion'] = datetime_now();
+$modeldata['user_created'] = USER_ID;
 			if($this->validated()){
 				$rec_id = $this->rec_id = $db->insert($tablename, $modeldata);
 				if($rec_id){
+					$this->write_to_log("add", "true");
 					$this->set_flash_msg(get_lang('dato_agregado'), "success");
 					return	$this->redirect("recibido");
 				}
 				else{
 					$this->set_page_error();
+					$this->write_to_log("add", "false");
 				}
 			}
 		}
@@ -189,18 +196,21 @@ class RecibidoController extends SecureController{
 				$bool = $db->update($tablename, $modeldata);
 				$numRows = $db->getRowCount(); //number of affected rows. 0 = no record field updated
 				if($bool && $numRows){
+					$this->write_to_log("edit", "true");
 					$this->set_flash_msg(get_lang('record_updated_successfully'), "success");
 					return $this->redirect("recibido");
 				}
 				else{
 					if($db->getLastError()){
 						$this->set_page_error();
+						$this->write_to_log("edit", "false");
 					}
 					elseif(!$numRows){
 						//not an error, but no record was updated
 						$page_error = get_lang('no_record_updated');
 						$this->set_page_error($page_error);
 						$this->set_flash_msg($page_error, "warning");
+						$this->write_to_log("edit", "false");
 						return	$this->redirect("recibido");
 					}
 				}
@@ -249,6 +259,7 @@ class RecibidoController extends SecureController{
 				$bool = $db->update($tablename, $modeldata);
 				$numRows = $db->getRowCount();
 				if($bool && $numRows){
+					$this->write_to_log("edit", "true");
 					return render_json(
 						array(
 							'num_rows' =>$numRows,
@@ -263,6 +274,7 @@ class RecibidoController extends SecureController{
 					elseif(!$numRows){
 						$page_error = get_lang('no_record_updated');
 					}
+					$this->write_to_log("edit", "false");
 					render_error($page_error);
 				}
 			}
@@ -288,11 +300,13 @@ class RecibidoController extends SecureController{
 		$db->where("recibido.id_recibido", $arr_rec_id, "in");
 		$bool = $db->delete($tablename);
 		if($bool){
+			$this->write_to_log("delete", "true");
 			$this->set_flash_msg(get_lang('record_deleted_successfully'), "success");
 		}
 		elseif($db->getLastError()){
 			$page_error = $db->getLastError();
 			$this->set_flash_msg($page_error, "danger");
+			$this->write_to_log("delete", "false");
 		}
 		return	$this->redirect("recibido");
 	}

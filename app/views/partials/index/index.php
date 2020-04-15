@@ -61,11 +61,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 comp-grid">
-                                <a  class="btn btn-primary" href="<?php print_link("index") ?>">
-                                    <?php print_lang('button'); ?> 
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>

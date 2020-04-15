@@ -168,13 +168,9 @@ $show_export_btn = $this->show_export_btn;
                                             </span>
                                         </td>
                                     </tr>
-                                    <tr  class="td-fecha_delete">
-                                        <th class="title"> <?php print_lang('fecha_delete'); ?>: </th>
-                                        <td class="value"> <?php echo $data['fecha_delete']; ?></td>
-                                    </tr>
-                                    <tr  class="td-isdeleted">
-                                        <th class="title"> <?php print_lang('isdeleted'); ?>: </th>
-                                        <td class="value"> <?php echo $data['isdeleted']; ?></td>
+                                    <tr  class="td-user_created">
+                                        <th class="title"> <?php print_lang('user_created'); ?>: </th>
+                                        <td class="value"> <?php echo $data['user_created']; ?></td>
                                     </tr>
                                 </tbody>
                                 <!-- Table Body End -->

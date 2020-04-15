@@ -33,7 +33,6 @@ function initFormPlugins(){
 		});
 		return select;
 	});
-	flatpickr.localize(flatpickr.l10ns.es);
 	$('.datepicker').flatpickr({
 		altInput: true, 
 		allowInput:true,

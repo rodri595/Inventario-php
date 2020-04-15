@@ -136,7 +136,6 @@
 		?>
 		<?php
 			Html ::  page_js('flatpickr.min.js');
-			Html ::  page_js('locale/flatpickr/spanish.js');
 			Html ::  page_js('selectize.min.js');
 			Html ::  page_js('bootstrap-editable.js');
 			Html ::  page_js('dropzone.min.js');

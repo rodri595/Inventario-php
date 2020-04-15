@@ -504,4 +504,107 @@ class BaseController{
 		return null;
 	}
 	
+	
+	public $log_location = "file";
+	
+	public function write_to_log($action, $req_status = "true"){
+		$rec_ids = $this->rec_id;
+		$rec_id = (is_array($rec_ids) ? implode(",", $rec_ids) : $rec_ids);
+		$message = (!empty($this->view->page_error) ? $this->view->page_error : null);
+		$message = (is_array($message) ? implode(",", $message) : $message);
+		$table_name = $this->tablename;
+		$modeldata = $this->modeldata;
+		$timestamp = datetime_now();
+		$user_id = get_active_user('id_usuario');
+		$server_ip = get_user_ip();
+		$sql_query = null;
+		if(!empty($this->db)){
+			$sql_query = $this->db->getLastQuery();
+		}
+		else{
+			$this->db = $this->GetModel();
+		}
+		$request_url = Router::$page_url;
+		$request_data = json_encode($modeldata);
+		
+		$audit_data = array(
+							'Timestamp' => $timestamp,
+					'Action' => $action,
+					'TableName' => $table_name,
+					'RecordID' => $rec_id,
+					'SqlQuery' => $sql_query,
+					'UserName' => $user_name,
+					'ServerIP' => get_user_ip(),
+					'RequestUrl' => $request_url,
+					'RequestData' => $request_data,
+					'RequestCompleted' => $req_status,
+					'RequestMsg' => $message
+		);
+		
+		if($this->log_location == 'table'){
+			//remove empty or null fields
+			$modeldata = array_filter($audit_data, function($val){
+				if($val === "" || is_null($val)){
+					return false;
+				}
+				else{
+					return true;
+				}
+			});
+			try{
+				$this->db->insert("app_logs", $modeldata);
+			}
+			catch(Exception $e){
+				throw new Exception($e);
+				//do something with the error
+			}
+		}
+		else if($this->log_location == "file"){
+			try{
+				$file_name = date('Y-m-d') . " - auditlog.log";
+				$log_path = AUDIT_LOGS_DIR . $file_name;
+				if(!file_exists($log_path)){
+					$fs = fopen($log_path, "a");
+					$arr_keys = array_keys($audit_data);
+					$arr_values = array_values($audit_data);
+					fputcsv($fs, $arr_keys);
+					fputcsv($fs, $arr_values);
+					fclose($fs);
+				}
+				else{
+					$arr_values = array_values($audit_data);
+					$fs = fopen($log_path, "a");
+					fputcsv($fs, $arr_values);
+					fclose($fs);
+				}
+			}
+			catch(Exception $e){
+				//do something with the error
+			}
+		}
+		else if($this->log_location == "email"){
+			try{
+				$mail_receiver = array();
+				$mail_title = "New $table_name $action";
+				$mail_body = "
+                Action: $action
+                TimeStamp: $timestamp
+                TableName: $table_name
+                RecordsID: $rec_id
+                SQLQuery: $sql_query
+                UserID: $user_id
+                ServerIP: $server_ip
+                RequestUrl: $request_url
+                RequestData: $request_data
+                RequestCompleted: $req_status
+                RequestMsg: $message";
+				$mailer = new Mailer;
+				$mailer->send_mail($mail_receiver, $mail_title, $mail_body);
+			}
+			catch(Exception $e){
+				//do something with the error
+			}
+		}
+	}
+	
 }

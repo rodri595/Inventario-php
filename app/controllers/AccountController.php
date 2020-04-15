@@ -24,7 +24,8 @@ class AccountController extends SecureController{
 			"correo", 
 			"fecha_creacion_usuario", 
 			"numero_empleado", 
-			"rol");
+			"rol", 
+			"user_created");
 		$user = $db->getOne($tablename , $fields);
 		if(!empty($user)){
 			$page_title = $this->view->page_title = get_lang('my_account');
@@ -82,6 +83,7 @@ class AccountController extends SecureController{
 				$bool = $db->update($tablename, $modeldata);
 				$numRows = $db->getRowCount(); //number of affected rows. 0 = no record field updated
 				if($bool && $numRows){
+					$this->write_to_log("edit", "true");
 					$this->set_flash_msg(get_lang('record_updated_successfully'), "success");
 					$db->where ("id_usuario", $rec_id);
 					$user = $db->getOne($tablename , "*");
@@ -91,6 +93,7 @@ class AccountController extends SecureController{
 				else{
 					if($db->getLastError()){
 						$this->set_page_error();
+						$this->write_to_log("edit", "false");
 					}
 					elseif(!$numRows){
 						//not an error, but no record was updated
@@ -121,9 +124,11 @@ class AccountController extends SecureController{
 			$db->where ("id_usuario", $rec_id);
 			$result = $db->update($tablename, array('correo' => $email ));
 			if($result){
+				$this->write_to_log("emailchange", "true");
 			}
 			else{
 				$this->set_page_error(get_lang('email_not_changed'));
+				$this->write_to_log("emailchange", "false");
 			}
 		}
 		return $this->render_view("account/change_email.php");

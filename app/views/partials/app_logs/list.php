@@ -1,3 +1,10 @@
+<?php 
+//check if current user role is allowed access to the pages
+$can_add = ACL::is_allowed("app_logs/add");
+$can_edit = ACL::is_allowed("app_logs/edit");
+$can_view = ACL::is_allowed("app_logs/view");
+$can_delete = ACL::is_allowed("app_logs/delete");
+?>
 <?php
 $comp_model = new SharedController;
 $page_element_id = "list-page-" . random_str();
@@ -26,10 +33,12 @@ $show_pagination = $this->show_pagination;
                     <h4 class="record-title"><?php print_lang('app_logs'); ?></h4>
                 </div>
                 <div class="col-sm-3 ">
+                    <?php if($can_add){ ?>
                     <a  class="btn btn btn-primary my-1" href="<?php print_link("app_logs/add") ?>">
                         <i class="fa fa-plus"></i>                              
                         <?php print_lang('add_new_app_logs'); ?> 
                     </a>
+                    <?php } ?>
                 </div>
                 <div class="col-sm-4 ">
                     <form  class="search" action="<?php print_link('app_logs'); ?>" method="get">
@@ -149,9 +158,11 @@ $show_pagination = $this->show_pagination;
                                                 <td class="td-RequestCompleted"> <?php echo $data['RequestCompleted']; ?></td>
                                                 <td class="td-RequestMsg"> <?php echo $data['RequestMsg']; ?></td>
                                                 <th class="td-btn">
+                                                    <?php if($can_view){ ?>
                                                     <a class="btn btn-sm btn-success has-tooltip" title="<?php print_lang('view_record'); ?>" href="<?php print_link("app_logs/view/$rec_id"); ?>">
                                                         <i class="fa fa-eye"></i> <?php print_lang('view'); ?>
                                                     </a>
+                                                    <?php } ?>
                                                 </th>
                                             </tr>
                                             <?php 

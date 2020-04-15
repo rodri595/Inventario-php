@@ -39,11 +39,10 @@ class ProveedorController extends SecureController{
 				proveedor.direccion_proveedor LIKE ? OR 
 				proveedor.rtn_proveedor LIKE ? OR 
 				proveedor.fecha_creacion LIKE ? OR 
-				proveedor.fecha_delete LIKE ? OR 
-				proveedor.isdeleted LIKE ?
+				proveedor.user_created LIKE ?
 			)";
 			$search_params = array(
-				"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
+				"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
 			);
 			//setting search conditions
 			$db->where($search_condition, $search_params);
@@ -102,8 +101,7 @@ class ProveedorController extends SecureController{
 			"fecha_creacion", 
 			"direccion_proveedor", 
 			"rtn_proveedor", 
-			"fecha_delete", 
-			"isdeleted");
+			"user_created");
 		if($value){
 			$db->where($rec_id, urldecode($value)); //select record based on field name
 		}
@@ -112,6 +110,7 @@ class ProveedorController extends SecureController{
 		}
 		$record = $db->getOne($tablename, $fields );
 		if($record){
+			$this->write_to_log("view", "true");
 			$page_title = $this->view->page_title = get_lang('view_proveedor');
 		$this->view->report_filename = date('Y-m-d') . '-' . $page_title;
 		$this->view->report_title = $page_title;
@@ -126,6 +125,7 @@ class ProveedorController extends SecureController{
 			else{
 				$this->set_page_error(get_lang('no_record_found'));
 			}
+			$this->write_to_log("view", "false");
 		}
 		return $this->render_view("proveedor/view.php", $record);
 	}
@@ -140,7 +140,7 @@ class ProveedorController extends SecureController{
 			$tablename = $this->tablename;
 			$request = $this->request;
 			//fillable fields
-			$fields = $this->fields = array("nombre_proveedor","desc_proveedor","asignado_proveedor","tel_proveedor","direccion_proveedor","rtn_proveedor");
+			$fields = $this->fields = array("nombre_proveedor","desc_proveedor","asignado_proveedor","tel_proveedor","direccion_proveedor","rtn_proveedor","user_created");
 			$postdata = $this->format_request_data($formdata);
 			$this->rules_array = array(
 				'nombre_proveedor' => 'required',
@@ -155,14 +155,17 @@ class ProveedorController extends SecureController{
 			);
 			$this->filter_vals = true; //set whether to remove empty fields
 			$modeldata = $this->modeldata = $this->validate_form($postdata);
+			$modeldata['user_created'] = USER_ID;
 			if($this->validated()){
 				$rec_id = $this->rec_id = $db->insert($tablename, $modeldata);
 				if($rec_id){
+					$this->write_to_log("add", "true");
 					$this->set_flash_msg(get_lang('record_added_successfully'), "success");
 					return	$this->redirect("proveedor");
 				}
 				else{
 					$this->set_page_error();
+					$this->write_to_log("add", "false");
 				}
 			}
 		}
@@ -201,18 +204,21 @@ class ProveedorController extends SecureController{
 				$bool = $db->update($tablename, $modeldata);
 				$numRows = $db->getRowCount(); //number of affected rows. 0 = no record field updated
 				if($bool && $numRows){
+					$this->write_to_log("edit", "true");
 					$this->set_flash_msg(get_lang('record_updated_successfully'), "success");
 					return $this->redirect("proveedor");
 				}
 				else{
 					if($db->getLastError()){
 						$this->set_page_error();
+						$this->write_to_log("edit", "false");
 					}
 					elseif(!$numRows){
 						//not an error, but no record was updated
 						$page_error = get_lang('no_record_updated');
 						$this->set_page_error($page_error);
 						$this->set_flash_msg($page_error, "warning");
+						$this->write_to_log("edit", "false");
 						return	$this->redirect("proveedor");
 					}
 				}
@@ -263,6 +269,7 @@ class ProveedorController extends SecureController{
 				$bool = $db->update($tablename, $modeldata);
 				$numRows = $db->getRowCount();
 				if($bool && $numRows){
+					$this->write_to_log("edit", "true");
 					return render_json(
 						array(
 							'num_rows' =>$numRows,
@@ -277,6 +284,7 @@ class ProveedorController extends SecureController{
 					elseif(!$numRows){
 						$page_error = get_lang('no_record_updated');
 					}
+					$this->write_to_log("edit", "false");
 					render_error($page_error);
 				}
 			}
@@ -302,11 +310,13 @@ class ProveedorController extends SecureController{
 		$db->where("proveedor.id_proveedor", $arr_rec_id, "in");
 		$bool = $db->delete($tablename);
 		if($bool){
+			$this->write_to_log("delete", "true");
 			$this->set_flash_msg(get_lang('record_deleted_successfully'), "success");
 		}
 		elseif($db->getLastError()){
 			$page_error = $db->getLastError();
 			$this->set_flash_msg($page_error, "danger");
+			$this->write_to_log("delete", "false");
 		}
 		return	$this->redirect("proveedor");
 	}

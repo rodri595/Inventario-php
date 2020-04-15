@@ -1,7 +1,7 @@
 <div id="topbar" class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="<?php print_link(HOME_PAGE) ?>">
-         Sistema de Inventario/Bienes
+             <?php echo SITE_NAME ?>
             </a>
             <?php 
             if(user_login_status() == true ){ 
